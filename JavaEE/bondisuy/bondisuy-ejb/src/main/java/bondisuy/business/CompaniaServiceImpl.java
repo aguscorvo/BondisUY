@@ -51,16 +51,27 @@ public class CompaniaServiceImpl implements ICompaniaService {
 	}
 
 	@Override
-	public CompaniaDTO editar(CompaniaCrearDTO compania) {
-		// TODO Auto-generated method stub
-		return null;
+	public CompaniaDTO editar(Long id, CompaniaCrearDTO companiaDTO) throws BondisUyException {
+		try {
+			Compania compania = companiaDAO.listarPorId(id);
+			if(compania == null) throw new BondisUyException("No existe el registro solicitado.", BondisUyException.NO_EXISTE_REGISTRO);
+			compania.setNombre(companiaDTO.getNombre());
+			companiaDAO.editar(compania);
+			return companiaConverter.fromEntity(compania);
+		} catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
 	}
 
 	@Override
-	public void eliminar(Long id) {
-		// TODO Auto-generated method stub
-		
+	public void eliminar(Long id) throws BondisUyException {
+		try {
+			Compania compania = companiaDAO.listarPorId(id);
+			if(compania == null) throw new BondisUyException("No existe el registro solicitado.", BondisUyException.NO_EXISTE_REGISTRO);
+			companiaDAO.eliminar(compania);
+		} catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
 	}
-	
 	
 }
