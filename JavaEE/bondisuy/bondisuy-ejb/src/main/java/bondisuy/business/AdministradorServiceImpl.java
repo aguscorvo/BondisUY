@@ -68,7 +68,7 @@ public class AdministradorServiceImpl implements IAdministradorService {
 		}else {
 			try {
 				// se encripta la contraseña
-				administrador.setPassword(BCrypt.withDefaults().hashToString(12, administrador.getApellido().toCharArray()));
+				administrador.setPassword(BCrypt.withDefaults().hashToString(12, administrador.getPassword().toCharArray()));
 				return administradorConverter.fromEntity(administradorDAO.crear(administrador));
 			}catch(Exception e) {
 				throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
