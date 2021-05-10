@@ -31,7 +31,7 @@ private static final long serialVersionUID = 1L;
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name = "activo")
+	@Column(name = "hora")
 	private LocalTime hora;
 	
 	
