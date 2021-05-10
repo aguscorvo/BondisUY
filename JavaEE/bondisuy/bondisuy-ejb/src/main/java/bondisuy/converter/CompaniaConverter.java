@@ -1,9 +1,12 @@
 package bondisuy.converter;
 
+import javax.ejb.Singleton;
+
 import bondisuy.dto.CompaniaCrearDTO;
 import bondisuy.dto.CompaniaDTO;
 import bondisuy.entity.Compania;
 
+@Singleton
 public class CompaniaConverter extends AbstractConverter<Compania, CompaniaDTO> {
 
 	@Override
