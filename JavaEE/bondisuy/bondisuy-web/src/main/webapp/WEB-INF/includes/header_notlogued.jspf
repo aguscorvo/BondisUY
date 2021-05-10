@@ -49,8 +49,8 @@
 						-->
 						<div class="col-12 d-flex flex-row">
 							<input type="text" class="form-control mb-3" id="loginName"
-								name="loginName" placeholder="NickName">
-								<div class="p-2 alert alert-warning d-none" id="loginNameError"><i class="fas fa-exclamation-triangle" title="Ingrese NickName"></i></div>
+								name="loginName" placeholder="Nombre de usuario">
+								<div class="p-2 alert alert-warning d-none" id="loginNameError"><i class="fas fa-exclamation-triangle" title="Ingrese Nombre de usuario"></i></div>
 						</div>
 						<div class="col-12 d-flex flex-row">
 							<input type="password" class="form-control mb-3"

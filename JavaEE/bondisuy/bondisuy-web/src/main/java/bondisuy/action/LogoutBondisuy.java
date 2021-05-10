@@ -13,22 +13,22 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class LogoutAction
  */
-@WebServlet("/LogoutAction")
-public class LogoutAction extends HttpServlet {
+@WebServlet("/LogoutBondisuy")
+public class LogoutBondisuy extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LogoutAction() {
+    public LogoutBondisuy() {
         super();
         // TODO Auto-generated constructor stub
     }
+    
+    
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/* obtengo la sesión. */
 		HttpSession session = request.getSession();
 		Enumeration<String> enumeration = session.getAttributeNames();

@@ -9,25 +9,13 @@ $ds('.validate-form').on('submit',function(){
     var correo = true;
 	var check = true;
 	
-	$ds('#loginMailError').addClass('d-none');
 	$ds('#loginNameError').addClass('d-none');
 	$ds('#loginPasswordError').addClass('d-none');
 	
-	if($ds('#loginMail').val().trim() != ''){
-		if($ds('#loginMail').val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null){
-			$ds('#loginMailError').removeClass('d-none');
-			check = false;
-		}    
-	}else{
-	    correo = false;
-	}
-
+	
 	if($ds('#loginName').val().trim() == ''){
-	    if(!correo){
-			$ds('#loginMailError').removeClass('d-none');
-			$ds('#loginNameError').removeClass('d-none');
-		    check = false;
-	    }
+		$ds('#loginNameError').removeClass('d-none');
+		check = false;
     }
 	
 	if($ds('#loginPassword').val().trim() == ''){

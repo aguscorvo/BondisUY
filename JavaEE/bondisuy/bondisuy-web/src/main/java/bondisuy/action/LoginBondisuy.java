@@ -53,18 +53,16 @@ public class LoginBondisuy extends HttpServlet {
 		String loginname=request.getParameter("loginName")==null?"":request.getParameter("loginName");
 		String loginpassword=request.getParameter("loginPassword")==null?"":request.getParameter("loginPassword");
 		
-		logger.info(loginpassword);
-		
 		try {
 			AdministradorDTO dtoadmin = administrador.login(new AdministradorLoginDTO(loginname, loginpassword));
 			
 			String val = loginname;
-			Cookie userCookie = new Cookie(getServletContext().getInitParameter("USERCOOKIE"), val);
+			Cookie userCookie = new Cookie("USERCOOKIE", val);
 			userCookie.setMaxAge(60*60*24*365); //Store cookie for 1 year
 			userCookie.setPath("/bondisuy-web");
 			response.addCookie(userCookie);
 			
-			session.setAttribute(getServletContext().getInitParameter("USER"), dtoadmin);
+			session.setAttribute("USER", dtoadmin);
 			
 		} catch (BondisUyException e) {
 			logger.info(e.getMessage().trim());

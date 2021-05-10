@@ -9,6 +9,11 @@
 <!-- Font awesome -->
 <link href="webjars/font-awesome/5.15.2/css/all.min.css" rel="stylesheet" type="text/css">
 
+<!-- JQuery -->
+<link href="webjars/jquery-ui/1.12.1/jquery-ui.css" rel="stylesheet" type="text/css">
+
+<!-- Bondisuy -->
+<link rel="stylesheet" href="/bondisuy-web/resources/css/bondisuy.css">
 
 <!--Favicon-->
 <link rel="shortcut icon" href="/bondisuy-web/resources/images/favicon.png"
