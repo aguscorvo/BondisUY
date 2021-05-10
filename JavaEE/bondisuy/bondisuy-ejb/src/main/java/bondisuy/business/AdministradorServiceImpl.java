@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import org.jboss.logging.Logger;
+
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import bondisuy.converter.AdministradorConverter;
 import bondisuy.dao.IAdministradorDAO;
@@ -18,6 +20,8 @@ import bondisuy.exception.BondisUyException;
 @Stateless
 public class AdministradorServiceImpl implements IAdministradorService {
 
+	static Logger logger = Logger.getLogger(AdministradorServiceImpl.class);
+	
 	@EJB
 	private IAdministradorDAO administradorDAO;
 	
@@ -118,6 +122,7 @@ public class AdministradorServiceImpl implements IAdministradorService {
 		}else {
 			// se valida la contraseña
 			BCrypt.Result resultado =null;
+			
 			resultado = BCrypt.verifyer().verify(administradorDTO.getPassword().toCharArray(), administrador.getPassword());
 			if(resultado.verified) {
 				return administradorConverter.fromEntity(administrador);

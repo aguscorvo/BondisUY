@@ -1,0 +1,45 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+
+
+	<footer>
+		<!-- footer content -->
+		<!-- <div class="footer bg-footer section border-bottom"> -->
+		<div class="footer bg-footer py-1 border-bottom">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-2 col-sm-8 mb-lg-0">
+						<!-- logo -->
+						<a class="logo-footer" href="index.html"><img
+							class="img-fluid mb-4" src="/edEXTWeb/resources/images/logo.png"
+							alt="logo"></a>
+					</div>
+					<div class="col-lg-4 col-sm-8 mb-lg-0"> 		
+						<ul class="list-unstyled">
+							<li class="mb-2">Avda. Italia 6201</li>
+							<li class="mb-2">CP 11.400</li>
+							<li class="mb-2">(598) 2604 3926</li>
+							<li class="mb-2">adm.tecnologoinf@gmail.com</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- copyright -->
+		<div class="copyright py-1 bg-footer">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-7 text-sm-left text-center">
+						<p class="mb-0">
+							Copyright
+							<script>
+								var CurrentYear = new Date().getFullYear()
+								document.write(CurrentYear)
+							</script>
+							© themefisher
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>

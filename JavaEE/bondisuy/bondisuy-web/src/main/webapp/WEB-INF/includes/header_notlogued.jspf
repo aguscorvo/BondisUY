@@ -1,0 +1,78 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+    
+	 
+	<!-- header -->
+	<header class="fixed-top header">
+		<!-- top header -->
+		<div class="top-header py-2 bg-white">
+			<div class="container">
+				<div class="row no-gutters">
+					<div class="col-lg-12 text-center text-lg-right">
+						<ul class="list-inline">
+							<li class="list-inline-item"><a
+								class="text-uppercase text-color p-sm-2 py-2 px-0 d-inline-block"
+								href="#" data-toggle="modal" data-target="#loginModal">Iniciar
+									Sesi&oacute;n</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		
+	</header>
+	<!-- /header -->
+	<!-- Modal -->
+	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content rounded-0 border-0 p-4">
+				<div class="modal-header border-0">
+					<h3>Ingreso</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form action="/bondisuy-web/LoginBondisuy" method="post"
+						name="loginForm" class="row validate-form">
+						<input name="origin" hidden="true" value="web">
+						<!--
+						<div class="col-12 d-flex flex-row">
+							<input type="text" class="form-control mb-3" id="loginMail"
+								name="loginMail" placeholder="Correo">
+								<div class="p-2 alert alert-warning d-none" id="loginMailError"><i class="fas fa-exclamation-triangle" title="Ingrese correo"></i></div>
+						</div>
+						-->
+						<div class="col-12 d-flex flex-row">
+							<input type="text" class="form-control mb-3" id="loginName"
+								name="loginName" placeholder="NickName">
+								<div class="p-2 alert alert-warning d-none" id="loginNameError"><i class="fas fa-exclamation-triangle" title="Ingrese NickName"></i></div>
+						</div>
+						<div class="col-12 d-flex flex-row">
+							<input type="password" class="form-control mb-3"
+								id="loginPassword" name="loginPassword"
+								placeholder="Contrase&ntilde;a">
+								<div class="p-2 alert alert-warning d-none" id="loginPasswordError"><i class="fas fa-exclamation-triangle" title="Ingrese Contrase&ntilde;a"></i></div>
+								
+						</div>
+						<c:if test="${not empty sessionScope.MENSAJE_ERROR_LOGIN}">
+						<div class="col-12">
+							<div class="alert alert-danger" role="alert">
+								<i class="fas fa-exclamation-triangle"></i>
+								<c:out value="${sessionScope.MENSAJE_ERROR_LOGIN}" />
+							</div>	
+						</div>
+						</c:if>
+						<div class="col-12">
+							<button type="submit" class="btn btn-primary">INGRESAR</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	

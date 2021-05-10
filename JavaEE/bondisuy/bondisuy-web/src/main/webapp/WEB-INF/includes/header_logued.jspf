@@ -1,0 +1,47 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+	<!-- header -->
+	<header class="fixed-top header">
+		<!-- top header -->
+		<div class="top-header py-2 bg-white">
+			<div class="container">
+				<div class="row no-gutters">
+				
+					<div class="col-lg-12 text-right text-lg-right">
+						<div class="dropdown show">
+						  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="userDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						    ${sessionScope.USER.nombre}&nbsp;${sessionScope.USER.apellido}
+						    <img class="img-profile rounded-circle" src="/bondisuy-web/resources/images/usuario/default.png"
+<%-- 
+ 						    <c:choose>
+								<c:when test="${(sessionScope.USER.imagen=='')}">
+									src="/edEXTWeb/resources/images/usuario/default.png"		
+								</c:when>    
+								<c:otherwise>
+									src="${sessionScope.USER.imagen}"		
+								</c:otherwise>
+							</c:choose> 
+--%>
+ 
+						     >
+						  </a>
+						<div class="dropdown-menu" aria-labelledby="userDropdown">
+						
+						    <a class="dropdown-item" href="/edEXTWeb/ServletUserAction?actionType=viewUser&userId=${sessionScope.USER.nickname}">
+						    	<i class="fas fa-user fa-sm fa-fw"></i>
+						    	Perfil
+						    </a>	
+						  
+						    <a class="dropdown-item" href="/edEXTWeb/ServletLogoutAction">
+						    	<i class="fas fa-sign-out-alt fa-sm fa-fw"></i>
+						    	Salir
+						    </a>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</header>
+	<!-- /header -->

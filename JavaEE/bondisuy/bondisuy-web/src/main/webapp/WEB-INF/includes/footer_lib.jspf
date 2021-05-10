@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
+
+<!-- jQuery -->
+<!-- Jquery JS--> 
+<script type="text/javascript" src='webjars/jquery/3.6.0/jquery.min.js'></script>
+
+<!-- Bootstrap JS--> 
+<script type="text/javascript" src='webjars/bootstrap/4.6.0-1/js/bootstrap.min.js'></script>
+
+<c:if test="${(sessionScope.USER==null)}">
+<!-- Verificador de formnularios Login y Registro -->
+<script src="/WEB-inf/js/user-verification.js"></script>
+
+</c:if>
+
+<!-- AREGLO DE MENU -->
+<script type="text/javascript">
+	var $ds = jQuery.noConflict();
+		
+	//Verificacion de dispositivo móvil
+	var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+	if (isMobile && ${(sessionScope.MOBILE=='false')}) {
+	    $ds(location).attr('href', '/edEXTWeb/HomeAction');
+	}else if(!isMobile && ${(sessionScope.MOBILE=='true')}){
+	    $ds(location).attr('href', '/edEXTWeb/HomeAction');
+	}
+</script>		
