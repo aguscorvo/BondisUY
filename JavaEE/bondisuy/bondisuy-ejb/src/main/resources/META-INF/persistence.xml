@@ -25,6 +25,8 @@
       
       <class>bondisuy.entity.Compania</class>
       <class>bondisuy.entity.Administrador</class>
+      <class>bondisuy.entity.Linea</class>
+      
       
          
       <properties>
