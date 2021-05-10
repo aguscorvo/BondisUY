@@ -26,7 +26,9 @@
       <class>bondisuy.entity.Compania</class>
       <class>bondisuy.entity.Administrador</class>
       <class>bondisuy.entity.Linea</class>
-            
+      <class>bondisuy.entity.Recorrido</class>
+      <class>bondisuy.entity.Horario</class>
+      <class>bondisuy.entity.Parada</class>
          
       <properties>
          <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>

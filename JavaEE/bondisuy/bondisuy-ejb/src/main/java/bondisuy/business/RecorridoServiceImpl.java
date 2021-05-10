@@ -68,6 +68,7 @@ public class RecorridoServiceImpl implements IRecorridoServiceImpl {
 		try {
 			Recorrido recorrido = recorridoDAO.listarPorId(id);
 			if(recorrido ==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			recorridoDAO.eliminar(recorrido);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
