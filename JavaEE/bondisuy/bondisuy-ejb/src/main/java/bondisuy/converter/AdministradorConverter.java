@@ -23,7 +23,13 @@ public class AdministradorConverter extends AbstractConverter<Administrador, Adm
 	
 	@Override
 	public Administrador fromDTO(AdministradorDTO a) {
-		return null;
+		if(a==null) return null;
+		return Administrador.builder()
+				.id(a.getId())
+				.nombre(a.getNombre())
+				.apellido(a.getApellido())
+				.username(a.getUsername())
+				.build();
 	}
 	
 	public Administrador fromCrearDTO(AdministradorCrearDTO a) {

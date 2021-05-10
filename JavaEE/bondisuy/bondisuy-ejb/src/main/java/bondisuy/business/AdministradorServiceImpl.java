@@ -35,12 +35,24 @@ public class AdministradorServiceImpl implements IAdministradorService {
 	
 	@Override
 	public AdministradorDTO listarPorId(Long id) throws BondisUyException{
-		return null;
+		try {
+			Administrador administrador = administradorDAO.listarPorId(id);
+			if(administrador==null) throw new BondisUyException("El administrador indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			return administradorConverter.fromEntity(administrador);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
 	}
 	
 	@Override
 	public AdministradorDTO listarPorUsername(String username) throws BondisUyException{
-		return null;
+		try {
+			Administrador administrador = administradorDAO.listarPorUsername(username);
+			if(administrador==null) throw new BondisUyException("El administrador indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			return administradorConverter.fromEntity(administrador);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
 	}
 	
 	@Override
