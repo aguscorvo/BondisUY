@@ -169,6 +169,13 @@
 		    <version>1.10.19</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.webjars/openlayers -->
+		<dependency>
+		    <groupId>org.webjars</groupId>
+		    <artifactId>openlayers</artifactId>
+		    <version>5.2.0</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
 		<dependency>
 		    <groupId>javax.annotation</groupId>

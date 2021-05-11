@@ -85,10 +85,6 @@ public class Bondisuy extends HttpServlet {
 				session.setAttribute("MENSAJE_ERROR_REGISTER", e.getMessage().trim());
 			}
 			
-			if (lenf != null) {
-				request.setAttribute("LINEAS", lenf);
-			}
-			
 			try {
 				lcom = compania.listar();
 			} catch (BondisUyException e) {
@@ -96,10 +92,9 @@ public class Bondisuy extends HttpServlet {
 				logger.info(e.getMessage().trim());
 				session.setAttribute("MENSAJE_ERROR_REGISTER", e.getMessage().trim());
 			}
-			
-			if (lenf != null) {
-				request.setAttribute("COMPANIAS", lcom);
-			}
+
+				request.setAttribute("LINEAS", lenf);
+				request.setAttribute("COMPANYS", lcom);
 			
 		}
 		

@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+	
+	
 <!-- header -->
 <header class="fixed-top header">
 	<!-- top header -->
-	<div class="top-header py-2 bg-white">
+	<div class="top-header py-1 bg-dark">
 		<div class="container">
 			<div class="row no-gutters">
 				<div class="col-lg-12 text-right text-lg-right">
@@ -54,10 +56,10 @@
 	<!-- Modal -->
 	<div class="modal fade" id="signupModal" tabindex="-1" role="dialog"
 		aria-hidden="true">
-		<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-dialog" role="document">
 			<div class="modal-content rounded-0 border-0 p-4">
-				<div class="modal-header border-0">
-					<h3>Registro</h3>
+				<div class="modal-header border-0 text-dark">
+					<h3>Registro usuario</h3>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -131,7 +133,7 @@
 							</div>
 							</c:if>
 							<div class="col-12">
-								<button type="submit" class="btn btn-primary">CREAR USUARIO</button>
+								<button type="submit" class="btn btn-dark">CREAR USUARIO</button>
 							</div>
 						</form>
 					</div>

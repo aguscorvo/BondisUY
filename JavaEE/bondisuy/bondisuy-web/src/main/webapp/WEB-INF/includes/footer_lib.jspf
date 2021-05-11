@@ -21,5 +21,9 @@
 <!-- Verificador de formnularios Login y Registro -->
 <script src="/bondisuy-web/resources/js/user-verification.js"></script>
 
+<!-- OpenLayer -->	
+<script type="text/javascript" src='webjars/openlayers/5.2.0/ol.js'></script>
 
-	
+<!-- Bondisuy -->
+<script src="/bondisuy-web/resources/js/bondisuy.js"></script>
+<script src="/bondisuy-web/resources/js/bondisuy_map.js"></script>

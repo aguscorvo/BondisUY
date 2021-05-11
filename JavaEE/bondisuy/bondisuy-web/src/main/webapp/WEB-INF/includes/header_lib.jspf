@@ -15,6 +15,9 @@
 <!-- Bondisuy -->
 <link rel="stylesheet" href="/bondisuy-web/resources/css/bondisuy.css">
 
+<!-- OpenLayer -->	
+<link rel="stylesheet" href="webjars/openlayers/5.2.0/ol.css">
+
 <!--Favicon-->
 <link rel="shortcut icon" href="/bondisuy-web/resources/images/favicon.png"
 	type="image/x-icon">

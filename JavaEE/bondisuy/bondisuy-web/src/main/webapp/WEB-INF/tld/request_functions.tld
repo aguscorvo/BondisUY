@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib version="2.1" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+	<tlib-version>1.0</tlib-version>
+	<short-name>rf</short-name>
+	<uri>http://java.sun.com/jsp/jstl/functions</uri>
+	<function>
+		<description>Formato de los campos fecha</description>
+		<name>dateToStr</name>
+		<function-class>bondisuy.action.request.DataManageRequest</function-class>
+		<function-signature>java.lang.String dateToStr(java.util.Date)</function-signature>
+	</function>
+	<function>
+		<description>Formato de los campos fecha desde Long</description>
+		<name>longDateToStr</name>
+		<function-class>bondisuy.action.request.DataManageRequest</function-class>
+		<function-signature>java.lang.String longDateToStr(java.lang.Long)</function-signature>
+	</function>
+	<function>
+		<description>
+	      Largo de una lista
+	    </description>
+		<name>listSize</name>
+		<function-class>bondisuy.action.request.DataManageRequest</function-class>
+		<function-signature>java.lang.Integer listSize(java.util.List)</function-signature>
+	</function>
+</taglib>

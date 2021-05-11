@@ -1,6 +1,7 @@
 package bondisuy.action;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -14,8 +15,12 @@ import javax.servlet.http.HttpSession;
 import org.jboss.logging.Logger;
 
 import bondisuy.business.IAdministradorService;
+import bondisuy.business.ICompaniaService;
+import bondisuy.business.ILineaService;
 import bondisuy.dto.AdministradorDTO;
 import bondisuy.dto.AdministradorLoginDTO;
+import bondisuy.dto.CompaniaDTO;
+import bondisuy.dto.LineaDTO;
 import bondisuy.exception.BondisUyException;
 
 /**
@@ -29,6 +34,13 @@ public class LoginBondisuy extends HttpServlet {
 
 	@EJB
 	IAdministradorService administrador;
+	
+	@EJB
+	ICompaniaService compania;
+	
+	@EJB
+	ILineaService linea;
+	
 	
 	private String FORWARD_PAGE = null;
 	
@@ -52,6 +64,27 @@ public class LoginBondisuy extends HttpServlet {
 		
 		String loginname=request.getParameter("loginName")==null?"":request.getParameter("loginName");
 		String loginpassword=request.getParameter("loginPassword")==null?"":request.getParameter("loginPassword");
+		
+		List<LineaDTO> lenf = null;
+		List<CompaniaDTO> lcom = null;
+		try {
+			lenf = linea.listar();
+		} catch (BondisUyException e) {
+			// TODO Auto-generated catch block
+			logger.info(e.getMessage().trim());
+			session.setAttribute("MENSAJE_ERROR_REGISTER", e.getMessage().trim());
+		}
+		
+		try {
+			lcom = compania.listar();
+		} catch (BondisUyException e) {
+			// TODO Auto-generated catch block
+			logger.info(e.getMessage().trim());
+			session.setAttribute("MENSAJE_ERROR_REGISTER", e.getMessage().trim());
+		}
+
+			request.setAttribute("LINEAS", lenf);
+			request.setAttribute("COMPANYS", lcom);
 		
 		try {
 			AdministradorDTO dtoadmin = administrador.login(new AdministradorLoginDTO(loginname, loginpassword));
