@@ -30,7 +30,11 @@
 						<div class="dropdown-menu" aria-labelledby="dropdownUserButton">
 							<a class="dropdown-item" href="#"> 
 								<i class="fas fa-user fa-sm fa-fw"></i> Perfil
+							</a>
+							<a class="dropdown-item" href="#" data-toggle="modal" data-target="#signupModal"> 
+								<i class="fas fa-user-plus fa-sm fa-fw"></i> Agregar Usuario
 							</a> 
+							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="/bondisuy-web/LogoutBondisuy">
 								<i class="fas fa-sign-out-alt fa-sm fa-fw"></i> Salir
 							</a>
@@ -46,3 +50,93 @@
 
 </header>
 <!-- /header -->
+
+	<!-- Modal -->
+	<div class="modal fade" id="signupModal" tabindex="-1" role="dialog"
+		aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content rounded-0 border-0 p-4">
+				<div class="modal-header border-0">
+					<h3>Registro</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="login">
+						<form action="/bondisuy-web/UserBondisuy" method="post" 
+						class="row register-form">
+							<input name="actionType" hidden="true"  value="addUser">
+							<div class="col-8">
+								<div class="col-12 d-flex flex-row validate-input">
+									<input type="text" class="form-control mb-3" id="signupNickName"
+									
+										<c:if test="${not empty sessionScope.NORUSER}">
+											value ="${sessionScope.NORUSER.username}" 
+										</c:if>
+									
+										name="signupNickName" placeholder="NickName">
+									<div class="p-2 alert alert-warning d-none" id="signupNickNameError"><i class="fas fa-exclamation-triangle" title="Ingrese NickName"></i></div>
+								</div>
+								<div class="col-12 d-flex flex-row validate-input">
+									<input type="text" class="form-control mb-3" id="signupName"
+										<c:if test="${not empty sessionScope.NORUSER}">
+											value ="${sessionScope.NORUSER.nombre}" 
+										</c:if>
+										name="signupName" placeholder="Nombre">
+									<div class="p-2 alert alert-warning d-none" id="signupNameError"><i class="fas fa-exclamation-triangle" title="Ingrese Nombre"></i></div>	
+								</div>
+								<div class="col-12 d-flex flex-row validate-input">
+									<input type="text" class="form-control mb-3" id="signupApellido"
+										<c:if test="${not empty sessionScope.NORUSER}">
+											value ="${sessionScope.NORUSER.apellido}" 
+										</c:if>
+										name="signupApellido" placeholder="Apellido">
+									<div class="p-2 alert alert-warning d-none" id="signupApellidoError"><i class="fas fa-exclamation-triangle" title="Ingrese Apellido"></i></div>
+									
+								</div>
+								<div class="col-12 d-flex flex-row  validate-input">
+									<input type="password" class="form-control mb-3"
+										id="signupPassword" name="signupPassword"
+										placeholder="Contrase&ntilde;a">
+									<div class="p-2 alert alert-warning d-none" id="signupPasswordError"><i class="fas fa-exclamation-triangle" title="Ingrese Contrase&ntilde;a"></i></div>
+									
+								</div>
+								<div class="col-12 d-flex flex-row">
+									<input type="password" class="form-control mb-3"
+										id="signupPasswordVer" name="signupPasswordVer"
+										placeholder="Repetir Contrase&ntilde;a">
+									<div class="p-2 alert alert-warning d-none" id="signupPasswordVerError"><i class="fas fa-exclamation-triangle" title="No coinciden las contrase&ntilde;as"></i></div>
+								</div>
+							</div>
+							<%--  
+							<div class="col-4">
+								<img src="/edEXTWeb/resources/images/usuario/default.png" alt="..." class="img-thumbnail" id="signupFilePreview">
+								<div class="input-group mb-3">
+								 <span class="signupFile">
+								 	<input type="file" name="signupFile" id="signupFile">
+								 </span>
+								 <label for="signupFile">Carga tu imagen</label>
+								</div>
+							</div>
+							--%>
+							<c:if test="${not empty sessionScope.MENSAJE_ERROR_REGISTER}">
+							<div class="col-12">
+								<div class="alert alert-danger" role="alert">
+									<i class="fas fa-exclamation-triangle"></i>
+									<c:out value="${sessionScope.MENSAJE_ERROR_REGISTER}" />
+									
+								</div>	
+							</div>
+							</c:if>
+							<div class="col-12">
+								<button type="submit" class="btn btn-primary">CREAR USUARIO</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+

@@ -43,7 +43,16 @@ public class LogoutBondisuy extends HttpServlet {
 		request.logout();
 		
 		/* redirijo el flujo hacia la pagina de inicio. */
-		response.sendRedirect("/WEB-INF/jsp/home.jsp");
+		response.sendRedirect("/bondisuy-web/Bondisuy");
 	}
+	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
 
 }

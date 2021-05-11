@@ -1,4 +1,50 @@
 .img-profile{
-	width: 2rem;
-	height: 2rem;
+	width: 		2rem;
+	height: 	2rem;
+}
+
+@media only screen and (min-width: 1360px) {
+	.main{
+		margin-top: 74px;
+		display: flex;
+		flex-wrap: nowrap;
+		flex-direction: row;
+		justify-content: center
+
+	}
+	.main > div {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+
+	#map{
+	  	width:			544px !important;
+		height:			500px;
+		border: 		1px solid var(--dark);
+		background:		var(--gray);
+		margin-right:	4px;
+	}
+
+	.map_filters{
+		width:			320px !important;
+		height:			500px;
+		border: 		1px solid var(--dark);
+		background:		var(--light);
+		border-top-left-radius: 	5px;
+		border-top-right-radius: 	5px;
+	
+
+	}
+
+	.map_filters_title{
+		width:			319px;
+		background:		var(--gray-dark);
+		color: 			var(--white);
+		margin: 		0px;
+		padding: 		5px;
+		border-top-left-radius: 	5px;
+		border-top-right-radius: 	5px;
+	
+	}
+	
 }

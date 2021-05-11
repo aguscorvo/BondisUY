@@ -14,12 +14,10 @@ import javax.servlet.http.HttpSession;
 
 import org.jboss.logging.Logger;
 
-import bondisuy.business.CompaniaServiceImpl;
 import bondisuy.business.IAdministradorService;
 import bondisuy.business.ICompaniaService;
 import bondisuy.business.ILineaService;
 import bondisuy.dto.AdministradorCrearDTO;
-import bondisuy.dto.AdministradorDTO;
 import bondisuy.dto.CompaniaDTO;
 import bondisuy.dto.LineaDTO;
 import bondisuy.exception.BondisUyException;

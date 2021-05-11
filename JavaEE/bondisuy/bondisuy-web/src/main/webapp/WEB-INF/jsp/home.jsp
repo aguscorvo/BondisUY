@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-    
+	pageEncoding="ISO-8859-1"%>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -22,32 +22,35 @@
 </head>
 <body>
 
-<!-- header -->
+	<!-- header -->
 	<c:choose>
 		<c:when test="${(sessionScope.USER!=null)}">
-			<%@ include file="/WEB-INF/includes/header_logued.jspf"%>		
-		</c:when>    
+			<%@ include file="/WEB-INF/includes/header_logued.jspf"%>
+		</c:when>
 		<c:otherwise>
-			<%@ include file="/WEB-INF/includes/header_notlogued.jspf"%>		
+			<%@ include file="/WEB-INF/includes/header_notlogued.jspf"%>
 		</c:otherwise>
 	</c:choose>
 	<!-- /header -->
 
-<!-- body -->
-<div class="container">
-  <div class="row">
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
-    <div class="col-sm">
-      One of three columns
-    </div>
-  </div>
-</div>
 
+
+<!-- body--> 
+<div class="main">
+	<div id="map">
+	</div>
+	<div class="map_filters">
+		<div class="map_filters_title">Filtros</div>
+		<div class="map_filters_content">
+		</div>
+	</div>
+	<div class="map_filters">
+	<div class="map_filters_title">Detalle</div>
+		<div class="map_filters_content" id="map_filters_info">
+		</div>
+	</div>
+
+</div>
 
 <!-- /Body -->
 
@@ -59,23 +62,24 @@
 
 
 	<!-- footer -->
-<!-- incluyo el footer -->
-<%@ include file="/WEB-INF/includes/footer_lib.jspf"%>
+	<!-- incluyo el footer -->
+	<%@ include file="/WEB-INF/includes/footer_lib.jspf"%>
 	<!-- /footer -->
 	<c:if test="${not empty sessionScope.MENSAJE_ERROR_LOGIN}">
 		<script type="text/javascript">
 			var $ds = jQuery.noConflict();
 			$ds('[data-target="#loginModal"]').click();
-		</script>	
+		</script>
 		<c:remove var="MENSAJE_ERROR_LOGIN" scope="session" />
 	</c:if>
-	
+
 	<c:if test="${not empty sessionScope.MENSAJE_ERROR_GENERAL}">
 		<script type="text/javascript">
 			var $ds = jQuery.noConflict();
-			$ds('#general_error_msj').html('${sessionScope.MENSAJE_ERROR_GENERAL}');
+			$ds('#general_error_msj').html(
+					'${sessionScope.MENSAJE_ERROR_GENERAL}');
 			$ds('#general_error').modal('show');
-		</script>	
+		</script>
 		<c:remove var="MENSAJE_ERROR_GENERAL" scope="session" />
 	</c:if>
 
