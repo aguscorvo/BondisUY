@@ -14,5 +14,7 @@ import lombok.Setter;
 public class HorarioCrearDTO {
 
 	private String hora;
+	private Long recorrido;
+	private Long parada;
 	
 }

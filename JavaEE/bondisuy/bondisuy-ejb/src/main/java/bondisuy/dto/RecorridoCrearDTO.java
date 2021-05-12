@@ -14,5 +14,6 @@ import lombok.Setter;
 public class RecorridoCrearDTO {
 
 	private Boolean activo;
+	private Long linea;
 
 }

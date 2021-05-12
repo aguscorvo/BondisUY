@@ -6,13 +6,14 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import bondisuy.converter.LineaConverter;
-import bondisuy.converter.CompaniaConverter;
 import bondisuy.dao.ICompaniaDAO;
 import bondisuy.dao.ILineaDAO;
+import bondisuy.dao.IRecorridoDAO;
 import bondisuy.dto.LineaCrearDTO;
 import bondisuy.dto.LineaDTO;
 import bondisuy.entity.Compania;
 import bondisuy.entity.Linea;
+import bondisuy.entity.Recorrido;
 import bondisuy.exception.BondisUyException;
 
 @Stateless
@@ -25,10 +26,11 @@ public class LineaServiceImpl implements ILineaService {
 	private ICompaniaDAO companiaDAO;
 	
 	@EJB
-	private LineaConverter lineaConverter;
+	private IRecorridoDAO recorridoDAO;
 	
 	@EJB
-	private CompaniaConverter companiaConverter;
+	private LineaConverter lineaConverter;
+
 	
 	@Override
 	public List<LineaDTO> listar() throws BondisUyException{
@@ -90,6 +92,21 @@ public class LineaServiceImpl implements ILineaService {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
 	}
-    
+	
+	// solo se llama desde backend
+	@Override
+	public void agregarRecorrido(Long linea, Long recorrido) throws BondisUyException{
+		// se valida que exista el recorrido. No se valida la linea ya que se hizo en crear() de RecorridoService
+		Recorrido recorridoAux= recorridoDAO.listarPorId(recorrido);
+		if(recorridoAux == null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+		// se valida que la linea no tenga el recorrido asociado
+		Linea lineaAux = lineaDAO.listarPorId(linea);
+		for(Recorrido r: lineaAux.getRecorridos()) {
+			if(r.getId()==recorrido) throw new BondisUyException("La línea y el recorrido indicados ya se encuentran asociados.", BondisUyException.EXISTE_REGISTRO);
+		}
+		// se agrega el recorrido a la linea
+		lineaAux.getRecorridos().add(recorridoAux);
+		lineaDAO.editar(lineaAux);
+	}    
 
 }

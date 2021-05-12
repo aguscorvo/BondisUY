@@ -9,7 +9,7 @@ import bondisuy.dto.RecorridoDTO;
 import bondisuy.exception.BondisUyException;
 
 @Local
-public interface IRecorridoServiceImpl {
+public interface IRecorridoService {
 
 	public List<RecorridoDTO> listar() throws BondisUyException;
 	public RecorridoDTO listarPorId(Long id) throws BondisUyException;
@@ -17,4 +17,7 @@ public interface IRecorridoServiceImpl {
 	public RecorridoDTO editar(Long id, RecorridoCrearDTO recorridoDTO) throws BondisUyException;
 	public void eliminar(Long id) throws BondisUyException;
 	
+	// solo se llama desde backend
+	public void agregarHorario(Long recorrido, Long horario) throws BondisUyException;
+
 }

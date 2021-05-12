@@ -16,5 +16,7 @@ public interface IParadaService {
 	public ParadaDTO crear(ParadaCrearDTO paradaDTO) throws BondisUyException;
 	public ParadaDTO editar(Long id, ParadaCrearDTO paradaDTO) throws BondisUyException;
 	public void eliminar(Long id) throws BondisUyException;
-		
+	
+	// solo se llama desde backend
+	public void agregarHorario(Long parada, Long horario) throws BondisUyException;
 }

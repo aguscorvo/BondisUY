@@ -13,6 +13,9 @@ public class LineaConverter extends AbstractConverter<Linea, LineaDTO>{
 	@EJB
 	private CompaniaConverter companiaConverter;
 	
+	@EJB
+	private RecorridoConverter recorridoConverter;
+	
 	@Override
 	public LineaDTO fromEntity(Linea l) {
 		if(l==null) return null;
@@ -22,6 +25,7 @@ public class LineaConverter extends AbstractConverter<Linea, LineaDTO>{
 				.origen(l.getOrigen())
 				.destino(l.getDestino())
 				.compania(companiaConverter.fromEntity(l.getCompania()))
+				.recorridos(recorridoConverter.fromEntity(l.getRecorridos()))
 				.build();
 	}
 	
@@ -34,6 +38,7 @@ public class LineaConverter extends AbstractConverter<Linea, LineaDTO>{
 				.origen(l.getOrigen())
 				.destino(l.getDestino())
 				.compania(companiaConverter.fromDTO(l.getCompania()))
+				.recorridos(recorridoConverter.fromDTO(l.getRecorridos()))
 				.build();
 	}
 	

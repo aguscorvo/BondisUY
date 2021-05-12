@@ -1,5 +1,7 @@
 package bondisuy.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,4 +17,6 @@ public class RecorridoDTO {
 
 	private Long id;
 	private Boolean activo;
+	private LineaDTO linea;
+	private List<HorarioDTO> horarios;
 }

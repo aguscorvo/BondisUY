@@ -6,9 +6,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
 import bondisuy.converter.ParadaConverter;
+import bondisuy.dao.IHorarioDAO;
 import bondisuy.dao.IParadaDAO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
+import bondisuy.entity.Horario;
 import bondisuy.entity.Parada;
 import bondisuy.exception.BondisUyException;
 
@@ -17,6 +19,9 @@ public class ParadaServiceImpl implements IParadaService {
 
    @EJB
    private IParadaDAO paradaDAO;
+   
+   @EJB
+   private IHorarioDAO horarioDAO;
    
    @EJB
    private ParadaConverter paradaConverter;
@@ -74,5 +79,21 @@ public class ParadaServiceImpl implements IParadaService {
 		}
 	}
    
+	// solo se llama desde backend
+	@Override
+	public void agregarHorario(Long parada, Long horario) throws BondisUyException{
+		// se valida que el horario exista
+		Horario horarioAux = horarioDAO.listarPorId(horario);
+		if(horarioAux ==null) throw new BondisUyException("El horario indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+		// se validia que el horario no se encuentre asociado a la parada
+		Parada paradaAux = paradaDAO.listarPorId(parada);
+		for(Horario h: paradaAux.getHorarios()) {
+			if(h.getId()==horario) throw new BondisUyException("El horario indicado ya se encuentra asociado a la parada.", BondisUyException.EXISTE_REGISTRO);
+		}
+		// se asocia el horario a la parada
+		paradaAux.getHorarios().add(horarioAux);
+		paradaDAO.editar(paradaAux);
+	}
+
 
 }

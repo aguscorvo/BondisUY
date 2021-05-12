@@ -17,4 +17,7 @@ public interface ILineaService {
 	public LineaDTO editar(Long id, LineaCrearDTO lineaDTO) throws BondisUyException;
 	public void eliminar(Long id) throws BondisUyException;
 	
+	// solo se llama desde backend
+	public void agregarRecorrido(Long linea, Long recorrido) throws BondisUyException;
+
 }
