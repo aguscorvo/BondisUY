@@ -3,6 +3,10 @@
 .project
 .settings/
 
+# IntelliJ
+.idea/
+bondisuy.iml
+
 # JAVA
 
 # Compiled class file
