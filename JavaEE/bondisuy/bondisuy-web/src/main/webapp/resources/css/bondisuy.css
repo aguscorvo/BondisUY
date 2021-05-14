@@ -3,3 +3,16 @@
     height: calc(100vh - 70px);
     margin-top: 0px;
 }
+
+.bondisuy-centerzoom-map {
+    top: 65px;
+    left: .5em;
+}
+
+.ol-attribution{
+    font-size: 0.5em;
+}
+
+.modal-backdrop{
+    z-index: 1029 !important;
+}

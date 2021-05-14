@@ -184,3 +184,9 @@ function filtrarLinea(lineaId) {
 
 }
 
+//Mostrar mensaje error
+function bondisuy_msgError(message){
+	 $ds("#general_error_msj").html(message);
+	 $ds('#general_error').modal('show');	
+}
+

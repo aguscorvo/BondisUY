@@ -1,25 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-	
-	
+
+
 <!-- header -->
 <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
-            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-              <span class="mdi mdi-menu"></span>
-            </button>
-            <ul class="navbar-nav navbar-nav-right">
-              <li class="nav-item dropdown">
-                <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
-                  <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="/bondisuy-web/resources/images/user/default.png" alt="">
-                    <p class="mb-0 d-none d-sm-block navbar-profile-name">$</p>
-                    <i class="mdi mdi-menu-down d-none d-sm-block"></i>
-                  </div>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="profileDropdown">
-                  <h6 class="p-3 mb-0">Perfil</h6>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
+	<button class="navbar-toggler navbar-toggler align-self-center"
+		type="button" data-toggle="minimize">
+		<span class="mdi mdi-menu"></span>
+	</button>
+	<ul class="navbar-nav navbar-nav-right">
+		<li class="nav-item dropdown"><a class="nav-link"
+			id="profileDropdown" href="#" data-toggle="dropdown">
+				<div class="navbar-profile">
+					<img class="img-xs rounded-circle"
+						src="/bondisuy-web/resources/images/user/default.png" alt="">
+					<p class="mb-0 d-none d-sm-block navbar-profile-name">${sessionScope.USER.nombre}&nbsp;${sessionScope.USER.apellido}</p>
+					<i class="mdi mdi-menu-down d-none d-sm-block"></i>
+				</div>
+		</a>
+			<div
+				class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+				aria-labelledby="profileDropdown">
+				<h6 class="p-3 mb-0">Perfil</h6>
+				<div class="dropdown-divider"></div>
+				<!-- <a class="dropdown-item preview-item">
                     <div class="preview-thumbnail">
                       <div class="preview-icon bg-dark rounded-circle">
                         <i class="mdi mdi-settings text-success"></i>
@@ -28,125 +32,220 @@
                     <div class="preview-item-content">
                       <p class="preview-subject mb-1">Ver</p>
                     </div>
-                  </a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-logout text-danger"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Salir</p>
-                    </div>
-                  </a>
-				  
-                  <div class="dropdown-divider"></div>
-				  <a class="dropdown-item preview-item">
-                    <div class="preview-thumbnail">
-                      <div class="preview-icon bg-dark rounded-circle">
-                        <i class="mdi mdi-account-plus text-success"></i>
-                      </div>
-                    </div>
-                    <div class="preview-item-content">
-                      <p class="preview-subject mb-1">Agregar Usuario</p>
-                    </div>
-                  </a>
-                </div>
-              </li>
-            </ul>
-            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-              <span class="mdi mdi-format-line-spacing"></span>
-            </button>
-          </div>
+                  </a> -->
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item preview-item"
+					href="/bondisuy-web/LogoutBondisuy">
+					<div class="preview-thumbnail">
+						<div class="preview-icon bg-dark rounded-circle">
+							<i class="mdi mdi-logout text-danger"></i>
+						</div>
+					</div>
+					<div class="preview-item-content">
+						<p class="preview-subject mb-1">Salir</p>
+					</div>
+				</a>
+
+				<div class="dropdown-divider"></div>
+				<a class="dropdown-item preview-item" href="#" data-toggle="modal"
+					data-target="#signupModal">
+					<div class="preview-thumbnail">
+						<div class="preview-icon bg-dark rounded-circle">
+							<i class="mdi mdi-account-plus text-success"></i>
+						</div>
+					</div>
+					<div class="preview-item-content">
+						<p class="preview-subject mb-1">Agregar Usuario</p>
+					</div>
+				</a>
+			</div></li>
+	</ul>
+	<button
+		class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+		type="button" data-toggle="offcanvas">
+		<span class="mdi mdi-format-line-spacing"></span>
+	</button>
+</div>
 <!-- /header -->
 
-	<!-- Modal -->
-	<div class="modal fade" id="signupModal" tabindex="-1" role="dialog"
-		aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content rounded-0 border-0 p-4">
-				<div class="modal-header border-0 text-dark">
-					<h3>Registro usuario</h3>
-					<button type="button" class="close" data-dismiss="modal"
+<!-- Modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog"
+	aria-labelledby="loginModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<form action="/bondisuy-web/UserBondisuy" method="post">
+				<div class="modal-header">
+					<h3 class="modal-title" id="loginModalLongTitle">Registro de
+						Usuario</h3>
+					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="login">
-						<form action="/bondisuy-web/UserBondisuy" method="post" 
-						class="row register-form">
-							<input name="actionType" hidden="true"  value="addUser">
-							<div class="col-8">
-								<div class="col-12 d-flex flex-row validate-input">
-									<input type="text" class="form-control mb-3" id="signupNickName"
-									
-										<c:if test="${not empty sessionScope.NORUSER}">
-											value ="${sessionScope.NORUSER.username}" 
-										</c:if>
-									
-										name="signupNickName" placeholder="NickName">
-									<div class="p-2 alert alert-warning d-none" id="signupNickNameError"><i class="fas fa-exclamation-triangle" title="Ingrese NickName"></i></div>
+					<div class="row w-100 m-0">
+						<div class="card col-lg-12 mx-auto">
+							<div class="card-body px-5 py-5">
+								<div class="form-group validate-input">
+									<label>Usuario *</label> <input type="text"
+										class="form-control p_input" id="signupNickName"
+										name="signupNickName">
+									<div class="p-2 alert alert-warning d-none"
+										id="signupNickNameError">
+										<i class="fas fa-exclamation-triangle" title="Ingrese Usuario"></i>
+									</div>
 								</div>
-								<div class="col-12 d-flex flex-row validate-input">
-									<input type="text" class="form-control mb-3" id="signupName"
-										<c:if test="${not empty sessionScope.NORUSER}">
-											value ="${sessionScope.NORUSER.nombre}" 
-										</c:if>
-										name="signupName" placeholder="Nombre">
-									<div class="p-2 alert alert-warning d-none" id="signupNameError"><i class="fas fa-exclamation-triangle" title="Ingrese Nombre"></i></div>	
+								<div class="form-group validate-input">
+									<label>Nombre *</label> <input type="text"
+										class="form-control p_input" id="signupName" name="signupName">
+									<div class="p-2 alert alert-warning d-none"
+										id="signupNameError">
+										<i class="fas fa-exclamation-triangle" title="Ingrese Nombre"></i>
+									</div>
 								</div>
-								<div class="col-12 d-flex flex-row validate-input">
-									<input type="text" class="form-control mb-3" id="signupApellido"
-										<c:if test="${not empty sessionScope.NORUSER}">
-											value ="${sessionScope.NORUSER.apellido}" 
-										</c:if>
-										name="signupApellido" placeholder="Apellido">
-									<div class="p-2 alert alert-warning d-none" id="signupApellidoError"><i class="fas fa-exclamation-triangle" title="Ingrese Apellido"></i></div>
-									
+								<div class="form-group validate-input">
+									<label>Apellido *</label> <input type="text"
+										class="form-control p_input" id="signupApellido"
+										name="signupApellido">
+									<div class="p-2 alert alert-warning d-none"
+										id="signupApellidoError">
+										<i class="fas fa-exclamation-triangle"
+											title="Ingrese Apellido"></i>
+									</div>
 								</div>
-								<div class="col-12 d-flex flex-row  validate-input">
-									<input type="password" class="form-control mb-3"
-										id="signupPassword" name="signupPassword"
-										placeholder="Contrase&ntilde;a">
-									<div class="p-2 alert alert-warning d-none" id="signupPasswordError"><i class="fas fa-exclamation-triangle" title="Ingrese Contrase&ntilde;a"></i></div>
-									
+
+								<div class="form-group  validate-input">
+									<label>Contrase&ntilde;a *</label> <input type="password"
+										class="form-control p_input" id="loginPassword"
+										name="loginPassword">
+									<div class="p-2 alert alert-warning d-none"
+										id="loginPasswordError">
+										<i class="fas fa-exclamation-triangle"
+											title="Ingrese Contrase&ntilde;a"></i>
+									</div>
 								</div>
-								<div class="col-12 d-flex flex-row">
-									<input type="password" class="form-control mb-3"
-										id="signupPasswordVer" name="signupPasswordVer"
-										placeholder="Repetir Contrase&ntilde;a">
-									<div class="p-2 alert alert-warning d-none" id="signupPasswordVerError"><i class="fas fa-exclamation-triangle" title="No coinciden las contrase&ntilde;as"></i></div>
+								<div class="form-group  validate-input">
+									<label>Repetir Contrase&ntilde;a *</label> <input
+										type="password" class="form-control p_input"
+										id="signupPasswordVer" name="signupPasswordVer">
+									<div class="p-2 alert alert-warning d-none"
+										id="signupPasswordVerError">
+										<i class="fas fa-exclamation-triangle"
+											title="Ingrese Contrase&ntilde;a"></i>
+									</div>
+								</div>
+
+								<c:if test="${not empty sessionScope.MENSAJE_ERROR_LOGIN}">
+									<div class="col-12">
+										<div class="alert alert-danger" role="alert">
+											<i class="fas fa-exclamation-triangle"></i>
+											<c:out value="${sessionScope.MENSAJE_ERROR_LOGIN}" />
+										</div>
+									</div>
+								</c:if>
+
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary">Registrar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+<div class="modal fade" id="signupModalOL" tabindex="-1" role="dialog"
+	aria-labelledby="registerModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<form action="/bondisuy-web/UserBondisuy" method="post">
+			<input name="actionType" hidden="true" value="addUser">
+			<div class="modal-header">
+				<h3 class="modal-title" id="loginModalLongTitle">Alta de
+					Usuario</h3>
+				<button type="button" class="close text-light" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row w-100 m-0">
+					<div class="card col-lg-12 mx-auto">
+						<div class="card-body px-5 py-5">
+							<div class="form-group validate-input">
+								<label>Usuario *</label> <input type="text"
+									class="form-control p_input" id="signupNickName"
+									name="signupNickName">
+								<div class="p-2 alert alert-warning d-none"
+									id="signupNickNameError">
+									<i class="fas fa-exclamation-triangle" title="Ingrese Usuario"></i>
 								</div>
 							</div>
-							<%--  
-							<div class="col-4">
-								<img src="/edEXTWeb/resources/images/usuario/default.png" alt="..." class="img-thumbnail" id="signupFilePreview">
-								<div class="input-group mb-3">
-								 <span class="signupFile">
-								 	<input type="file" name="signupFile" id="signupFile">
-								 </span>
-								 <label for="signupFile">Carga tu imagen</label>
+							<div class="form-group validate-input">
+								<label>Nombre *</label> <input type="text"
+									class="form-control p_input" id="signupName" name="signupName">
+								<div class="p-2 alert alert-warning d-none" id="signupNameError">
+									<i class="fas fa-exclamation-triangle" title="Ingrese Nombre"></i>
 								</div>
 							</div>
-							--%>
-							<c:if test="${not empty sessionScope.MENSAJE_ERROR_REGISTER}">
-							<div class="col-12">
-								<div class="alert alert-danger" role="alert">
-									<i class="fas fa-exclamation-triangle"></i>
-									<c:out value="${sessionScope.MENSAJE_ERROR_REGISTER}" />
-									
-								</div>	
+							<div class="form-group validate-input">
+								<label>Apellido *</label> <input type="text"
+									class="form-control p_input" id="signupApellido"
+									name="signupApellido">
+								<div class="p-2 alert alert-warning d-none"
+									id="signupApellidoError">
+									<i class="fas fa-exclamation-triangle" title="Ingrese Apellido"></i>
+								</div>
 							</div>
+
+							<div class="form-group  validate-input">
+								<label>Contrase&ntilde;a *</label> <input type="password"
+									class="form-control" id="loginPassword"
+									name="loginPassword">
+								<div class="p-2 alert alert-warning d-none"
+									id="loginPasswordError">
+									<i class="fas fa-exclamation-triangle"
+										title="Ingrese Contrase&ntilde;a"></i>
+								</div>
+							</div>
+							<div class="form-group  validate-input">
+								<label>Repetir Contrase&ntilde;a *</label> <input
+									type="password" class="form-control"
+									id="signupPasswordVer" name="signupPasswordVer">
+								<div class="p-2 alert alert-warning d-none"
+									id="signupPasswordVerError">
+									<i class="fas fa-exclamation-triangle"
+										title="Ingrese Contrase&ntilde;a"></i>
+								</div>
+							</div>
+
+							<c:if test="${not empty sessionScope.MENSAJE_ERROR_LOGIN}">
+								<div class="col-12">
+									<div class="alert alert-danger" role="alert">
+										<i class="fas fa-exclamation-triangle"></i>
+										<c:out value="${sessionScope.MENSAJE_ERROR_LOGIN}" />
+									</div>
+								</div>
 							</c:if>
-							<div class="col-12">
-								<button type="submit" class="btn btn-dark">CREAR USUARIO</button>
-							</div>
-						</form>
+
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+			<div class="modal-footer">
+				<button type="submit" class="btn btn-primary">Registrar</button>
+			</div>
+		</form>
 	</div>
+</div>
+
 

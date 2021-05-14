@@ -89,13 +89,12 @@ public class UserBondisuy extends HttpServlet {
 				session.setAttribute("MENSAJE_ERROR_REGISTER", e.getMessage().trim());
 				
 			}
-			FORWARD_PAGE = "/WEB-INF/jsp/home.jsp";
-			 /* delego el control a la uri correspondiente. */
-			request.getRequestDispatcher(FORWARD_PAGE).forward(request, response);
-			
 	
 		}	
 		
+		FORWARD_PAGE = "/WEB-INF/jsp/index.jsp";
+		 /* delego el control a la uri correspondiente. */
+		request.getRequestDispatcher(FORWARD_PAGE).forward(request, response);		
 	}
 		
 }
