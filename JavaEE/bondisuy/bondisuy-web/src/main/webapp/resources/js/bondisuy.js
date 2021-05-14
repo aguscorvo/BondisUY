@@ -54,17 +54,31 @@ $ds(".map_filters_accordion_content").on("click", ".map_filters_accordion_counte
 	odiv.slideUp(250);
 });
 
-$ds("#red_movil_map_filters_content_celdas").on("click", "tr", function () {
-	loc_celda($ds(this).attr("data-cell_id"), 'red_movil_map_filters_info_celdas');
-});
+/*Opcion busqueda dropdown */
+$ds(".head_search_bar").on("click", "i", function () {
+	var odiv = $ds(this).parent();
+	var oin = $ds(odiv).children("input").get(0);
+	var odivp = $ds(odiv).parent();
+	var oli = $ds(odivp).find(".map_filters_accordion_counter");
 
+	$ds(oli).removeClass("d-none");
+
+	oli.each(function(index){
+		if(!$ds(this).html().toUpperCase().includes($ds(oin).val().toUpperCase()) && $ds(oin).val()!=""){
+			$ds(this).addClass("d-none");
+		}
+			
+	});	
+
+});
 
 
 //Listar linea por Compania Ajax
 function filtrarCompany(companyId, companyName) {
 	if (companyId != '') {
 		var url = "/bondisuy-web/LineaBondisuy?companyId=" + companyId;
-		var txtli = '<li class="map_filters_accordion_counter" data-counter_id="ALL">[Todas]</li>';
+		//var txtli = '<li class="map_filters_accordion_counter" data-counter_id="ALL">[Todas]</li>';
+		var txtli = '';
 		var cant = 0;
 		var detalle = '<div class="form-group row m-2">';
 		detalle += '<label for="" class="col-sm-5 col-form-label">Compa&ntilde;&iacute;a:';

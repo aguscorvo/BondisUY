@@ -99,7 +99,7 @@ public class Bondisuy extends HttpServlet {
 		}
 		
 		/* delego el control a la uri correspondiente. */
-		FORWARD_PAGE = "/WEB-INF/jsp/home.jsp";
+		FORWARD_PAGE = "/WEB-INF/jsp/index.jsp";
 		request.getRequestDispatcher(FORWARD_PAGE).forward(request, response);
 
 		

@@ -97,7 +97,7 @@
 										class="fa fa-search flex-shrink-1 p-1" aria-hidden="false"></i>
 								</div>
 								<ul>
-									<li class="map_filters_accordion_counter" data-counter_id="ALL">[Todas]</li>
+									<%--<li class="map_filters_accordion_counter" data-counter_id="ALL">[Todas]</li> --%>
 									<c:forEach items="${requestScope.LINEAS}" var="dtLine">
 										<li class="map_filters_accordion_counter"
 											data-counter_id="${dtLine.id}">${dtLine.nombre}&nbsp;${dtLine.origen}-${dtLine.destino}</li>

@@ -28,7 +28,7 @@ import bondisuy.exception.BondisUyException;
 public class LineaBondisuy extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	static Logger logger = Logger.getLogger(Bondisuy.class);
+	static Logger logger = Logger.getLogger(LineaBondisuy.class);
 	
 	@EJB
 	ILineaService linea;
@@ -68,7 +68,6 @@ public class LineaBondisuy extends HttpServlet {
 				response.setContentType("application/json");
 				response.setCharacterEncoding("UTF-8");
 				salida.print(jsonString);
-				logger.info(jsonString);
 				salida.flush();
 			}else {
 				response.getWriter();
