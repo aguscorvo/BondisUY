@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.tools.sjavac.Log;
 
 import bondisuy.business.ILineaService;
 import bondisuy.dto.LineaDTO;
@@ -111,7 +112,42 @@ public class LineaBondisuy extends HttpServlet {
 			}
 
 			
-		} else {
+		} else if(request.getParameter("lineaName")!=null){
+			logger.info(request.getParameter("lineaName"));
+			List<LineaDTO> llin= null;
+			try {
+				llin = linea.listar();
+			} catch (NumberFormatException | BondisUyException e) {
+				logger.info(e.getMessage().trim());
+				
+			}
+			
+			if(llin!=null) {
+				
+				
+				List<LineaDTO> aux = new ArrayList<LineaDTO>();
+				for (LineaDTO lin: llin) {
+					if(lin.getNombre().contains(request.getParameter("lineaName"))) {
+						aux.add(lin);
+					}
+				}	
+			
+				//Creating the ObjectMapper object
+				ObjectMapper mapper = new ObjectMapper();
+				//Converting the Object to JSONString
+				String jsonString = mapper.writeValueAsString(aux);
+				
+				PrintWriter salida = response.getWriter();
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+				salida.print(jsonString);
+				salida.flush();
+			}else {
+				response.getWriter();
+			}
+
+			
+		}else {
 			response.getWriter();
 		}
 	}

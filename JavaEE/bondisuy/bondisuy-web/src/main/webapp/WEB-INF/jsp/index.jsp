@@ -44,11 +44,12 @@
 			<div
 				class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
 				<a class="sidebar-brand brand-logo" href="#"><img
-					src="/bondisuy-web/resources/images/logo.svg" alt="logo" /></a> <a
+					src="/bondisuy-web/resources/images/logo.svg" alt="logo" /></a>
+					  <a
 					class="sidebar-brand brand-logo-mini" href="#"><img
-					src="/bondisuy-web/resources/images/logo-mini.svg" alt="logo" /></a>
+					src="/bondisuy-web/resources/images/logo-mini.svg" alt="logo" /></a> 
 			</div>
-			<ul class="nav">
+			<ul class="nav mb-1">
 				<li class="nav-item nav-category"><span class="nav-link">Informaci&oacute;n</span>
 				</li>
 				<li class="nav-item menu-items"><a class="nav-link"
@@ -60,16 +61,16 @@
 				</a>
 					<div class="collapse" id="ui-basic">
 						<ul class="nav flex-column sub-menu">
-							<li class="nav-item"><a class="nav-link" href="#">L&iacute;nea
+							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(1);">L&iacute;nea
 									por empresa</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">L&iacute;nea</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Esquina</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Direcci&oacute;n</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Paradas
+							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(2);">L&iacute;nea</a></li>
+							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(3);">Esquina</a></li>
+							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(4);">Direcci&oacute;n</a></li>
+							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(5);">Paradas
 									Habilitadas</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Paradas
+							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(6);">Paradas
 									Deshabilitadas</a></li>
-							<li class="nav-item"><a class="nav-link" href="#">Avanzado</a></li>
+							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(7);">Avanzado</a></li>
 						</ul>
 					</div></li>
 				<c:if test="${(sessionScope.USER!=null)}">
@@ -99,15 +100,38 @@
 						</div></li>
 				</c:if>
 			</ul>
-			<div class="card">
-				<div class="card-body" id="to_do_som">
-					<h5 class="card-title">To do list</h5>
-					<div class="add-items d-flex">
-						<input type="text" class="form-control todo-list-input"
-							placeholder="">
-						
-					</div>
+			<div class="card" id="to_do_some">
+				<div class="card-body pb-0">
+					<h6 class="card-title">Buscar l&iacute;neas por empresa</h6>
+					<div class="form-group">
+                      <!-- <label for="selectEmpresas">Empresas</label>-->
+                      <select class="form-control form-control-sm text-secondary" id="selectEmpresas">
+                      	<option	value=""></option>
+                      <c:forEach items="${requestScope.COMPANYS}" var="dtCompany">
+							<option	value="${dtCompany.id}">${dtCompany.nombre}</option>
+						</c:forEach>
+                       </select>
+                    </div>
 				</div>
+				<div class="card">
+	  <div class="card-body p-3">
+		<h7 class="card-title">L&iacute;neas</h7>
+		<div class="row">
+		  <div class="table-responsive" id="selectTableLineas">
+			  <table class="table">
+				<tbody>
+				  <tr>
+					<td></td>
+					<td></td>
+					<td></td>
+				  </tr>
+				</tbody>
+			  </table>
+			</div>
+		</div>
+	  </div>
+	</div>
+    
 			</div>
 		</nav>
 		<!-- partial -->
@@ -116,10 +140,10 @@
 			<nav class="navbar p-0 fixed-top d-flex flex-row">
 				<div
 					class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-					<a class="navbar-brand brand-logo-mini" href="index.html"><img
+					<a class="navbar-brand brand-logo-mini" href="#"><img
 						src="/bondisuy-web/resources/images/logo-mini.svg" alt="logo" /></a>
 				</div>
-
+ 
 				<!-- header -->
 				<c:choose>
 					<c:when test="${(sessionScope.USER!=null)}">
