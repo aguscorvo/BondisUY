@@ -119,6 +119,7 @@
 		<div class="row">
 		  <div class="table-responsive" id="selectTableLineas">
 			  <table class="table">
+			  	<thead><tr><th>l&iacute;nea</th><th>origen</th><th>destino</th></tr></thead>
 				<tbody>
 				  <tr>
 					<td></td>

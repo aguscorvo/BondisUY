@@ -1,4 +1,6 @@
 var coordinates = null;
+var GEOSERVER = 'http://bondisuy.web.elasticloud.uy/geoserver/wms';
+var CAPAS = {'calles': 'bondisuy:ft_ejes'};
 
 var view = new ol.View({
   center: ol.proj.fromLonLat([-56.17938, -34.86157]),
@@ -50,12 +52,12 @@ var CenterZoomMapControl = (function (Control) {
   var layers = [
     new ol.layer.Tile({
       source: new ol.source.OSM(),
-    }),
-    /* new ol.layer.Tile({
+    }),/*
+     new ol.layer.Tile({
      //extent: [-13884991, 2870341, -7455066, 6338219],
        source: new ol.source.TileWMS({
-         url: 'http://192.168.4.88:8082/geoserver/wms',
-         params: {'LAYERS': 'tsige:ft_00_departamento', 'TILED': true},
+         url: GEOSERVER,
+         params: {'LAYERS': CAPAS.calles, 'TILED': true},
          serverType: 'geoserver',
          // Countries have transparency, so do not fade tiles:
          transition: 0,

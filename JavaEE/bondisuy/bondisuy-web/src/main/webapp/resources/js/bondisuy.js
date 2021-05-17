@@ -92,6 +92,7 @@ function searchOptions(id) {
 	var card_title = $ds(card).find("h6.card-title");
 	var card_subtitle = $ds(card).find("h7.card-title");
 	var form_group = $ds(card).find(".form-group");
+	
 	var select;
 
 	//.addClass( "yourClass" )
@@ -120,6 +121,9 @@ function searchOptions(id) {
 		$ds(card_title).html("Buscar l&iacute;nea");
 		$ds(card_subtitle).html("L&iacute;nea");
 		$ds(form_group).html(select);
+
+		filtrarLineaByName('');
+
 
 		//Input Linea
 		$ds("#inputLinea").on("keypress", function (ev) {
@@ -162,13 +166,17 @@ function searchOptions(id) {
 			$ds("#selectTableLineas").height(size);
 		});
 
+		
+
 	} else if (id == 3){
 		$ds("a[href='#ui-basic']").click();
 		select = '<label for="inputCalleA">Calle</label><input type="text" class="form-control form-control-sm" id="inputCalleA">';
-		select += '<label for="inputCalleB">Esquina</label><input type="text" class="form-control form-control-sm" id="inputCalleB">';
+		select += '<label for="inputCalleB">Esquina</label><input type="text" class="form-control form-control-sm" id="inputCalleB" disabled>';
 		$ds(card_title).html("Buscar Esquina");
 		$ds(card_subtitle).html("Calle");
 		$ds(form_group).html(select);
+
+		filtrarCalleByName('');
 
 		//Input Linea
 		$ds("#inputCalleA").on("keypress", function (ev) {
@@ -253,6 +261,7 @@ function searchOptions(id) {
 		});
 
 
+
 	}
 
 }
@@ -319,7 +328,7 @@ function filtrarLineaByCompany(companyId) {
 
 //filtrar linea por Nombre
 function filtrarCalleByName(calleName) {
-	var txttable = '<thead><tr><th>c&oacute;digo</th><th>nombre</th><th>tipo</th></tr></thead><tbody>';
+	var txttable = '<thead><tr><th>nombre</th><th>tipo</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 	if (calleName != '') {
@@ -330,7 +339,7 @@ function filtrarCalleByName(calleName) {
 		$ds.getJSON(url)
 			.done(function (data) {
 				for (var td in data) {
-					txttable += '<tr data-counter_id=' + data[td].codigo + '><td>' + data[td].codigo + '</td><td>' + data[td].nombre + '</td><td>' + data[td].tipo + '</td></tr>'
+					txttable += '<tr data-counter_id=' + data[td].codigo + '><td>' + data[td].nombre + '</td><td>' + data[td].tipo + '</td></tr>'
 				}
 
 				txttable += '</tbody>';
