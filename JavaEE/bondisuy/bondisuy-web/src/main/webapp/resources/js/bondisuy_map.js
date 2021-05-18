@@ -52,17 +52,17 @@ var CenterZoomMapControl = (function (Control) {
   var layers = [
     new ol.layer.Tile({
       source: new ol.source.OSM(),
-    }),/*
+    }),
      new ol.layer.Tile({
      //extent: [-13884991, 2870341, -7455066, 6338219],
        source: new ol.source.TileWMS({
          url: GEOSERVER,
-         params: {'LAYERS': CAPAS.calles, 'TILED': true},
+         params: {'CQL_FILTER':"[cod_nombre=5430]",'LAYERS': CAPAS.calles, 'TILED': true},
          serverType: 'geoserver',
          // Countries have transparency, so do not fade tiles:
          transition: 0,
      })
-     }),
+     }),/*
      new ol.layer.Tile({
      //extent: [-13884991, 2870341, -7455066, 6338219],
        source: new ol.source.TileWMS({
