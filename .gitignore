@@ -5,7 +5,7 @@
 
 # IntelliJ
 .idea/
-bondisuy.iml
+*.iml
 
 # JAVA
 
@@ -47,3 +47,7 @@ buildNumber.properties
 .mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 .mvn/wrapper/maven-wrapper.jar
+
+
+# Mac
+*.DS_Store
