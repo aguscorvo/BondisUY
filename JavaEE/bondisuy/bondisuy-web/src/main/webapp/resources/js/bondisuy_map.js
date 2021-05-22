@@ -1,13 +1,37 @@
 var coordinates = null;
 var GEOSERVER = 'http://bondisuy.web.elasticloud.uy/geoserver/wms';
-var CAPAS = {'calles': 'bondisuy:ft_ejes'};
+var GEOSERVERIMM = 'http://geoserver.montevideo.gub.uy/geoserver/wms';
+var CAPAS = {'calles': 'bondisuy:ft_ejes',
+			'paradas': 'stm_paradas',
+			'lineas': 'ide:ide_v_uptu_lsv'};
 
+/**
+ * 
+import 'ol/ol.css';
+import Map from 'ol/Map';
+import View from 'ol/View';
+import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
+import {Draw, Modify, Snap} from 'ol/interaction';
+import {OSM, Vector as VectorSource} from 'ol/source';
+import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
+ */
+
+
+
+
+
+
+
+
+//Capa de Vista
 var view = new ol.View({
   center: ol.proj.fromLonLat([-56.17938, -34.86157]),
   zoom: 15,
   minZoom: 13,
   maxZoom: 15,
 });
+//Fin Capa de Vista
+
 
 //Agregar boton ir a mi ubicacion actual
 var CenterZoomMapControl = (function (Control) {
@@ -47,6 +71,7 @@ var CenterZoomMapControl = (function (Control) {
 
     return CenterZoomMapControl;
   } (ol.control.Control));
+//Fin Agregar boton ir
 
   //Definicion de capas
   var layers = [
@@ -54,29 +79,37 @@ var CenterZoomMapControl = (function (Control) {
       source: new ol.source.OSM(),
     }),
      new ol.layer.Tile({
-     //extent: [-13884991, 2870341, -7455066, 6338219],
        source: new ol.source.TileWMS({
          url: GEOSERVER,
          params: {'CQL_FILTER':"[cod_nombre=5430]",'LAYERS': CAPAS.calles, 'TILED': true},
          serverType: 'geoserver',
-         // Countries have transparency, so do not fade tiles:
          transition: 0,
+         crossOrigin: 'anonymous',
      })
-     }),/*
-     new ol.layer.Tile({
-     //extent: [-13884991, 2870341, -7455066, 6338219],
-       source: new ol.source.TileWMS({
-         url: 'http://192.168.4.88:8082/geoserver/wms',
-         params: {'LAYERS': 'tsige:ft_00_cam_dig', 'TILED': true},
-         serverType: 'geoserver',
-         // Countries have transparency, so do not fade tiles:
-         transition: 0,
      }),
-     })*/
+     new ol.layer.Tile({
+       source: new ol.source.TileWMS({
+         url: GEOSERVERIMM,
+         params: {'LAYERS': CAPAS.paradas, 'TILED': true},
+         serverType: 'geoserver',
+         transition: 0,
+         crossOrigin: 'anonymous',
+     })
+     }),
+     new ol.layer.Tile({
+       source: new ol.source.TileWMS({
+         url: GEOSERVERIMM,
+         params: {'LAYERS': CAPAS.lineas, 'TILED': true},
+         serverType: 'geoserver',
+         transition: 0,
+         crossOrigin: 'anonymous',
+     })
+     }),
   ];
+//Fin de definición de capas
 
-  //Usar la locaclizacion actual
-  var geolocation = new ol.Geolocation({
+//Usar la locaclizacion actual
+var geolocation = new ol.Geolocation({
     // enableHighAccuracy must be set to true to have the heading value.
     trackingOptions: {
       enableHighAccuracy: true,
@@ -94,6 +127,8 @@ var CenterZoomMapControl = (function (Control) {
   geolocation.on('change:accuracyGeometry', function () {
     accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
   });
+  
+  
 
   var positionFeature = new ol.Feature();
   positionFeature.setStyle(
@@ -124,7 +159,9 @@ var CenterZoomMapControl = (function (Control) {
     view.centerOn(coordinates, size, [x, y]);
   });
 
+//Fin de localización actual
 
+//Creacion de mapa
   var map = new ol.Map({
     layers: layers,
     controls: ol.control.defaults().extend([new CenterZoomMapControl()]),
@@ -132,6 +169,9 @@ var CenterZoomMapControl = (function (Control) {
     view: view,
   });
 
+//Fin de creacion de mapa
+
+//Modificacion de mapa con ubicación actual
 
   new ol.layer.Vector({
     map: map,
@@ -141,9 +181,42 @@ var CenterZoomMapControl = (function (Control) {
   });
 
   geolocation.setTracking(true);
-
+//Fin de modificacion de mapa con ubicación actual
 
 //Se arregla texto del zoom-out
 var button = $ds("button.ol-zoom-out");
 $ds(button).html("-");
 
+
+map.on('singleclick', function (evt) {
+  //document.getElementById('info').innerHTML = '';
+  
+  console.log(evt);
+  console.log(layers[3]);
+  
+  var viewResolution = /** @type {number} */ (view.getResolution());
+  var url = layers[3].source.getFeatureInfoUrl(
+    evt.coordinate,
+    viewResolution,
+    'EPSG:32721',
+    {'INFO_FORMAT': 'text/html'}
+  );
+  if (url) {
+    fetch(url)
+      .then(function (response) { return response.text(); })
+      .then(function (html) {
+        console.log(html);
+      });
+  }
+});
+
+map.on('pointermove', function (evt) {
+  if (evt.dragging) {
+    return;
+  }
+  var pixel = map.getEventPixel(evt.originalEvent);
+  var hit = map.forEachLayerAtPixel(pixel, function () {
+    return true;
+  });
+  map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+});
