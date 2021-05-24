@@ -1,0 +1,192 @@
+<html>
+<head>
+<title>BondisUy</title>
+<meta name="keywords">
+<!--Favicon-->
+<link rel="shortcut icon" href="/bondisuy-web/resources/images/favicon.png"
+	type="image/x-icon">
+<link rel="icon" href="/bondisuy-web/resources/images/favicon.png"
+	type="image/x-icon">
+
+</head>
+<body>
+
+<p>
+	<a href="javascript:getLineas();">Lineas</a> 
+</p>
+<p>
+	<a href="javascript:getParadas();">Paradas</a> 
+</p>
+<div id="result">
+</div>
+
+
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery-ui-1.12.1.js"></script>
+
+<script type="text/javascript">
+var $ds = jQuery.noConflict();
+var auxterminal = [];
+var terminal = []
+var linea = [];
+var lineas = [];
+var paradas = [];
+
+function getLineas(){
+	var url = "http://geoserver.montevideo.gub.uy/geoserver/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&typeName=ide:ide_v_uptu_lsv&outputFormat=application/json";
+
+	$ds.ajaxSetup({ mimeType: "text/plain" });
+
+	$ds.getJSON(url)
+		.done(function (data) {
+			//console.log(data);
+			
+			var features = data["features"];
+			for (var lin in features) {
+				var auxlinea = features[lin];
+				var prop = auxlinea["properties"];
+				var auxterm = prop["desc_sublinea"].replace("--", "-").replace("_", "-").replace(" - ", "-").split("-");
+				
+				try{
+					if(!auxterminal.includes(auxterm[0].trim())){
+						auxterminal.push(auxterm[0].trim());
+						terminal.push({"descripcion": auxterm[0].trim(),
+						"geom": auxlinea["geometry"]["coordinates"][0]});
+					}
+					
+					if(auxterm.length>1){
+						if(!auxterminal.includes(auxterm[1].trim())){
+							auxterminal.push(auxterm[1].trim());
+							terminal.push({"descripcion": auxterm[1].trim(),
+							"geom": auxlinea["geometry"]["coordinates"][auxlinea["geometry"]["coordinates"].length - 1]});
+						}
+					}		
+					
+					var newline = { "cod_linea": prop["cod_linea"],
+									"desc_linea": prop["desc_linea"],
+									"type": auxlinea["geometry"]["type"],
+									"coordinates": auxlinea["geometry"]["coordinates"],
+									"origen": auxterm[0].trim(),
+									"destino": auxterm[1]==null?"":auxterm[1].trim()
+									};
+									
+					lineas.push(newline);
+					
+					//linea[prop["cod_linea"]+"_"+ prop["cod_sublinea"]] = newline;
+					
+				}catch(e){
+					console.log(prop["cod_linea"]);
+					console.log(auxlinea);
+				}
+			}
+			$ds('#result').html("");
+			strInsertTerminal();
+			strInsertLinea();
+		})
+		.fail(function (jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
+		
+		
+	console.log(lineas);
+	console.log(terminal);
+	
+}
+
+function strInsertTerminal(){
+	var str = $ds('#result').html();
+	
+	for(var ter in terminal){
+		str += "INSERT INTO ft_terminales (nombre, geom) VALUES ( '" + terminal[ter]["descripcion"] + "', 'POINT(" + terminal[ter]["geom"][0] + " " + terminal[ter]["geom"][1]+ ")');" + "<br>";
+	}
+
+	$ds('#result').html(str);
+}
+
+function strInsertLinea(){
+	var str = $ds('#result').html();
+	
+	for(var lin in lineas){
+		str += "INSERT INTO ft_lineas (cod_linea, desc_linea, id_origen, id_destino, geom) " +
+		" VALUES ( " + lineas[lin]["cod_linea"] + ", " +
+		"'" + lineas[lin]["desc_linea"] + "', " +
+		"(SELECT id FROM ft_terminales WHERE ST_Equals(geom, ST_GeomFromText('POINT(" + lineas[lin]["coordinates"][0][0] + " " + lineas[lin]["coordinates"][0][1] + ")')) LIMIT 1), " +
+		"(SELECT id FROM ft_terminales WHERE ST_Equals(geom, ST_GeomFromText('POINT(" + lineas[lin]["coordinates"][lineas[lin]["coordinates"].length - 1][0] + " " + lineas[lin]["coordinates"][lineas[lin]["coordinates"].length-1][1] + ")')) LIMIT 1), " +
+		"'LINESTRING(" ;
+		for(var i =0; i < lineas[lin]["coordinates"].length; i++){
+			str += lineas[lin]["coordinates"][i][0] + " " + lineas[lin]["coordinates"][i][1];
+			if(i < lineas[lin]["coordinates"].length -1)
+				str += ",";
+		}
+		
+		str += ")');" + "<br>";
+	}
+
+	$ds('#result').html(str);
+}
+
+
+function getParadas(){
+	var url = "http://geoserver.montevideo.gub.uy/geoserver/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&typeName=imm:uptu_ubic_parada&outputFormat=application/json";
+
+	$ds.ajaxSetup({ mimeType: "text/plain" });
+
+	$ds.getJSON(url)
+		.done(function (data) {
+			//console.log(data);
+			
+			var features = data["features"];
+			for (var lin in features) {
+				var auxlinea = features[lin];
+				var geom = auxlinea["geometry"];
+				var prop = auxlinea["properties"];
+				
+				try{
+					
+					var newParada = { "cod_parada": prop["cod_ubic_parada"],
+									"desc_parada": prop["desc_ubic_parada"],
+									"cod_via_1": prop["cod_nombre_via_1"],
+									"cod_via_2": prop["cod_nombre_via_2"],
+									"geom": geom["coordinates"]
+									};
+									
+					paradas.push(newParada);
+					
+				}catch(e){
+					console.log(prop["cod_ubic_parada"]);
+					console.log(auxlinea);
+				}
+			}
+			$ds('#result').html("");
+			strInsertParada();
+		})
+		.fail(function (jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
+		
+		
+	console.log(paradas);
+}
+
+function strInsertParada(){
+	var str = "";
+	
+	for(var par in paradas){
+		str += "INSERT INTO ft_paradas (cod_parada, desc_parada, cod_via_1, cod_via_2, geom) "+ 
+		"VALUES ( " + paradas[par]["cod_parada"] + ", " +
+		"'" + paradas[par]["desc_parada"] + "', " +
+		paradas[par]["cod_via_1"] + ", " +
+		paradas[par]["cod_via_2"] + ", " +
+		"'POINT(" + paradas[par]["geom"][0] + " " + paradas[par]["geom"][1]+ ")');" + "<br>";
+	}
+
+	$ds('#result').html(str);
+}
+
+
+</script>
+
+</body>
+</html>
