@@ -12,6 +12,10 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>BondisUY</title>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="webjars/bootstrap/4.6.0-1/css/bootstrap.min.css">
+
+
 <!-- plugins:css -->
 <link rel="stylesheet"
 	href="/bondisuy-web/resources/assets/vendors/mdi/css/materialdesignicons.min.css">
@@ -165,6 +169,8 @@
 		</div>
 		<!-- page-body-wrapper ends -->
 	</div>
+	
+	<div id="mappopup" data-toggle="popover" data-placement="top" data-content=""></div>
 
 	<div class="modal" tabindex="-1" role="dialog" id="general_error">
 		<div class="modal-dialog" role="document">
@@ -195,11 +201,23 @@
 
 
 
-	<!-- container-scroller -->
-	<!-- plugins:js -->
+	<!-- jquery -->
+	<script
+		src="/bondisuy-web/resources/js/jquery.min.js"></script>
+
+	<!-- plugins:js-->
 	<script
 		src="/bondisuy-web/resources/assets/vendors/js/vendor.bundle.base.js"></script>
+		
+		 
 	<!-- endinject -->
+<!-- Popper --> 
+<script type="text/javascript" src='webjars/popper.js/1.12.9-1/umd/popper.min.js'></script>
+<!-- <script type="text/javascript" src='webjars/jquery-ui/1.12.1/jquery-ui.min.js'></script> -->
+<!-- Bootstrap JS--> 
+<script type="text/javascript" src='webjars/bootstrap/4.6.0-1/js/bootstrap.min.js'></script>
+<script type="text/javascript" src='webjars/bootstrap/4.6.0-1/js/bootstrap.bundle.min.js'></script>
+
 	<!-- Plugin js for this page -->
 	<script
 		src="/bondisuy-web/resources/assets/vendors/jvectormap/jquery-jvectormap.min.js"></script>
@@ -216,15 +234,18 @@
 	<!-- Custom js for this page -->
 	<script src="/bondisuy-web/resources/assets/js/dashboard.js"></script>
 
-	<!-- Verificador de formnularios Login y Registro  
-	<script src="/bondisuy-web/resources/js/user-verification.js"></script>
-	-->
 	<!-- OpenLayer -->
 	<script type="text/javascript" src='webjars/openlayers/6.5.0/ol.js'></script>
 
-	<!-- Bondisuy -->
+	<!-- Bondisuy --> 
+	<script src="/bondisuy-web/resources/js/proj4js-combined.js"></script>
+	<script src="/bondisuy-web/resources/js/defs/EPSG32721.js"></script>
 	<script src="/bondisuy-web/resources/js/bondisuy.js"></script>
+	<script src="/bondisuy-web/resources/js/bondisuy_map_var.js"></script>
+	<script src="/bondisuy-web/resources/js/bondisuy_map_style.js"></script>
 	<script src="/bondisuy-web/resources/js/bondisuy_map.js"></script>
+	<script src="/bondisuy-web/resources/js/bondisuy_map_query.js"></script>
+
 
 	<!-- End custom js for this page -->
 
@@ -234,11 +255,6 @@
 		</script>
 		<c:remove var="MENSAJE_ERROR_LOGIN" scope="session" />
 	</c:if>
-
-
-
-
-
 
 </body>
 </html>

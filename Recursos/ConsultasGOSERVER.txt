@@ -1,0 +1,7 @@
+Todas las Paradas:
+Formato devuelto: JSON
+http://127.0.0.1:8080/geoserver/wms?request=getfeature&version=1.0.0&service=wfs&typename=bondisuy:ft_paradas&outputformat=json
+
+Paradas cercanas:
+Formato devuelto: JSON
+http://127.0.0.1:8080/geoserver/wfs?request=getfeature&version=1.0.0&service=wfs&typename=bondisuy:ft_paradas&outputformat=json&cql_filter=DWITHIN(geom,Point(X Y),DISTANCIA,meters)

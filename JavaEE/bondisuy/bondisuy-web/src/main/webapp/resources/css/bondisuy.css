@@ -43,6 +43,13 @@ body *::-webkit-scrollbar-thumb
     background-color: var(--dark);
 }
 
+.popover-body {
+    padding: 0.5rem 0.75rem;
+    color: var(--secondary);
+}
+
+
+
 .nav-link {
 	color: #ffa068 !important;
 }

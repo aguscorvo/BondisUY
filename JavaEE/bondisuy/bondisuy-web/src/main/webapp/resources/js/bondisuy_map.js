@@ -1,40 +1,28 @@
-var coordinates = null;
-var GEOSERVER = 'http://bondisuy.web.elasticloud.uy/geoserver/wms';
-var GEOSERVERIMM = 'http://geoserver.montevideo.gub.uy/geoserver/wms';
-var CAPAS = {
-	'calles': 'bondisuy:ft_ejes',
-	'paradas': 'stm_paradas',
-	'lineas': 'ide:ide_v_uptu_lsv',
-	'terminal': 'bondisuy:ft_terminal'
-};
-
-/**
- * 
-import 'ol/ol.css';
-import Map from 'ol/Map';
-import View from 'ol/View';
-import {Circle as CircleStyle, Fill, Stroke, Style} from 'ol/style';
-import {Draw, Modify, Snap} from 'ol/interaction';
-import {OSM, Vector as VectorSource} from 'ol/source';
-import {Tile as TileLayer, Vector as VectorLayer} from 'ol/layer';
- */
-
-
-
-
-
-
 
 
 //Capa de Vista
 var view = new ol.View({
+	projection: 'EPSG:4326',
+	//projection: projection32721,
 	center: ol.proj.fromLonLat([-56.17938, -34.86157]),
 	zoom: 15,
 	minZoom: 11,
-	maxZoom: 15,
+	maxZoom: 16,
 });
 //Fin Capa de Vista
 
+function removeAllLayers() {
+	var layerArray, len, layer;
+	layerArray = map.getLayers().getArray(),
+
+		len = layerArray.length;
+
+	for (var i = len - 1; i > 1; i--) {
+		layer = layerArray[i];
+		map.removeLayer(layer);
+	}
+
+}
 
 //Agregar boton ir a mi ubicacion actual
 var CenterZoomMapControl = (function(Control) {
@@ -45,11 +33,9 @@ var CenterZoomMapControl = (function(Control) {
 		button.title = "Mi ubicaci\u00F3n"
 		button.innerHTML = '<i class="mdi mdi-crosshairs-gps"></i>';
 
-
 		var element = document.createElement('div');
 		element.className = 'bondisuy-centerzoom-map ol-unselectable ol-control';
 		element.appendChild(button);
-
 
 		ol.control.Control.call(this, {
 			element: element,
@@ -76,29 +62,50 @@ var CenterZoomMapControl = (function(Control) {
 }(ol.control.Control));
 //Fin Agregar boton ir
 
-//Agregar boton corregir ubicacion actual
-
-var sourceNU = new ol.source.Vector({ wrapX: false });
-
-var vectorNU = new ol.layer.Vector({
-	source: sourceNU,
+//Source de Nueva Localizacion
+var sourceNuevaLocalizacion = new ol.source.Vector({
+	name: 'NuevaLocalizacion',
+	wrapX: false,
 });
 
-var drawNU;
+//Vector de Nueva Localización
+var vectorNuevaLocalizacion = new ol.layer.Vector({
+	source: sourceNuevaLocalizacion,
+	style: styles[0],
+});
+
+// removes the last feature from the vector source.
+var removeLastFeature = function() {
+	if (lastFeature)
+		sourceNuevaLocalizacion.removeFeature(lastFeature);
+};
 
 function addInteraction() {
-	drawNU = new ol.interaction.Draw({
-		source: sourceNU,
+	drawNuevaLocalizacion = new ol.interaction.Draw({
+		source: sourceNuevaLocalizacion,
 		type: 'Point',
 	});
 
-	drawNU.on('drawend', function(evt) {
+	sourceNuevaLocalizacion.on('addfeature', function(evt) {
+		removeAllLayers();
+		var feature = evt.feature;
+		coordinates = feature.getGeometry().getCoordinates();
 
-		alert("SE TIENE QUE BORRAR EL PUNTO ANTERIOR Y LA GEOLOCALIZACION ACTUAL\nASí como buscar las paradas cercanas");
+		var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
+		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+		getParadasCercanas([point32721['x'], point32721['y']], DISTANCIA);
 	});
 
-	map.addInteraction(drawNU);
+	drawNuevaLocalizacion.on('drawend', function(evt) {
+		removeLastFeature();
+		lastFeature = evt.feature;
+		map.removeInteraction(drawNuevaLocalizacion);
+		removeLocFeature();
 
+	});
+
+	map.addInteraction(drawNuevaLocalizacion);
 }
 
 var SetUbicacion = (function(Control) {
@@ -109,11 +116,9 @@ var SetUbicacion = (function(Control) {
 		button.title = "Corregir ubicaci\u00F3n"
 		button.innerHTML = '<i class="mdi mdi-crosshairs"></i>';
 
-
 		var element = document.createElement('div');
 		element.className = 'bondisuy-setubicacion-map ol-unselectable ol-control';
 		element.appendChild(button);
-
 
 		ol.control.Control.call(this, {
 			element: element,
@@ -121,7 +126,6 @@ var SetUbicacion = (function(Control) {
 		});
 
 		button.addEventListener('click', this.handleSetUbicacion.bind(this), false);
-
 	}
 
 	if (ol.control.Control) SetUbicacion.__proto__ = ol.control.Control;
@@ -129,10 +133,8 @@ var SetUbicacion = (function(Control) {
 	SetUbicacion.prototype.constructor = SetUbicacion;
 
 	SetUbicacion.prototype.handleSetUbicacion = function handleSetUbicacion() {
+
 		if (coordinates != null) {
-			//this.getMap().getView().setCenter(coordinates);
-			//this.getMap().getView().setZoom(15);
-			//alert("Dibujar un punto nuevo");
 			addInteraction();
 
 		}
@@ -141,12 +143,6 @@ var SetUbicacion = (function(Control) {
 	return SetUbicacion;
 }(ol.control.Control));
 //Fin Agregar Corregir ubicacion
-
-
-
-
-
-//Fin de definición de capas
 
 //Usar la locaclizacion actual
 var geolocation = new ol.Geolocation({
@@ -160,93 +156,84 @@ var geolocation = new ol.Geolocation({
 // handle geolocation error.
 geolocation.on('error', function(error) {
 	//bondisuy_msgError(error.message);
-	bondisuy_msgError("Error al obtener la localización del dispositivo\n [" + error.message + "]");
+
+	bondisuy_msgError("Error al obtener la localizaci\u00F3n del dispositivo\n [" + error.message + "]");
 });
 
 var accuracyFeature = new ol.Feature();
+
 geolocation.on('change:accuracyGeometry', function() {
 	accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
 });
-
-
-
-var positionFeature = new ol.Feature();
-positionFeature.setStyle(
-	new ol.style.Style({
-		image: new ol.style.Circle({
-			radius: 6,
-			fill: new ol.style.Fill({
-				color: '#3399CC',
-			}),
-			stroke: new ol.style.Stroke({
-				color: '#fff',
-				width: 2,
-			}),
-		}),
-	})
-);
 
 //Central el mapa en la localizacion actual
 geolocation.on('change:position', function() {
 	coordinates = geolocation.getPosition();
 	positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
 
-	//centro el mapa en la geolocalizacion
 	var size = map.getSize();
 	var x = document.getElementById("map").clientWidth / 2;
 	var y = document.getElementById("map").clientHeight / 2;
 
 	view.centerOn(coordinates, size, [x, y]);
+
+	var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
+	var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+	getParadasCercanas([point32721['x'], point32721['y']], DISTANCIA);
+
 });
 
+// remove localizacion detectada 
+var removeLocFeature = function() {
+	sourceLocActual.clear();
+
+};
 //Fin de localización actual
-
-
-
 
 //Definicion de capas
 var layers = [
 	new ol.layer.Tile({
 		source: new ol.source.OSM(),
 	}),
-	vectorNU,
+	vectorNuevaLocalizacion,
 	/*
-	new ol.layer.Tile({
-		source: new ol.source.TileWMS({
-			url: GEOSERVER,
-			params: { 'CQL_FILTER': "[cod_nombre=5430]", 'LAYERS': CAPAS.calles, 'TILED': true },
-			serverType: 'geoserver',
-			transition: 0,
-			crossOrigin: 'anonymous',
-		})
-	}),
-	new ol.layer.Tile({
-		source: new ol.source.TileWMS({
-			url: GEOSERVER,
-			params: {  'LAYERS': CAPAS.terminal, 'TILED': true },
-			serverType: 'geoserver',
-			transition: 0,
-			crossOrigin: 'anonymous',
-		})
-	}),
-	new ol.layer.Tile({
-		source: new ol.source.TileWMS({
-			url: GEOSERVERIMM,
-			params: { 'LAYERS': CAPAS.paradas, 'TILED': true },
-			serverType: 'geoserver',
-			transition: 0,
-			crossOrigin: 'anonymous',
-		})
-	}),
-	new ol.layer.Tile({
-		source: new ol.source.TileWMS({
-			url: GEOSERVERIMM,
-			params: { 'LAYERS': CAPAS.lineas, 'TILED': true },
-			serverType: 'geoserver',
-			transition: 0,
-			crossOrigin: 'anonymous',
-		})
-	}),*/
+		new ol.layer.Tile({
+			source: new ol.source.TileWMS({
+				url: GEOSERVER,
+				params: { 'LAYERS': CAPAS.paradas, 'TILED': true },
+				serverType: 'geoserver',
+				transition: 0,
+				crossOrigin: 'anonymous',
+			})
+		}),
+		new ol.layer.Tile({
+			source: new ol.source.TileWMS({
+				url: GEOSERVER,
+				params: {  'LAYERS': CAPAS.terminal, 'TILED': true },
+				serverType: 'geoserver',
+				transition: 0,
+				crossOrigin: 'anonymous',
+			})
+		}),
+		new ol.layer.Tile({
+			source: new ol.source.TileWMS({
+				url: GEOSERVERIMM,
+				params: { 'LAYERS': CAPAS.paradas, 'TILED': true },
+				serverType: 'geoserver',
+				transition: 0,
+				crossOrigin: 'anonymous',
+			})
+		}),
+		new ol.layer.Tile({
+			source: new ol.source.TileWMS({
+				url: GEOSERVERIMM,
+				params: { 'LAYERS': CAPAS.lineas, 'TILED': true },
+				serverType: 'geoserver',
+				transition: 0,
+				crossOrigin: 'anonymous',
+			})
+		}),*/
 ];
 //Creacion de mapa
 var map = new ol.Map({
@@ -259,12 +246,15 @@ var map = new ol.Map({
 //Fin de creacion de mapa
 
 //Modificacion de mapa con ubicación actual
+var sourceLocActual = new ol.source.Vector({
+	name: 'LocalizacionActual',
+	features: [accuracyFeature, positionFeature],
+});
 
-var ubicacionactual = new ol.layer.Vector({
+var vectorLocActual = new ol.layer.Vector({
 	map: map,
-	source: new ol.source.Vector({
-		features: [accuracyFeature, positionFeature],
-	}),
+	source: sourceLocActual,
+	zIndex: 2,
 });
 
 geolocation.setTracking(true);
@@ -274,36 +264,98 @@ geolocation.setTracking(true);
 var button = $ds("button.ol-zoom-out");
 $ds(button).html("-");
 
+//Creacion de marcadores 
+//List de objetos: {descripcion: TEXT, coordenadas: [lat, long], img: SRC }
+function addMarcadores(list, typeSource) {
+	var marcadores = [];
+	var puntos = [];
 
-map.on('singleclick', function(evt) {
-	//document.getElementById('info').innerHTML = '';
+	for (var lst in list) {
 
-	//	console.log(evt);
-	//	console.log(layers[3]);
+		puntos.push(list[lst]['coordenadas']);
 
-	//	var viewResolution = /** @type {number} */ (view.getResolution());
-	//	var url = layers[3].source.getFeatureInfoUrl(
-	//		evt.coordinate,
-	//		viewResolution,
-	//		'EPSG:32721',
-	//		{ 'INFO_FORMAT': 'text/html' }
-	//	);
-	//	if (url) {
-	//		fetch(url)
-	//			.then(function(response) { return response.text(); })
-	//			.then(function(html) {
-	//				console.log(html);
-	//			});
-	//	}
-});
+		let marcador = new ol.Feature({
+			geometry: new ol.geom.Point(list[lst]['coordenadas']),// En dónde se va a ubicar
+			name: list[lst]['descripcion']
+		});
 
-map.on('pointermove', function(evt) {
-	if (evt.dragging) {
-		return;
+		// Agregamos icono
+		let IconStyle = new ol.style.Style({
+			image: new ol.style.Icon({
+				anchor: [0.5, 46],
+				anchorXUnits: 'fraction',
+				anchorYUnits: 'pixels',
+				opacity: 1,
+				src: list[lst]['img']
+			}),
+		});
+		marcador.setStyle(IconStyle);
+
+		marcadores.push(marcador);// Agregamos el marcador al arreglo
 	}
-	var pixel = map.getEventPixel(evt.originalEvent);
-	var hit = map.forEachLayerAtPixel(pixel, function() {
-		return true;
+
+	var marcadoresSource = new ol.source.Vector({
+		options: {
+			projection: projectionSRS,
+		},
+		name: "marcadores",
+		features: marcadores, // Ponemos los marcadores a la capa
 	});
-	map.getTargetElement().style.cursor = hit ? 'pointer' : '';
+
+	var capa = new ol.layer.Vector({
+		source: marcadoresSource,
+		zIndex: 3,
+	});
+
+	//Removemos todas las capas del mapa
+	//removeAllLayers();
+	// Agregamos la capa al mapa
+	map.addLayer(capa);
+
+}
+
+var element = document.getElementById('mappopup');
+
+var popup = new ol.Overlay({
+	element: element,
+	positioning: 'bottom-center',
+	stopEvent: false,
+	offset: [0, -50],
+
 });
+
+map.addOverlay(popup);
+
+
+map.on('click', function(evt) {
+	var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+		return feature;
+	});
+
+	$ds('#mappopup').popover('dispose');
+
+	if (feature) {
+		popup.setPosition(feature.getGeometry().getCoordinates());
+		var contenido = '';
+
+		if (feature.get('name') != undefined) {
+			contenido = feature.get('name');
+			$ds('#mappopup').popover('dispose');
+		}
+
+		$ds('#mappopup').popover({
+			placement: 'top',
+			html: true,
+			title: 'Informaci\u00F3n',
+			content: contenido,
+		});
+
+		if (!(feature.get('name') == undefined || feature.get('name') == ""))
+			$ds('#mappopup').popover('show');
+		feature = undefined;
+	} else {
+		$ds('#mappopup').popover('dispose');
+	}
+});
+
+

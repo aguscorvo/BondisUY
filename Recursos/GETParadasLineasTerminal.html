@@ -98,7 +98,7 @@ function strInsertTerminal(){
 	var str = $ds('#result').html();
 	
 	for(var ter in terminal){
-		str += "INSERT INTO ft_terminales (nombre, geom) VALUES ( '" + terminal[ter]["descripcion"] + "', 'POINT(" + terminal[ter]["geom"][0] + " " + terminal[ter]["geom"][1]+ ")');" + "<br>";
+		str += "INSERT INTO ft_terminales (nombre, geom) VALUES ( '" + terminal[ter]["descripcion"] + "', ST_GeometryFromText('POINT(" + terminal[ter]["geom"][0] + " " + terminal[ter]["geom"][1]+ ")', 32721));" + "<br>";
 	}
 
 	$ds('#result').html(str);
@@ -113,14 +113,14 @@ function strInsertLinea(){
 		"'" + lineas[lin]["desc_linea"] + "', " +
 		"(SELECT id FROM ft_terminales WHERE ST_Equals(geom, ST_GeomFromText('POINT(" + lineas[lin]["coordinates"][0][0] + " " + lineas[lin]["coordinates"][0][1] + ")')) LIMIT 1), " +
 		"(SELECT id FROM ft_terminales WHERE ST_Equals(geom, ST_GeomFromText('POINT(" + lineas[lin]["coordinates"][lineas[lin]["coordinates"].length - 1][0] + " " + lineas[lin]["coordinates"][lineas[lin]["coordinates"].length-1][1] + ")')) LIMIT 1), " +
-		"'LINESTRING(" ;
+		"ST_GeometryFromText('LINESTRING(" ;
 		for(var i =0; i < lineas[lin]["coordinates"].length; i++){
 			str += lineas[lin]["coordinates"][i][0] + " " + lineas[lin]["coordinates"][i][1];
 			if(i < lineas[lin]["coordinates"].length -1)
 				str += ",";
 		}
 		
-		str += ")');" + "<br>";
+		str += ")', 32721));" + "<br>";
 	}
 
 	$ds('#result').html(str);
@@ -179,7 +179,7 @@ function strInsertParada(){
 		"'" + paradas[par]["desc_parada"] + "', " +
 		paradas[par]["cod_via_1"] + ", " +
 		paradas[par]["cod_via_2"] + ", " +
-		"'POINT(" + paradas[par]["geom"][0] + " " + paradas[par]["geom"][1]+ ")');" + "<br>";
+		"ST_GeometryFromText('POINT(" + paradas[par]["geom"][0] + " " + paradas[par]["geom"][1]+ ")',32721));" + "<br>";
 	}
 
 	$ds('#result').html(str);
