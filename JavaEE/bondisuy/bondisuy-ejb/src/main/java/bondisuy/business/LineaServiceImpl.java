@@ -55,6 +55,8 @@ public class LineaServiceImpl implements ILineaService {
 	@Override
 	public LineaDTO crear(LineaCrearDTO lineaDTO) throws BondisUyException{
 		try {
+			Linea lineaAux = lineaDAO.listarPorId(lineaDTO.getId());
+			if(lineaAux!=null) throw new BondisUyException("El id indicado ya se encuentra en uso.", BondisUyException.EXISTE_REGISTRO);
 			Compania compania = companiaDAO.listarPorId(lineaDTO.getCompania());
 			if(compania==null) throw new BondisUyException("La compania indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO); 
 			Linea linea = lineaConverter.fromCrearDTO(lineaDTO);

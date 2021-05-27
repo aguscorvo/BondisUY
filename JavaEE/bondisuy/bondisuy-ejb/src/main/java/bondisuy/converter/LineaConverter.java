@@ -45,6 +45,7 @@ public class LineaConverter extends AbstractConverter<Linea, LineaDTO>{
 	public Linea fromCrearDTO(LineaCrearDTO l) {
 		if(l==null) return null;
 		return Linea.builder()
+				.id(l.getId())
 				.nombre(l.getNombre())
 				.origen(l.getOrigen())
 				.destino(l.getDestino())

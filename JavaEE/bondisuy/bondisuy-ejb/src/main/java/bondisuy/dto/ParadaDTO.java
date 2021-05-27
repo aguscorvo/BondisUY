@@ -1,5 +1,7 @@
 package bondisuy.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,5 +16,9 @@ import lombok.Setter;
 public class ParadaDTO {
 
 	private Long id;
+	private String descripcion;
+	private Long codVia1;
+	private Long codVia2;
 	private Boolean habilitada;
+	private List<HorarioDTO> horarios;
 }

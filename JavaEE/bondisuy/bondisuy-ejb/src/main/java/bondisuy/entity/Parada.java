@@ -24,14 +24,22 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "paradas")
+@Table(name = "ft_paradas")
 public class Parada implements Serializable{
 
 private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name = "descripcion")
+	private String descripcion;
+	
+	@Column(name = "codVia1")
+	private Long codVia1;
+	
+	@Column(name = "codVia2")
+	private Long codVia2;
 	
 	@Column(name = "habilitada")
 	private Boolean habilitada;

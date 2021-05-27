@@ -26,14 +26,16 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "recorridos")
+@Table(name = "ft_recorridos")
 public class Recorrido implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@Column(name="descripcion")
+	private String descripcion;
 	
 	@Column(name = "activo")
 	private Boolean activo;

@@ -21,6 +21,7 @@ public class RecorridoConverter extends AbstractConverter<Recorrido, RecorridoDT
 		if (r==null) return null;
 		return RecorridoDTO.builder()
 				.id(r.getId())
+				.descripcion(r.getDescripcion())
 				.activo(r.getActivo())
 				.linea(lineaConverter.fromEntity(r.getLinea()))
 				.horarios(horarioConverter.fromEntity(r.getHorarios()))
@@ -32,6 +33,7 @@ public class RecorridoConverter extends AbstractConverter<Recorrido, RecorridoDT
 		if(r==null) return null;
 		return Recorrido.builder()
 				.id(r.getId())
+				.descripcion(r.getDescripcion())
 				.activo(r.getActivo())
 				.linea(lineaConverter.fromDTO(r.getLinea()))
 				.horarios(horarioConverter.fromDTO(r.getHorarios()))
@@ -41,6 +43,8 @@ public class RecorridoConverter extends AbstractConverter<Recorrido, RecorridoDT
 	public Recorrido fromCrearDTO(RecorridoCrearDTO r) {
 		if(r==null) return null;
 		return Recorrido.builder()
+				.id(r.getId())
+				.descripcion(r.getDescripcion())
 				.activo(r.getActivo())
 				.build();
 	}

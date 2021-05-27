@@ -16,6 +16,7 @@ import lombok.Setter;
 public class RecorridoDTO {
 
 	private Long id;
+	private String descripcion;
 	private Boolean activo;
 	private LineaDTO linea;
 	private List<HorarioDTO> horarios;
