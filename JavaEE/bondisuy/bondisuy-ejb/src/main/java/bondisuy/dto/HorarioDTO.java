@@ -15,7 +15,7 @@ public class HorarioDTO {
 	
 	private Long id;
 	private String hora;
-	private RecorridoDTO recorrido;
-	private ParadaDTO parada;
+	private RecorridoMinDTO recorrido;
+	private ParadaMinDTO parada;
 
 }

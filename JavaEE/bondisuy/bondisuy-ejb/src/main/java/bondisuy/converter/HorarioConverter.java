@@ -24,8 +24,8 @@ public class HorarioConverter extends AbstractConverter<Horario, HorarioDTO>{
 		return HorarioDTO.builder()
 				.id(h.getId())
 				.hora(h.getHora().toString())
-				.recorrido(recorridoConverter.fromEntity(h.getRecorrido()))
-				.parada(paradaConverter.fromEntity(h.getParada()))
+				.recorrido(recorridoConverter.fromEntityToMin(h.getRecorrido()))
+				.parada(paradaConverter.fromEntityToMin(h.getParada()))
 				.build();
 	}
 	
@@ -35,8 +35,8 @@ public class HorarioConverter extends AbstractConverter<Horario, HorarioDTO>{
 		return Horario.builder()
 				.id(h.getId())
 				.hora(LocalTime.parse(h.getHora()))
-				.recorrido(recorridoConverter.fromDTO(h.getRecorrido()))
-				.parada(paradaConverter.fromDTO(h.getParada()))
+				.recorrido(recorridoConverter.fromMinDTO(h.getRecorrido()))
+				.parada(paradaConverter.fromMinDTO(h.getParada()))
 				.build();
 	}
 	

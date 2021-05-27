@@ -5,6 +5,7 @@ import javax.ejb.Singleton;
 
 import bondisuy.dto.LineaCrearDTO;
 import bondisuy.dto.LineaDTO;
+import bondisuy.dto.LineaMinDTO;
 import bondisuy.entity.Linea;
 
 @Singleton
@@ -49,6 +50,28 @@ public class LineaConverter extends AbstractConverter<Linea, LineaDTO>{
 				.nombre(l.getNombre())
 				.origen(l.getOrigen())
 				.destino(l.getDestino())
+				.build();
+	}
+	
+	public LineaMinDTO fromEntityToMin (Linea l) {
+		if(l==null) return null;
+		return LineaMinDTO.builder()
+				.id(l.getId())
+				.nombre(l.getNombre())
+				.origen(l.getOrigen())
+				.destino(l.getDestino())
+				.compania(companiaConverter.fromEntity(l.getCompania()))
+				.build();
+	}
+	
+	public Linea fromMinDTO(LineaMinDTO l) {
+		if(l==null) return null;
+		return Linea.builder()
+				.id(l.getId())
+				.nombre(l.getNombre())
+				.origen(l.getOrigen())
+				.destino(l.getDestino())
+				.compania(companiaConverter.fromDTO(l.getCompania()))
 				.build();
 	}
 }
