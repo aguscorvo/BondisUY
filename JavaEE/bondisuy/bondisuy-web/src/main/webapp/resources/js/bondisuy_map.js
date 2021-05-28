@@ -5,8 +5,8 @@ var view = new ol.View({
 	projection: 'EPSG:4326',
 	//projection: projection32721,
 	center: ol.proj.fromLonLat([-56.17938, -34.86157]),
-	zoom: 15,
-	minZoom: 11,
+	zoom: ZOOMDEFECTO,
+	minZoom: 12,
 	maxZoom: 16,
 });
 //Fin Capa de Vista
@@ -52,8 +52,9 @@ var CenterZoomMapControl = (function(Control) {
 
 	CenterZoomMapControl.prototype.handleCenterZoomMap = function handleCenterZoomMap() {
 		if (coordinates != null) {
-			this.getMap().getView().setCenter(coordinates);
-			this.getMap().getView().setZoom(15);
+			//this.getMap().getView().setCenter(coordinates);
+			//this.getMap().getView().setZoom(15);
+			centerMap(coordinates);
 		}
 	};
 
@@ -81,6 +82,9 @@ var removeLastFeature = function() {
 };
 
 function addInteraction() {
+	//Se deshabilita la geolocalizacion
+	geolocation.setTracking(false);
+
 	drawNuevaLocalizacion = new ol.interaction.Draw({
 		source: sourceNuevaLocalizacion,
 		type: 'Point',
@@ -155,8 +159,6 @@ var geolocation = new ol.Geolocation({
 
 // handle geolocation error.
 geolocation.on('error', function(error) {
-	//bondisuy_msgError(error.message);
-
 	bondisuy_msgError("Error al obtener la localizaci\u00F3n del dispositivo\n [" + error.message + "]");
 });
 
@@ -164,6 +166,7 @@ var accuracyFeature = new ol.Feature();
 
 geolocation.on('change:accuracyGeometry', function() {
 	accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
+	//removeAllLayers();
 });
 
 //Central el mapa en la localizacion actual
@@ -206,33 +209,6 @@ var layers = [
 				transition: 0,
 				crossOrigin: 'anonymous',
 			})
-		}),
-		new ol.layer.Tile({
-			source: new ol.source.TileWMS({
-				url: GEOSERVER,
-				params: {  'LAYERS': CAPAS.terminal, 'TILED': true },
-				serverType: 'geoserver',
-				transition: 0,
-				crossOrigin: 'anonymous',
-			})
-		}),
-		new ol.layer.Tile({
-			source: new ol.source.TileWMS({
-				url: GEOSERVERIMM,
-				params: { 'LAYERS': CAPAS.paradas, 'TILED': true },
-				serverType: 'geoserver',
-				transition: 0,
-				crossOrigin: 'anonymous',
-			})
-		}),
-		new ol.layer.Tile({
-			source: new ol.source.TileWMS({
-				url: GEOSERVERIMM,
-				params: { 'LAYERS': CAPAS.lineas, 'TILED': true },
-				serverType: 'geoserver',
-				transition: 0,
-				crossOrigin: 'anonymous',
-			})
 		}),*/
 ];
 //Creacion de mapa
@@ -257,6 +233,7 @@ var vectorLocActual = new ol.layer.Vector({
 	zIndex: 2,
 });
 
+//Se habilita la geolocalizacion
 geolocation.setTracking(true);
 //Fin de modificacion de mapa con ubicación actual
 
@@ -298,17 +275,15 @@ function addMarcadores(list, typeSource) {
 		options: {
 			projection: projectionSRS,
 		},
-		name: "marcadores",
 		features: marcadores, // Ponemos los marcadores a la capa
 	});
 
 	var capa = new ol.layer.Vector({
+		name: typeSource,
 		source: marcadoresSource,
 		zIndex: 3,
 	});
 
-	//Removemos todas las capas del mapa
-	//removeAllLayers();
 	// Agregamos la capa al mapa
 	map.addLayer(capa);
 
@@ -358,4 +333,19 @@ map.on('click', function(evt) {
 	}
 });
 
+function centerMap(center) {
+	map.getView().setCenter(center);
+	map.getView().setZoom(ZOOMDEFECTO);
+}
 
+function borrarCapaPorNombre(nombre) {
+	for (var lay in map.getLayers().getArray()) {
+		if (!(lay instanceof ol.layer.Group)) {
+			var layer =map.getLayers().getArray()[lay]; 
+			
+			if(layer.get('name') == nombre){
+				map.removeLayer(layer);
+			}
+		}
+	}
+}

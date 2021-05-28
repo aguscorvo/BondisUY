@@ -1,7 +1,9 @@
+GEOSERVER:
+http://geoserver.montevideo.gub.uy/geoserver/wms?service=wms&version=1.3.0&request=GetCapabilities
 Paradas:
 http://geoserver.montevideo.gub.uy/geoserver/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&typeName=imm:uptu_ubic_parada&outputFormat=application/json
 
-Parada con horarios:
+Parada con lineas:
 http://geoserver.montevideo.gub.uy/geoserver/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&typeName=imm:v_uptu_paradas_con_horarios&outputFormat=application/json
 
 

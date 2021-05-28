@@ -189,27 +189,27 @@
 							</div>
 							<div class="form-group validate-input">
 								<label>Nombre *</label> <input type="text"
-									class="form-control p_input" id="signupName" name="signupName">
-								<div class="p-2 alert alert-warning d-none" id="signupNameError">
+									class="form-control p_input" id="signupNameR" name="signupName">
+								<div class="p-2 alert alert-warning d-none" id="signupNameRError">
 									<i class="fas fa-exclamation-triangle" title="Ingrese Nombre"></i>
 								</div>
 							</div>
 							<div class="form-group validate-input">
 								<label>Apellido *</label> <input type="text"
-									class="form-control p_input" id="signupApellido"
+									class="form-control p_input" id="signupApellidoR"
 									name="signupApellido">
 								<div class="p-2 alert alert-warning d-none"
-									id="signupApellidoError">
+									id="signupApellidoRError">
 									<i class="fas fa-exclamation-triangle" title="Ingrese Apellido"></i>
 								</div>
 							</div>
 
 							<div class="form-group  validate-input">
 								<label>Contrase&ntilde;a *</label> <input type="password"
-									class="form-control" id="loginPassword"
+									class="form-control" id="loginPasswordR"
 									name="loginPassword">
 								<div class="p-2 alert alert-warning d-none"
-									id="loginPasswordError">
+									id="loginPasswordRError">
 									<i class="fas fa-exclamation-triangle"
 										title="Ingrese Contrase&ntilde;a"></i>
 								</div>
@@ -217,9 +217,9 @@
 							<div class="form-group  validate-input">
 								<label>Repetir Contrase&ntilde;a *</label> <input
 									type="password" class="form-control"
-									id="signupPasswordVer" name="signupPasswordVer">
+									id="signupPasswordVerR" name="signupPasswordVer">
 								<div class="p-2 alert alert-warning d-none"
-									id="signupPasswordVerError">
+									id="signupPasswordVerRError">
 									<i class="fas fa-exclamation-triangle"
 										title="Ingrese Contrase&ntilde;a"></i>
 								</div>

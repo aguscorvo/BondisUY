@@ -80,8 +80,8 @@ function getLineas(){
 				}
 			}
 			$ds('#result').html("");
-			strInsertTerminal();
-			strInsertLinea();
+			//strInsertTerminal();
+			//strInsertLinea();
 		})
 		.fail(function (jqxhr, textStatus, error) {
 			var err = textStatus + ", " + error;
@@ -92,16 +92,6 @@ function getLineas(){
 	console.log(lineas);
 	console.log(terminal);
 	
-}
-
-function strInsertTerminal(){
-	var str = $ds('#result').html();
-	
-	for(var ter in terminal){
-		str += "INSERT INTO ft_terminales (nombre, geom) VALUES ( '" + terminal[ter]["descripcion"] + "', ST_GeometryFromText('POINT(" + terminal[ter]["geom"][0] + " " + terminal[ter]["geom"][1]+ ")', 32721));" + "<br>";
-	}
-
-	$ds('#result').html(str);
 }
 
 function strInsertLinea(){
@@ -148,7 +138,8 @@ function getParadas(){
 									"desc_parada": prop["desc_ubic_parada"],
 									"cod_via_1": prop["cod_nombre_via_1"],
 									"cod_via_2": prop["cod_nombre_via_2"],
-									"geom": geom["coordinates"]
+									"geom": geom["coordinates"],
+									"habilitada": (prop["comentario_ubic_deshabilitada"]==null?"true":"false")
 									};
 									
 					paradas.push(newParada);
@@ -174,12 +165,13 @@ function strInsertParada(){
 	var str = "";
 	
 	for(var par in paradas){
-		str += "INSERT INTO ft_paradas (cod_parada, desc_parada, cod_via_1, cod_via_2, geom) "+ 
+		str += "INSERT INTO ft_paradas (id, descripcion, codvia1, codvia2, geom, habilitada) "+ 
 		"VALUES ( " + paradas[par]["cod_parada"] + ", " +
 		"'" + paradas[par]["desc_parada"] + "', " +
 		paradas[par]["cod_via_1"] + ", " +
 		paradas[par]["cod_via_2"] + ", " +
-		"ST_GeometryFromText('POINT(" + paradas[par]["geom"][0] + " " + paradas[par]["geom"][1]+ ")',32721));" + "<br>";
+		"ST_GeometryFromText('POINT(" + paradas[par]["geom"][0] + " " + paradas[par]["geom"][1]+ ")',32721), " + 
+		paradas[par]["habilitada"] + ");" + "<br>";
 	}
 
 	$ds('#result').html(str);

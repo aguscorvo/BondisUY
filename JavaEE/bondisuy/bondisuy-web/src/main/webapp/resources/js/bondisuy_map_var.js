@@ -2,8 +2,8 @@ var coordinates = ol.proj.fromLonLat([-56.17938, -34.86157]);
 var projectionSRS = 'EPSG:32721';
 
 //var GEOSERVER = 'http://bondisuy.web.elasticloud.uy/geoserver/wms';
-var GEOSERVER = 'http://127.0.0.1:8080/geoserver/wms';
-var GEOSERVERIMM = 'http://geoserver.montevideo.gub.uy/geoserver/wms';
+var GEOSERVER = '/geoserver/wms';
+//var GEOSERVERIMM = 'http://geoserver.montevideo.gub.uy/geoserver/wms';
 
 var CAPAS = {
 	'calles': 'bondisuy:ft_ejes',
@@ -17,6 +17,15 @@ var FORMATO = {
 };
 
 var DISTANCIA = 500;
+var ZOOMDEFECTO = 16;
+
+var IMAGENES = {
+	'parada': '/bondisuy-web/resources/images/map/IconMapBus.png',
+	'paradadeshabilitada': '/bondisuy-web/resources/images/map/IconMapBusDes.png',
+	'esquina': '/bondisuy-web/resources/images/map/IconMapCorner.png',
+	'direccion': '/bondisuy-web/resources/images/map/IconMapDir.png',
+
+};
 
 // creating source and destination Proj4js objects
 // once initialized, these may be re-used as often as needed

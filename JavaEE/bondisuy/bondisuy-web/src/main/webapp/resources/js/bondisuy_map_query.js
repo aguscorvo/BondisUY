@@ -33,8 +33,8 @@ function getParadasCercanas(coord, distancia) {
 				try {
 
 					//descripcion: TEXT, coordenadas: [lat, long], img: SRC
-					var text = 'Id Parada: ' + prop["cod_parada"] +
-						'<br>Descripci\u00F3n: ' + prop["desc_parada"];
+					var text ='Descripci\u00F3n: ' + prop["descripcion"]  +
+					'<br>Estado: ' +  (prop["habilitada"]?'Habilitada':'Deshabilitada');
 
 					//Transformo del sistema EPSG:32721 a EPSG:4326
 					var point = new Proj4js.Point(geom["coordinates"]);   //any object will do as long as it has 'x' and 'y' properties
@@ -43,7 +43,7 @@ function getParadasCercanas(coord, distancia) {
 					var newParada = {
 						"descripcion": text,
 						"coordenadas": [point4326['x'], point4326['y']],
-						"img": '/bondisuy-web/resources/images/map/IconMapBus.png'
+						"img": (prop["habilitada"]?IMAGENES.parada:IMAGENES.paradadeshabilitada),
 					};
 
 					paradas.push(newParada);

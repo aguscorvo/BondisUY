@@ -13,7 +13,8 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>BondisUY</title>
 <!-- Bootstrap -->
-<link rel="stylesheet" href="webjars/bootstrap/4.6.0-1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="webjars/bootstrap/4.6.0-1/css/bootstrap.min.css">
 
 
 <!-- plugins:css -->
@@ -48,10 +49,9 @@
 			<div
 				class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
 				<a class="sidebar-brand brand-logo" href="#"><img
-					src="/bondisuy-web/resources/images/logo.svg" alt="logo" /></a>
-					  <a
+					src="/bondisuy-web/resources/images/logo.svg" alt="logo" /></a> <a
 					class="sidebar-brand brand-logo-mini" href="#"><img
-					src="/bondisuy-web/resources/images/logo-mini.svg" alt="logo" /></a> 
+					src="/bondisuy-web/resources/images/logo-mini.svg" alt="logo" /></a>
 			</div>
 			<ul class="nav mb-1">
 				<li class="nav-item nav-category"><span class="nav-link">Informaci&oacute;n</span>
@@ -60,21 +60,25 @@
 					data-toggle="collapse" href="#ui-basic" aria-expanded="false"
 					aria-controls="ui-basic"> <span class="menu-icon"> <i
 							class="mdi mdi-filter"></i>
-					</span> <span class="menu-title">Buscar Informaci&oacute;n</span> <i
+					</span> <span class="menu-title"> Buscar Informaci&oacute;n</span> <i
 						class="menu-arrow"></i>
 				</a>
 					<div class="collapse" id="ui-basic">
 						<ul class="nav flex-column sub-menu">
-							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(1);">L&iacute;nea
-									por empresa</a></li>
-							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(2);">L&iacute;nea</a></li>
-							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(3);">Esquina</a></li>
-							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(4);">Direcci&oacute;n</a></li>
-							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(5);">Paradas
-									Habilitadas</a></li>
-							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(6);">Paradas
-									Deshabilitadas</a></li>
-							<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(7);">Avanzado</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:searchOptions(1);">L&iacute;nea por empresa</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:searchOptions(2);">L&iacute;nea</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:searchOptions(3);">Esquina</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:searchOptions(4);">Direcci&oacute;n</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:searchOptions(5);">Paradas Habilitadas</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:searchOptions(6);">Paradas Deshabilitadas</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:searchOptions(7);">Avanzado</a></li>
 						</ul>
 					</div></li>
 				<c:if test="${(sessionScope.USER!=null)}">
@@ -108,35 +112,42 @@
 				<div class="card-body pb-0">
 					<h6 class="card-title">Buscar l&iacute;neas por empresa</h6>
 					<div class="form-group">
-                      <!-- <label for="selectEmpresas">Empresas</label>-->
-                      <select class="form-control form-control-sm text-secondary" id="selectEmpresas">
-                      	<option	value=""></option>
-                      <c:forEach items="${requestScope.COMPANYS}" var="dtCompany">
-							<option	value="${dtCompany.id}">${dtCompany.nombre}</option>
-						</c:forEach>
-                       </select>
-                    </div>
+						<!-- <label for="selectEmpresas">Empresas</label>-->
+						<select class="form-control form-control-sm text-secondary"
+							id="selectEmpresas">
+							<option value=""></option>
+							<c:forEach items="${requestScope.COMPANYS}" var="dtCompany">
+								<option value="${dtCompany.id}">${dtCompany.nombre}</option>
+							</c:forEach>
+						</select>
+					</div>
 				</div>
 				<div class="card">
-	  <div class="card-body p-3">
-		<h7 class="card-title">L&iacute;neas</h7>
-		<div class="row">
-		  <div class="table-responsive" id="selectTableLineas">
-			  <table class="table">
-			  	<thead><tr><th>l&iacute;nea</th><th>origen</th><th>destino</th></tr></thead>
-				<tbody>
-				  <tr>
-					<td></td>
-					<td></td>
-					<td></td>
-				  </tr>
-				</tbody>
-			  </table>
-			</div>
-		</div>
-	  </div>
-	</div>
-    
+					<div class="card-body p-3">
+						<h7 class="card-title">L&iacute;neas</h7>
+						<div class="row">
+							<div class="table-responsive" id="selectTableLineas">
+								<table class="table">
+									<thead>
+										<tr>
+											<th>l&iacute;nea</th>
+											<th>origen</th>
+											<th>destino</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</nav>
 		<!-- partial -->
@@ -148,7 +159,7 @@
 					<a class="navbar-brand brand-logo-mini" href="#"><img
 						src="/bondisuy-web/resources/images/logo-mini.svg" alt="logo" /></a>
 				</div>
- 
+
 				<!-- header -->
 				<c:choose>
 					<c:when test="${(sessionScope.USER!=null)}">
@@ -169,8 +180,9 @@
 		</div>
 		<!-- page-body-wrapper ends -->
 	</div>
-	
-	<div id="mappopup" data-toggle="popover" data-placement="top" data-content=""></div>
+
+	<div id="mappopup" data-toggle="popover" data-placement="top"
+		data-content=""></div>
 
 	<div class="modal" tabindex="-1" role="dialog" id="general_error">
 		<div class="modal-dialog" role="document">
@@ -185,8 +197,7 @@
 				<div class="modal-body">
 					<div class="col-md-3">
 						<h1>
-							<i class="mdi mdi-alert display-3"
-								style="color: #cc0000"></i>
+							<i class="mdi mdi-alert display-3" style="color: #cc0000"></i>
 						</h1>
 					</div>
 					<p id="general_error_msj"></p>
@@ -202,21 +213,23 @@
 
 
 	<!-- jquery -->
-	<script
-		src="/bondisuy-web/resources/js/jquery.min.js"></script>
+	<script src="/bondisuy-web/resources/js/jquery.min.js"></script>
 
 	<!-- plugins:js-->
 	<script
 		src="/bondisuy-web/resources/assets/vendors/js/vendor.bundle.base.js"></script>
-		
-		 
+
+
 	<!-- endinject -->
-<!-- Popper --> 
-<script type="text/javascript" src='webjars/popper.js/1.12.9-1/umd/popper.min.js'></script>
-<!-- <script type="text/javascript" src='webjars/jquery-ui/1.12.1/jquery-ui.min.js'></script> -->
-<!-- Bootstrap JS--> 
-<script type="text/javascript" src='webjars/bootstrap/4.6.0-1/js/bootstrap.min.js'></script>
-<script type="text/javascript" src='webjars/bootstrap/4.6.0-1/js/bootstrap.bundle.min.js'></script>
+	<!-- Popper -->
+	<script type="text/javascript"
+		src='webjars/popper.js/1.12.9-1/umd/popper.min.js'></script>
+	<!-- <script type="text/javascript" src='webjars/jquery-ui/1.12.1/jquery-ui.min.js'></script> -->
+	<!-- Bootstrap JS-->
+	<script type="text/javascript"
+		src='webjars/bootstrap/4.6.0-1/js/bootstrap.min.js'></script>
+	<script type="text/javascript"
+		src='webjars/bootstrap/4.6.0-1/js/bootstrap.bundle.min.js'></script>
 
 	<!-- Plugin js for this page -->
 	<script
@@ -237,9 +250,10 @@
 	<!-- OpenLayer -->
 	<script type="text/javascript" src='webjars/openlayers/6.5.0/ol.js'></script>
 
-	<!-- Bondisuy --> 
+	<!-- Bondisuy -->
 	<script src="/bondisuy-web/resources/js/proj4js-combined.js"></script>
 	<script src="/bondisuy-web/resources/js/defs/EPSG32721.js"></script>
+	<script src="/bondisuy-web/resources/js/bondisuy_func.js"></script>
 	<script src="/bondisuy-web/resources/js/bondisuy.js"></script>
 	<script src="/bondisuy-web/resources/js/bondisuy_map_var.js"></script>
 	<script src="/bondisuy-web/resources/js/bondisuy_map_style.js"></script>

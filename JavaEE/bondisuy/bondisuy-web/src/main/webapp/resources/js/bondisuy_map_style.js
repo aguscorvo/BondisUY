@@ -3,7 +3,7 @@ var positionFeature = new ol.Feature();
 positionFeature.setStyle(
 	new ol.style.Style({
 		image: new ol.style.Circle({
-			radius: 6,
+			radius: 4,
 			fill: new ol.style.Fill({
 				color: '#3399CC',
 			}),
