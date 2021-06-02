@@ -9,7 +9,8 @@ var CAPAS = {
 	'calles': 'bondisuy:ft_ejes',
 	'paradas': 'bondisuy:ft_paradas',
 	'lineas': 'bondisuy:ft_lineas',
-	'terminales': 'bondisuy:ft_terminales'
+	'terminales': 'bondisuy:ft_terminales',
+	'recorridos': 'bondisuy:ft_recorridolinea'
 };
 
 var FORMATO = {
@@ -18,6 +19,7 @@ var FORMATO = {
 
 var DISTANCIA = 500;
 var ZOOMDEFECTO = 16;
+var ZOOMLINEA = 14;
 
 var IMAGENES = {
 	'parada': '/bondisuy-web/resources/images/map/IconMapBus.png',
@@ -26,6 +28,14 @@ var IMAGENES = {
 	'direccion': '/bondisuy-web/resources/images/map/IconMapDir.png',
 
 };
+
+var COMPANY = {
+	'cutcsa': '#314f5f',
+	'coetc': '#cc0033',
+	'ucot': '#fff700',
+	'comesa': '#66cc33',
+};
+
 
 // creating source and destination Proj4js objects
 // once initialized, these may be re-used as often as needed

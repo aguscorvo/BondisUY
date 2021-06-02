@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.tools.sjavac.Log;
 
 import bondisuy.business.ILineaService;
 import bondisuy.dto.LineaDTO;
@@ -79,20 +78,20 @@ public class LineaBondisuy extends HttpServlet {
 				llin = linea.listar();
 			} catch (NumberFormatException | BondisUyException e) {
 				logger.info(e.getMessage().trim());
-				
 			}
 			
 			if(llin!=null) {
-				
-				
 				List<LineaDTO> aux = new ArrayList<LineaDTO>();
 				
 				if(request.getParameter("companyId").equals("ALL")) {
 					aux = llin;
 				} else {
 					for (LineaDTO lin: llin) {
-						if(lin.getCompania().getId()==Long.valueOf(request.getParameter("companyId"))) {
-							aux.add(lin);
+						if(lin.getCompania()!=null) {
+							//logger.info(llin.get(0).getRecorridos().size());
+							if(lin.getCompania().getId()==Long.valueOf(request.getParameter("companyId"))) {
+								aux.add(lin);
+							}
 						}
 					}	
 				}

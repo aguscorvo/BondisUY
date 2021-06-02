@@ -30,7 +30,7 @@ function listarCompany() {
 
 //Listar Lineas por Empresa
 function filtrarLineaByCompany(companyId) {
-	var txttable = '<thead><tr><th>l&iacute;nea</th><th>origen</th><th>destino</th></tr></thead><tbody>';
+	var txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 	if (companyId != '' && companyId != null) {
@@ -49,13 +49,19 @@ function filtrarLineaByCompany(companyId) {
 			.done(function(data) {
 
 				for (var td in data) {
-					txttable += '<tr data-counter_id=' + data[td].id + '><td>' + data[td].nombre + '</td><td>' + data[td].origen + '</td><td>' + data[td].destino + '</td></tr>'
+					var recorridos = data[td].recorridos;
+					for (var rec in recorridos) {
+						if (recorridos[rec].activo) {
+							txttable += '<tr data-counter_id=' + recorridos[rec].id + '><td>' + data[td].nombre + '</td><td>' + recorridos[rec].descripcion + '</td></tr>'
+						}
+					}
 				}
 
 				txttable += '</tbody>';
 
 				$ds(table).html(txttable);
 
+				bondisuy_LoadHide();
 			})
 			.fail(function(jqxhr, textStatus, error) {
 				var err = textStatus + ", " + error;
@@ -192,7 +198,7 @@ function filtrarDireccion(calle, numero, texto) {
 			})
 			.fail(function(jqxhr, textStatus, error) {
 				var err = textStatus + ", " + error;
-				console.err("Request Failed: " + err + "file: " + url);
+				console.log("Request Failed: " + err + "file: " + url);
 			});
 	} else {
 		txttable += '</tbody>';
@@ -205,7 +211,7 @@ function filtrarDireccion(calle, numero, texto) {
 
 //filtrar linea por Nombre
 function filtrarLineaByName(lineaName) {
-	var txttable = '<thead><tr><th>l&iacute;nea</th><th>origen</th><th>destino</th></tr></thead><tbody>';
+	var txttable = '<thead><tr><th>l&iacute;nea</th><th>Detalle</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 	if (lineaName != '') {
@@ -221,17 +227,28 @@ function filtrarLineaByName(lineaName) {
 
 		$ds.getJSON(url)
 			.done(function(data) {
-				for (var td in data) {
-					txttable += '<tr data-counter_id=' + data[td].id + '><td>' + data[td].nombre + '</td><td>' + data[td].origen + '</td><td>' + data[td].destino + '</td></tr>'
+
+				if (!$ds.isEmptyObject(data)) {
+
+					for (var td in data) {
+						var recorridos = data[td].recorridos;
+						for (var rec in recorridos) {
+							if (recorridos[rec].activo) {
+								txttable += '<tr data-counter_id=' + recorridos[rec].id + '><td>' + data[td].nombre + '</td><td>' + recorridos[rec].descripcion + '</td></tr>'
+							}
+						}
+					}
 				}
 
 				txttable += '</tbody>';
 
 				$ds(table).html(txttable);
+
+				bondisuy_LoadHide();
 			})
 			.fail(function(jqxhr, textStatus, error) {
 				var err = textStatus + ", " + error;
-				console.err("Request Failed: " + err + "file: " + url);
+				console.log("Request Failed: " + err + "file: " + url);
 			});
 	} else {
 		txttable += '</tbody>';
@@ -273,6 +290,16 @@ function filtrarEsquinaCalle(idCalle, calleName) {
 			console.log("Request Failed: " + err + "file: " + url);
 		});
 
+}
+
+//Mostrar icono de  espera
+function bondisuy_LoadShow() {
+	$ds('#general_loader').modal('show');
+}
+
+//Ocultar icono de  espera
+function bondisuy_LoadHide() {
+	$ds('#general_loader').modal('hide');
 }
 
 

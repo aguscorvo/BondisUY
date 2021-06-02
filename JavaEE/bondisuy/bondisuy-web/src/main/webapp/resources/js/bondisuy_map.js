@@ -245,12 +245,8 @@ $ds(button).html("-");
 //List de objetos: {descripcion: TEXT, coordenadas: [lat, long], img: SRC }
 function addMarcadores(list, typeSource) {
 	var marcadores = [];
-	var puntos = [];
 
 	for (var lst in list) {
-
-		puntos.push(list[lst]['coordenadas']);
-
 		let marcador = new ol.Feature({
 			geometry: new ol.geom.Point(list[lst]['coordenadas']),// En dónde se va a ubicar
 			name: list[lst]['descripcion']
@@ -286,8 +282,51 @@ function addMarcadores(list, typeSource) {
 
 	// Agregamos la capa al mapa
 	map.addLayer(capa);
+	bondisuy_LoadHide();
+}
+
+//Creacion de lineas 
+//List de objetos: {descripcion: TEXT, coordenadas: [[lat, long],[lat, long]], color: HEX }
+function addRecorrido(list, typeSource) {
+	var recorridos = [];
+
+	for (var lst in list) {
+		let recorrido = new ol.Feature({
+			geometry: new ol.geom.LineString(list[lst]['coordenadas']),// Como va a ser
+			name: list[lst]['descripcion']
+		});
+
+		// Agregamos icono
+		let routeStyle = new ol.style.Style({
+			stroke: new ol.style.Stroke({
+				width: 6,
+				color: list[lst]['color'],
+			}),
+		});
+		recorrido.setStyle(routeStyle);
+
+		recorridos.push(recorrido);// Agregamos el recorrido  al arreglo
+	}
+
+	var recorridosSource = new ol.source.Vector({
+		options: {
+			projection: projectionSRS,
+		},
+		features: recorridos, // Ponemos los recorridos en la capa
+	});
+
+	var capa = new ol.layer.Vector({
+		name: typeSource,
+		source: recorridosSource,
+		zIndex: 4,
+	});
+
+	// Agregamos la capa al mapa
+	map.addLayer(capa);
+	bondisuy_LoadHide();
 
 }
+
 
 var element = document.getElementById('mappopup');
 
@@ -299,7 +338,18 @@ var popup = new ol.Overlay({
 
 });
 
+var popupline = new ol.Overlay({
+	element: element,
+	positioning: 'bottom-center',
+	stopEvent: false,
+	offset: [0, -5],
+
+});
+
+
+
 map.addOverlay(popup);
+map.addOverlay(popupline);
 
 
 map.on('click', function(evt) {
@@ -310,7 +360,13 @@ map.on('click', function(evt) {
 	$ds('#mappopup').popover('dispose');
 
 	if (feature) {
-		popup.setPosition(feature.getGeometry().getCoordinates());
+		
+		if(feature.getGeometry().getType()=='Point'){
+			popup.setPosition(feature.getGeometry().getCoordinates());	
+		} else if(feature.getGeometry().getType()=='LineString'){
+			popupline.setPosition(evt.coordinate);
+		}
+		
 		var contenido = '';
 
 		if (feature.get('name') != undefined) {
@@ -338,12 +394,18 @@ function centerMap(center) {
 	map.getView().setZoom(ZOOMDEFECTO);
 }
 
+function centerMapLinea(center) {
+	map.getView().setCenter(center);
+	map.getView().setZoom(ZOOMLINEA);
+}
+
+
 function borrarCapaPorNombre(nombre) {
 	for (var lay in map.getLayers().getArray()) {
 		if (!(lay instanceof ol.layer.Group)) {
-			var layer =map.getLayers().getArray()[lay]; 
-			
-			if(layer.get('name') == nombre){
+			var layer = map.getLayers().getArray()[lay];
+
+			if (layer.get('name') == nombre) {
 				map.removeLayer(layer);
 			}
 		}

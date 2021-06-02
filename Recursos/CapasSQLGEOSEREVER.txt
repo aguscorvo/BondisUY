@@ -1,0 +1,18 @@
+Recorridos con linea:
+Nombre de la vista: ft_recorridolinea
+
+SELECT 
+	l.id AS linea_id,
+	l.nombre AS linea_nombre,
+	c.id AS com_id,
+	c.nombre AS com_nombre,
+	r.id AS id,
+	r.activo AS activo,
+	r.descripcion AS ruta,
+	geom
+FROM lineas l
+JOIN ft_recorridos r ON r.linea_id =l.id
+JOIN companias c ON c.id = l.compania_id
+WHERE r.id = %recorrido%
+
+MARCAR id como clave primaria

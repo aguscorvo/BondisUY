@@ -46,4 +46,6 @@ public class HorarioConverter extends AbstractConverter<Horario, HorarioDTO>{
 				.hora(LocalTime.parse(h.getHora()))
 				.build();
 	}
+
 }
+

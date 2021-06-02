@@ -90,7 +90,8 @@
 					</a>
 						<div class="collapse" id="ui-busstop">
 							<ul class="nav flex-column sub-menu">
-								<li class="nav-item"><a class="nav-link" href="#">Definir</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">Alta</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">Modificaci&oacute;n</a></li>
 							</ul>
 						</div></li>
 					<li class="nav-item menu-items"><a class="nav-link"
@@ -102,46 +103,26 @@
 					</a>
 						<div class="collapse" id="ui-busline">
 							<ul class="nav flex-column sub-menu">
-								<li class="nav-item"><a class="nav-link" href="#">Definir</a></li>
-
+								<li class="nav-item"><a class="nav-link" href="#">Alta</a></li>
+								<li class="nav-item"><a class="nav-link" href="#">Modificaci&oacute;n</a></li>
 							</ul>
 						</div></li>
 				</c:if>
 			</ul>
 			<div class="card" id="to_do_some">
 				<div class="card-body pb-0">
-					<h6 class="card-title">Buscar l&iacute;neas por empresa</h6>
+					<h6 class="card-title"></h6>
 					<div class="form-group">
-						<!-- <label for="selectEmpresas">Empresas</label>-->
-						<select class="form-control form-control-sm text-secondary"
-							id="selectEmpresas">
-							<option value=""></option>
-							<c:forEach items="${requestScope.COMPANYS}" var="dtCompany">
-								<option value="${dtCompany.id}">${dtCompany.nombre}</option>
-							</c:forEach>
-						</select>
+						
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-body p-3">
-						<h7 class="card-title">L&iacute;neas</h7>
+						<h7 class="card-title"></h7>
 						<div class="row">
 							<div class="table-responsive" id="selectTableLineas">
 								<table class="table">
-									<thead>
-										<tr>
-											<th>l&iacute;nea</th>
-											<th>origen</th>
-											<th>destino</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-										</tr>
-									</tbody>
+									
 								</table>
 							</div>
 						</div>
@@ -211,6 +192,15 @@
 	</div>
 
 
+	<div class="modal" tabindex="-1" role="dialog" id="general_loader">
+		<div class="loader-demo-box border-0">
+			<!-- <div class="pixel-loader"></div> -->
+			<div class="jumping-dots-loader">
+				<span></span> <span></span> <span></span>
+			</div>
+		</div>
+	</div>
+
 
 	<!-- jquery -->
 	<script src="/bondisuy-web/resources/js/jquery.min.js"></script>
@@ -270,5 +260,7 @@
 		<c:remove var="MENSAJE_ERROR_LOGIN" scope="session" />
 	</c:if>
 
+
 </body>
+
 </html>

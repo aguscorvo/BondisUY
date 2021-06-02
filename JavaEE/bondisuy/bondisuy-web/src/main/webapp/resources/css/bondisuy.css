@@ -60,3 +60,12 @@ body *::-webkit-scrollbar-thumb {
 tbody tr.selected{
 	 background-color: #000000;
 }
+
+.loader-demo-box {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.jumping-dots-loader span {
+    background-color:  #ffa068 !important;
+}

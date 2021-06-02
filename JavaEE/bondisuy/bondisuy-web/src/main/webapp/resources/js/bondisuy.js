@@ -71,6 +71,7 @@ $ds(".head_search_bar").on("click", "i", function() {
 
 //Select Empresas
 $ds("#selectEmpresas").on("change", function() {
+	bondisuy_LoadShow();
 	filtrarLineaByCompany($ds(this).val());
 	var size = $ds("#map").height() - 50 - $ds(this).offset().top;
 	$ds("#selectTableLineas").height(size);
@@ -90,8 +91,6 @@ function searchOptions(id) {
 	var select;
 
 	if (id == 1) {
-		//$ds( "#selectTableLineas" ).off( "click", "**" );
-
 		$ds("a[href='#ui-basic']").click();
 		select = '<select class="form-control form-control-sm text-secondary" id="selectEmpresas"></select>';
 
@@ -104,10 +103,35 @@ function searchOptions(id) {
 
 		//Select Empresas
 		$ds("#selectEmpresas").on("change", function() {
+			bondisuy_LoadShow();
 			filtrarLineaByCompany($ds(this).val());
 			var size = $ds("#map").height() - 50 - $ds(this).offset().top;
 			$ds("#selectTableLineas").height(size);
 		});
+
+		var recorrido = '';
+		var databody = $ds("#selectTableLineas").children("table").get(0);
+		
+		$ds(databody).off("click");
+
+		$ds(databody).on('click', 'tr', function() {
+			if ($ds(this).hasClass('selected')) {
+				$ds(this).removeClass('selected');
+			}
+			else {
+				recorrido = $ds(this).attr('data-counter_id');
+				
+				$ds('#selectTableLineas tr.selected').removeClass('selected');
+				$ds(this).addClass('selected');
+				
+				var otd = $ds(this).children('td').get(0);
+				
+				bondisuy_LoadShow();
+				getRecorrido(recorrido);
+			}
+		});
+
+
 
 	} else if (id == 2) {
 		//$ds( "#selectTableLineas" ).off( "click", "**" );
@@ -161,6 +185,26 @@ function searchOptions(id) {
 			$ds("#selectTableLineas").height(size);
 		});
 
+		var recorrido = '';
+		var databody = $ds("#selectTableLineas").children("table").get(0);
+		
+		$ds(databody).off("click");
+
+		$ds(databody).on('click', 'tr', function() {
+			if ($ds(this).hasClass('selected')) {
+				$ds(this).removeClass('selected');
+			}
+			else {
+				recorrido = $ds(this).attr('data-counter_id');
+				
+				$ds('#selectTableLineas tr.selected').removeClass('selected');
+				$ds(this).addClass('selected');
+				
+				//bondisuy_LoadShow();
+				getRecorrido(recorrido);
+			}
+		});
+
 
 	} else if (id == 3) {
 		//$ds( "#selectTableLineas" ).off( "click", "**" );
@@ -196,8 +240,6 @@ function searchOptions(id) {
 				case 38: // Up
 				case 39: // Right
 				case 40: // Down
-					nombre = '';
-					break;
 				default:
 					nombre = $ds(this).val() + String.fromCharCode(ev.which);
 			}
@@ -229,13 +271,10 @@ function searchOptions(id) {
 				case 38: // Up
 				case 39: // Right
 				case 40: // Down
-					nombre = '';
-					break;
-
 				default:
 					nombre = $ds(this).val() + String.fromCharCode(ev.which);
 			}
-			
+
 			if (nombre != '') {
 				nombre = nombre.replace(/ /gi, '+');
 			} else {
@@ -261,8 +300,6 @@ function searchOptions(id) {
 				case 38: // Up
 				case 39: // Right
 				case 40: // Down
-					nombreb = '';
-					break;
 				default:
 					nombreb = $ds(this).val() + String.fromCharCode(ev.which);
 			}
@@ -291,9 +328,6 @@ function searchOptions(id) {
 				case 38: // Up
 				case 39: // Right
 				case 40: // Down
-					nombreb = '';
-					break;
-
 				default:
 					nombreb = $ds(this).val() + String.fromCharCode(ev.which);
 			}
@@ -373,8 +407,6 @@ function searchOptions(id) {
 				case 38: // Up
 				case 39: // Right
 				case 40: // Down
-					nombre = '';
-					break;
 				default:
 					nombre = $ds(this).val() + String.fromCharCode(ev.which);
 			}
@@ -406,9 +438,6 @@ function searchOptions(id) {
 				case 38: // Up
 				case 39: // Right
 				case 40: // Down
-					nombre = '';
-					break;
-
 				default:
 					nombre = $ds(this).val() + String.fromCharCode(ev.which);
 			}
@@ -438,8 +467,6 @@ function searchOptions(id) {
 				case 38: // Up
 				case 39: // Right
 				case 40: // Down
-					numero='';
-					break;
 				default:
 					numero = $ds(this).val() + String.fromCharCode(ev.which);
 			}
@@ -470,9 +497,6 @@ function searchOptions(id) {
 				case 38: // Up
 				case 39: // Right
 				case 40: // Down
-					numero = '';
-					break;
-
 				default:
 					numero = $ds(this).val() + String.fromCharCode(ev.which);
 			}

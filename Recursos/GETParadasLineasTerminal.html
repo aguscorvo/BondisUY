@@ -17,6 +17,10 @@
 <p>
 	<a href="javascript:getParadas();">Paradas</a> 
 </p>
+<p>
+	<a href="javascript:getParadasLineas();">Paradas-Lineas</a> 
+</p>
+
 <div id="result">
 </div>
 
@@ -26,16 +30,25 @@
 
 <script type="text/javascript">
 var $ds = jQuery.noConflict();
-var auxterminal = [];
-var terminal = []
+var auxlinea = [];
 var linea = [];
-var lineas = [];
+var recorrido = [];
 var paradas = [];
+var paradaslinea = [];
+var CUTCSA = ['4', '21', '60', '62', '77', '100', '102', '102', '106', '103', '104', '105', '106', '109', '110', '111', '112', '113', '115', '116', '117', '121', '124', '125', '127', '128', '130', '133', '135', '137', '141', '142', '143', '144', '145', '147', '148', '149', '150', '151', '155', '156', '157', '158', '163', '169', '174', '175', '180', '181', '182', '183', '185', '186', '187', '188', '191', '192', '195', '199', 'CE1', 'G3', 'G6', 'G8', 'G10', 'G11', 'DE1', 'E14', 'D2', 'D3', 'D5', 'D8', 'D10', 'DM1', 'L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L15', 'L17', 'L18', 'L20', 'L21', 'L22', 'L23', 'L26', 'L28', 'L30', 'L35', 'L36', 'L37', 'L41', 'L46', 'L63', 'L64', '214', '227', '230', '268', '276', 'C1', 'C2', 'C3', 'C4', 'C4D', 'C5', '124 SD', 'L34', '140', '60 SD', 'L31', '169 SD', '103SD', 'L27', '64', 'L94'];
+var UCOT = ['17', '71', '79', '300', '306', '316', '328', '329', '330', '370', '396', 'L12', 'L13', 'DM1', '11A', '11C', '11T', '11S', 'XA1', 'LM12', 'LM13']; 
+var COETC = ['CE1', 'G', '2', '76', '402', '404', '405', '407', '409', '427', '456', '494', '495', 'D9', 'L7', 'L14', 'L16', 'L17', 'L18', 'L19', 'L29', '4A', '4AC', '4AD', '4D', '4DD', '4DR', '4DR', '5D', '48D', '222D', '222', '600', 'DM1'];
+var COMESA = ['505', '522', '524', '526', '538', '546', '582', 'L24', 'L25', 'D11', 'DM1', '1M1', '1M2', '1M3', '1M4', '1M5', '1M6', '1M7', '1M11', '1M12', '1M13', '1M14', '1M15', '1M16', '1M17', '2M1', '2M2', '2M3', '2M5', '2M6', '2M7', '2M8', 'ML1', 'ML2', 'DL1', 'DL2'];
 
 function getLineas(){
 	var url = "http://geoserver.montevideo.gub.uy/geoserver/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&typeName=ide:ide_v_uptu_lsv&outputFormat=application/json";
 
-	$ds.ajaxSetup({ mimeType: "text/plain" });
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain"
+	});
+
 
 	$ds.getJSON(url)
 		.done(function (data) {
@@ -43,45 +56,51 @@ function getLineas(){
 			
 			var features = data["features"];
 			for (var lin in features) {
-				var auxlinea = features[lin];
-				var prop = auxlinea["properties"];
-				var auxterm = prop["desc_sublinea"].replace("--", "-").replace("_", "-").replace(" - ", "-").split("-");
+				var auxfeatures = features[lin];
+				var prop = auxfeatures["properties"];
+				var company = null;
 				
 				try{
-					if(!auxterminal.includes(auxterm[0].trim())){
-						auxterminal.push(auxterm[0].trim());
-						terminal.push({"descripcion": auxterm[0].trim(),
-						"geom": auxlinea["geometry"]["coordinates"][0]});
-					}
-					
-					if(auxterm.length>1){
-						if(!auxterminal.includes(auxterm[1].trim())){
-							auxterminal.push(auxterm[1].trim());
-							terminal.push({"descripcion": auxterm[1].trim(),
-							"geom": auxlinea["geometry"]["coordinates"][auxlinea["geometry"]["coordinates"].length - 1]});
+					if (!auxlinea.includes(prop["cod_linea"])){
+						auxlinea.push(prop["cod_linea"]);
+						
+						if (CUTCSA.includes(prop["desc_linea"])){
+							company = "CUTCSA";
+						} else if (UCOT.includes(prop["desc_linea"])){
+							company = "UCOT";
+						} else if (COETC.includes(prop["desc_linea"])){
+							company = "COETC";
+						} else if (COMESA.includes(prop["desc_linea"])){
+							company = "COMESA";
 						}
-					}		
-					
-					var newline = { "cod_linea": prop["cod_linea"],
+						
+						var newline = {"cod_linea": prop["cod_linea"],
 									"desc_linea": prop["desc_linea"],
-									"type": auxlinea["geometry"]["type"],
-									"coordinates": auxlinea["geometry"]["coordinates"],
-									"origen": auxterm[0].trim(),
-									"destino": auxterm[1]==null?"":auxterm[1].trim()
+									"company": company
 									};
 									
-					lineas.push(newline);
+						linea.push(newline);
+						
+					}
 					
-					//linea[prop["cod_linea"]+"_"+ prop["cod_sublinea"]] = newline;
+					var newrecorrido = {"cod_linea": prop["cod_linea"],
+										"cod_recorrido": prop["cod_variante"],
+										"descripcion": prop["desc_sublinea"],
+										"coordinates": auxfeatures["geometry"]["coordinates"]
+									
+					};
 					
+					recorrido.push(newrecorrido);
+				
 				}catch(e){
 					console.log(prop["cod_linea"]);
-					console.log(auxlinea);
+					console.log(e);
+					console.log(auxfeatures);
 				}
 			}
 			$ds('#result').html("");
-			//strInsertTerminal();
-			//strInsertLinea();
+			strInsertLinea();
+			strInsertRecorrido();
 		})
 		.fail(function (jqxhr, textStatus, error) {
 			var err = textStatus + ", " + error;
@@ -89,38 +108,57 @@ function getLineas(){
 		});
 		
 		
-	console.log(lineas);
-	console.log(terminal);
+	//console.log(lineas);
+	//console.log(terminal);
+	
+}
+function strInsertLinea(){
+	var str = "";
+	
+	for(var lin in linea){
+		str += "INSERT INTO lineas (id, destino, nombre, origen, compania_id) " +
+		" VALUES ( " + linea[lin]["cod_linea"] + ", '', '" +
+		linea[lin]["desc_linea"] + "', '', ";
+		if(linea[lin]["company"]==null){
+			str += linea[lin]["company"];
+		} else {
+			str += "(SELECT id FROM companias WHERE nombre ='" + linea[lin]["company"] + "')";
+		}
+		str += ");" + "<br>";
+	}
+	$ds('#result').append(str);
 	
 }
 
-function strInsertLinea(){
-	var str = $ds('#result').html();
-	
-	for(var lin in lineas){
-		str += "INSERT INTO ft_lineas (cod_linea, desc_linea, id_origen, id_destino, geom) " +
-		" VALUES ( " + lineas[lin]["cod_linea"] + ", " +
-		"'" + lineas[lin]["desc_linea"] + "', " +
-		"(SELECT id FROM ft_terminales WHERE ST_Equals(geom, ST_GeomFromText('POINT(" + lineas[lin]["coordinates"][0][0] + " " + lineas[lin]["coordinates"][0][1] + ")')) LIMIT 1), " +
-		"(SELECT id FROM ft_terminales WHERE ST_Equals(geom, ST_GeomFromText('POINT(" + lineas[lin]["coordinates"][lineas[lin]["coordinates"].length - 1][0] + " " + lineas[lin]["coordinates"][lineas[lin]["coordinates"].length-1][1] + ")')) LIMIT 1), " +
+function strInsertRecorrido(){
+	var str = "";
+	for(var rec in recorrido){
+		str += "INSERT INTO ft_recorridos (id, activo, descripcion, linea_id, geom) " +
+		" VALUES ( " + recorrido[rec]["cod_recorrido"] + ", true, " +
+		"'" + recorrido[rec]["descripcion"] + "', " +
+		recorrido[rec]["cod_linea"] + ", " + 
 		"ST_GeometryFromText('LINESTRING(" ;
-		for(var i =0; i < lineas[lin]["coordinates"].length; i++){
-			str += lineas[lin]["coordinates"][i][0] + " " + lineas[lin]["coordinates"][i][1];
-			if(i < lineas[lin]["coordinates"].length -1)
+		for(var i =0; i < recorrido[rec]["coordinates"].length; i++){
+			str += recorrido[rec]["coordinates"][i][0] + " " + recorrido[rec]["coordinates"][i][1];
+			if(i < recorrido[rec]["coordinates"].length -1)
 				str += ",";
 		}
 		
 		str += ")', 32721));" + "<br>";
 	}
 
-	$ds('#result').html(str);
+	$ds('#result').append(str);
 }
 
 
 function getParadas(){
 	var url = "http://geoserver.montevideo.gub.uy/geoserver/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&typeName=imm:uptu_ubic_parada&outputFormat=application/json";
 
-	$ds.ajaxSetup({ mimeType: "text/plain" });
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain"
+	});
 
 	$ds.getJSON(url)
 		.done(function (data) {
@@ -150,7 +188,7 @@ function getParadas(){
 				}
 			}
 			$ds('#result').html("");
-			strInsertParada();
+			//strInsertParada();
 		})
 		.fail(function (jqxhr, textStatus, error) {
 			var err = textStatus + ", " + error;
@@ -158,7 +196,7 @@ function getParadas(){
 		});
 		
 		
-	console.log(paradas);
+//	console.log(paradas);
 }
 
 function strInsertParada(){
@@ -178,7 +216,121 @@ function strInsertParada(){
 }
 
 
+
+
+
+function getParadasLineas(){
+	getParadas();
+	var i = 0;
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': "*" }
+	});
+	
+	var prueba = paradas[0];
+	
+	console.log(paradas);
+	
+	for (var par in prueba){
+		//var url = "http://www.montevideo.gub.uy/transporteRest/lineas/" + paradas[par]["cod_parada"];	
+		var url = "http://www.montevideo.gub.uy/transporteRest/lineas/" + prueba[par]["cod_parada"];	
+		
+		$ds.getJSON(url)
+			.done(function (data) {
+				var features = data["lineas"];
+				for (var lin in features) {
+					try{
+						var newParada = { "cod_parada": paradas["cod_parada"],
+										"linea": features[lin]["codigo"],
+										};
+						paradaslinea.push(newParada);
+						
+					}catch(e){
+						console.log(prop["cod_ubic_parada"]);
+						console.log(auxlinea);
+					}
+				}
+				$ds('#result').html("");
+				console.log(paradaslinea);
+			})
+			.fail(function (jqxhr, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err + "file: " + url);
+			});	
+	}
+}
+
+function getParadasLineasHorario(){
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': "*" }
+	});
+	
+	
+	
+	var prueba = [paradas[0]];
+	
+	for (var lp in prueba){
+		//var url = "http://www.montevideo.gub.uy/transporteRest/pasadas/" + paradaslinea[lp]["cod_parada"] + "/HABIL/" + paradaslinea[lp]["linea"];
+		var url = "http://www.montevideo.gub.uy/transporteRest/pasadas/" + paradaslinea[lp]["cod_parada"] + "/HABIL/" + paradaslinea[lp]["linea"];
+
+		$ds.getJSON(url)
+			.done(function (data) {
+				
+				var features = data["features"];
+				for (var lin in features) {
+					var auxlinea = features[lin];
+					var prop = auxlinea["properties"];
+					
+					try{
+						
+						var newParada = { "cod_parada": prop["cod_ubic_parada"],
+										"recorrido": prop["cod_variante"],
+										};
+										
+						paradaslinea.push(newParada);
+						
+					}catch(e){
+						console.log(prop["cod_ubic_parada"]);
+						console.log(auxlinea);
+					}
+				}
+				$ds('#result').html("");
+				strInsertParadaLinea();
+			})
+			.fail(function (jqxhr, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err + "file: " + url);
+			});
+	
+	}
+}
+
+
+function strInsertParadaLinea(){
+	var str = "";
+	
+	for(var par in paradas){
+		str += "INSERT INTO ft_paradas (id, descripcion, codvia1, codvia2, geom, habilitada) "+ 
+		"VALUES ( " + paradas[par]["cod_parada"] + ", " +
+		"'" + paradas[par]["desc_parada"] + "', " +
+		paradas[par]["cod_via_1"] + ", " +
+		paradas[par]["cod_via_2"] + ", " +
+		"ST_GeometryFromText('POINT(" + paradas[par]["geom"][0] + " " + paradas[par]["geom"][1]+ ")',32721), " + 
+		paradas[par]["habilitada"] + ");" + "<br>";
+	}
+
+	$ds('#result').html(str);
+}
+
+
 </script>
+
+
 
 </body>
 </html>
