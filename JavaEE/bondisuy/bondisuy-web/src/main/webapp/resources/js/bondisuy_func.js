@@ -207,8 +207,6 @@ function filtrarDireccion(calle, numero, texto) {
 
 }
 
-
-
 //filtrar linea por Nombre
 function filtrarLineaByName(lineaName) {
 	var txttable = '<thead><tr><th>l&iacute;nea</th><th>Detalle</th></tr></thead><tbody>';
@@ -291,6 +289,54 @@ function filtrarEsquinaCalle(idCalle, calleName) {
 		});
 
 }
+//Creacion de lineas 
+//List de objetos: {descripcion: TEXT, coordenadas: [[lat, long],[lat, long]], color: HEX }
+function addRecorridoCercano(list) {
+	var txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
+	var table = $ds("#selectTableLineas").children("table").get(0);
+
+
+
+	for (var rec in list) {
+		txttable += '<tr data-counter_id=' + list[rec].id + '><td>' + list[rec].nombre + '</td><td>' + list[rec].descripcion + '</td></tr>'
+	}
+
+	txttable += '</tbody>';
+	$ds(table).html(txttable);
+
+	//SE agrega la accion de click en la tabla de recorridos
+	var recorrido = '';
+	var databody = $ds("#selectTableLineas").children("table").get(0);
+	//var size = $ds("#map").height() - 50 - $ds(this).offset().top;
+	$ds("#selectTableLineas").height(200);
+
+
+	$ds(databody).off("click");
+
+	$ds(databody).on('click', 'tr', function() {
+		if ($ds(this).hasClass('selected')) {
+			$ds(this).removeClass('selected');
+		}
+		else {
+			recorrido = $ds(this).attr('data-counter_id');
+
+			$ds('#selectTableLineas tr.selected').removeClass('selected');
+			$ds(this).addClass('selected');
+
+			bondisuy_LoadShow();
+			getRecorrido(recorrido);
+		}
+	});
+
+	$ds('#tab_horas a').on('click', function(e) {
+		e.preventDefault()
+		$ds(this).tab('show')
+	});
+
+	bondisuy_LoadHide();
+
+}
+
 
 //Mostrar icono de  espera
 function bondisuy_LoadShow() {

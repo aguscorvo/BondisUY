@@ -69,3 +69,14 @@ tbody tr.selected{
 .jumping-dots-loader span {
     background-color:  #ffa068 !important;
 }
+
+.tab-pane{
+	height: 180px !important;
+    overflow-y: auto !important;
+}
+.list-group-item{
+	color: #ffa068 !important;
+	background: #191c24 !important;
+}
+
+    

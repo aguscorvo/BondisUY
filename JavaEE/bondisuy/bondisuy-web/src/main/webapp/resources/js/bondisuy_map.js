@@ -52,8 +52,6 @@ var CenterZoomMapControl = (function(Control) {
 
 	CenterZoomMapControl.prototype.handleCenterZoomMap = function handleCenterZoomMap() {
 		if (coordinates != null) {
-			//this.getMap().getView().setCenter(coordinates);
-			//this.getMap().getView().setZoom(15);
 			centerMap(coordinates);
 		}
 	};
@@ -65,14 +63,13 @@ var CenterZoomMapControl = (function(Control) {
 
 //Source de Nueva Localizacion
 var sourceNuevaLocalizacion = new ol.source.Vector({
-	name: 'NuevaLocalizacion',
 	wrapX: false,
 });
 
 //Vector de Nueva Localización
 var vectorNuevaLocalizacion = new ol.layer.Vector({
 	source: sourceNuevaLocalizacion,
-	style: styles[0],
+	style: IconLocalizacionStyle,
 });
 
 // removes the last feature from the vector source.
@@ -81,11 +78,13 @@ var removeLastFeature = function() {
 		sourceNuevaLocalizacion.removeFeature(lastFeature);
 };
 
+
+
 function addInteraction() {
 	//Se deshabilita la geolocalizacion
 	geolocation.setTracking(false);
 
-	drawNuevaLocalizacion = new ol.interaction.Draw({
+	var drawNuevaLocalizacion = new ol.interaction.Draw({
 		source: sourceNuevaLocalizacion,
 		type: 'Point',
 	});
@@ -94,6 +93,11 @@ function addInteraction() {
 		removeAllLayers();
 		var feature = evt.feature;
 		coordinates = feature.getGeometry().getCoordinates();
+
+		feature.setProperties({
+			name: "<div id='ver_Lineas_Cercanas'><a href='javascript:verLineasCercanas();'><i class='mdi mdi-eye'></i> Ver L\u00EDneas Cercanas</a></div>",
+			tipo: 'localizacion',
+		})
 
 		var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
 		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
@@ -140,7 +144,6 @@ var SetUbicacion = (function(Control) {
 
 		if (coordinates != null) {
 			addInteraction();
-
 		}
 	};
 
@@ -165,11 +168,19 @@ geolocation.on('error', function(error) {
 var accuracyFeature = new ol.Feature();
 
 geolocation.on('change:accuracyGeometry', function() {
-	accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
-	//removeAllLayers();
+	//accuracyFeature.setGeometry(geolocation.getAccuracyGeometry());
 });
 
 //Central el mapa en la localizacion actual
+
+var positionFeature = new ol.Feature({
+	name: "<div id='ver_Lineas_Cercanas'><a href='javascript:verLineasCercanas();'><i class='mdi mdi-eye'></i> Ver L\u00EDneas Cercanas</a></div>",
+	tipo: 'localizacion',
+});
+
+positionFeature.setStyle(IconLocalizacionStyle);
+
+
 geolocation.on('change:position', function() {
 	coordinates = geolocation.getPosition();
 	positionFeature.setGeometry(coordinates ? new ol.geom.Point(coordinates) : null);
@@ -223,7 +234,6 @@ var map = new ol.Map({
 
 //Modificacion de mapa con ubicación actual
 var sourceLocActual = new ol.source.Vector({
-	name: 'LocalizacionActual',
 	features: [accuracyFeature, positionFeature],
 });
 
@@ -333,24 +343,12 @@ var element = document.getElementById('mappopup');
 var popup = new ol.Overlay({
 	element: element,
 	positioning: 'bottom-center',
-	stopEvent: false,
-	offset: [0, -50],
+	stopEvent: true,
+	offset: [0, -45],
 
 });
-
-var popupline = new ol.Overlay({
-	element: element,
-	positioning: 'bottom-center',
-	stopEvent: false,
-	offset: [0, -5],
-
-});
-
-
 
 map.addOverlay(popup);
-map.addOverlay(popupline);
-
 
 map.on('click', function(evt) {
 	var feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
@@ -359,14 +357,19 @@ map.on('click', function(evt) {
 
 	$ds('#mappopup').popover('dispose');
 
+
+
 	if (feature) {
-		
-		if(feature.getGeometry().getType()=='Point'){
-			popup.setPosition(feature.getGeometry().getCoordinates());	
-		} else if(feature.getGeometry().getType()=='LineString'){
-			popupline.setPosition(evt.coordinate);
+		if (feature.getGeometry().getType() == 'Point') {
+			popup.setPosition(feature.getGeometry().getCoordinates());
+			popup.setOffset([0, -45]);
+
+		} else if (feature.getGeometry().getType() == 'LineString') {
+			popup.setPosition(evt.coordinate);
+			popup.setOffset([0, -5]);
+
 		}
-		
+
 		var contenido = '';
 
 		if (feature.get('name') != undefined) {
@@ -375,14 +378,40 @@ map.on('click', function(evt) {
 		}
 
 		$ds('#mappopup').popover({
-			placement: 'top',
-			html: true,
 			title: 'Informaci\u00F3n',
 			content: contenido,
+			html: true,
+			placement: 'top',
 		});
+
+		if (feature.get('tipo') == 'localizacion') {
+			popup.setOffset([0, -12]);
+		}
 
 		if (!(feature.get('name') == undefined || feature.get('name') == ""))
 			$ds('#mappopup').popover('show');
+
+
+		/*Opcion busqueda Localizacion se asigna acción al div */
+		$ds("#ver_Lineas_Cercanas").on("click", function() {
+			var card = $ds("#to_do_some");
+			var card_title = $ds(card).find("h6.card-title");
+			var card_subtitle = $ds(card).find("h7.card-title");
+			var form_group = $ds(card).find(".form-group");
+
+			$ds(card_title).html("L&iacute;neas cercanas");
+			//$ds(card_subtitle).html("L&iacute;nea");
+
+			var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
+			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+			getRecorridoCercanos([point32721['x'], point32721['y']], DISTANCIA);
+
+		});
+
+
+
+
 		feature = undefined;
 	} else {
 		$ds('#mappopup').popover('dispose');

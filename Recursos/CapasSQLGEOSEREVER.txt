@@ -1,5 +1,5 @@
 Recorridos con linea:
-Nombre de la vista: ft_recorridolinea
+Nombre de la vista: bondisuy:ft_recorridolinea
 
 SELECT 
 	l.id AS linea_id,
@@ -14,5 +14,55 @@ FROM lineas l
 JOIN ft_recorridos r ON r.linea_id =l.id
 JOIN companias c ON c.id = l.compania_id
 WHERE r.id = %recorrido%
+
+MARCAR id como clave primaria
+
+--------------------------------
+Recorridos con linea cercanos:
+
+Nombre de vista: bondisuy:ft_lineaubicacion
+
+SELECT 
+	l.id AS linea_id,
+	l.nombre AS linea_nombre,
+	c.id AS com_id,
+	c.nombre AS com_nombre,
+	r.id AS id,
+	r.activo AS activo,
+	r.descripcion AS ruta,
+	geom
+FROM lineas l
+JOIN ft_recorridos r ON r.linea_id =l.id
+JOIN companias c ON c.id = l.compania_id
+WHERE 
+ST_Intersects(r.geom, ST_BUFFER(ST_GeometryFromText('POINT(%X% %Y%)', 32721), %distancia%))
+
+MARCAR id como clave primaria
+
+----------------------------------
+Recorridos Paradas
+
+Nombre de vista: 	bondisuy:ft_recorridoparadas
+
+SELECT 
+	r.id AS id,
+	r.descripcion AS detalle,
+	c.id AS com_id,
+	c.nombre AS com_nombre,
+	l.id AS linea_id,
+	l.nombre AS linea,
+	p.id AS parada_id,
+	p.descripcion AS parada_desc,
+	p.geom AS p_geom,
+	h.hora AS hora
+	
+	
+FROM ft_paradas p
+JOIN horarios h ON h.parada_id = p.id
+JOIN ft_recorridos r ON r.id = h.recorrido_id
+JOIN lineas l ON l.id = r.linea_id
+JOIN companias c ON c.id = l.compania_id
+WHERE r.id = %recorrido%
+ORDER BY p.id, h.hora DESC
 
 MARCAR id como clave primaria

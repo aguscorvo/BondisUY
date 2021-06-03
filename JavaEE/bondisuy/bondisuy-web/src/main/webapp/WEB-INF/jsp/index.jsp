@@ -78,7 +78,7 @@
 							<li class="nav-item"><a class="nav-link"
 								href="javascript:searchOptions(6);">Paradas Deshabilitadas</a></li>
 							<li class="nav-item"><a class="nav-link"
-								href="javascript:searchOptions(7);">Avanzado</a></li>
+								href="javascript:searchOptions(7);">Ver l&iacute;neas Cercanas</a></li>
 						</ul>
 					</div></li>
 				<c:if test="${(sessionScope.USER!=null)}">
@@ -112,9 +112,7 @@
 			<div class="card" id="to_do_some">
 				<div class="card-body pb-0">
 					<h6 class="card-title"></h6>
-					<div class="form-group">
-						
-					</div>
+					<div class="form-group"></div>
 				</div>
 				<div class="card">
 					<div class="card-body p-3">
@@ -122,7 +120,7 @@
 						<div class="row">
 							<div class="table-responsive" id="selectTableLineas">
 								<table class="table">
-									
+
 								</table>
 							</div>
 						</div>
@@ -163,7 +161,8 @@
 	</div>
 
 	<div id="mappopup" data-toggle="popover" data-placement="top"
-		data-content=""></div>
+		data-content="" data-html="true">
+		</div>
 
 	<div class="modal" tabindex="-1" role="dialog" id="general_error">
 		<div class="modal-dialog" role="document">
@@ -194,9 +193,16 @@
 
 	<div class="modal" tabindex="-1" role="dialog" id="general_loader">
 		<div class="loader-demo-box border-0">
-			<!-- <div class="pixel-loader"></div> -->
 			<div class="jumping-dots-loader">
 				<span></span> <span></span> <span></span>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal" tabindex="-1" role="dialog" id="general_info_modal">
+		<div class="loader-demo-box border-0">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content"></div>
 			</div>
 		</div>
 	</div>

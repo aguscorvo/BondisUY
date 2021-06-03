@@ -1,31 +1,33 @@
 var coordinates = ol.proj.fromLonLat([-56.17938, -34.86157]);
 var projectionSRS = 'EPSG:32721';
 
-//var GEOSERVER = 'http://bondisuy.web.elasticloud.uy/geoserver/wms';
 var GEOSERVER = '/geoserver/wms';
-//var GEOSERVERIMM = 'http://geoserver.montevideo.gub.uy/geoserver/wms';
+var DISTANCIA = 500;
+var ZOOMDEFECTO = 16;
+var ZOOMLINEA = 14;
+var L_RECORRIDOS = 'RECORRIDO';
+var L_PARADAS = 'PARADAS';
 
 var CAPAS = {
 	'calles': 'bondisuy:ft_ejes',
 	'paradas': 'bondisuy:ft_paradas',
 	'lineas': 'bondisuy:ft_lineas',
 	'terminales': 'bondisuy:ft_terminales',
-	'recorridos': 'bondisuy:ft_recorridolinea'
+	'recorridos': 'bondisuy:ft_recorridolinea',
+	'recorridoscercanos': 'bondisuy:ft_lineaubicacion',
+	'recorridosparadas': 'bondisuy:ft_recorridoparadas',
 };
 
 var FORMATO = {
 	'JSON': 'json'
 };
 
-var DISTANCIA = 500;
-var ZOOMDEFECTO = 16;
-var ZOOMLINEA = 14;
-
 var IMAGENES = {
 	'parada': '/bondisuy-web/resources/images/map/IconMapBus.png',
 	'paradadeshabilitada': '/bondisuy-web/resources/images/map/IconMapBusDes.png',
 	'esquina': '/bondisuy-web/resources/images/map/IconMapCorner.png',
 	'direccion': '/bondisuy-web/resources/images/map/IconMapDir.png',
+	'gps': '/bondisuy-web/resources/images/map/IconGps.png',
 
 };
 
@@ -50,7 +52,6 @@ var projection32721 = new ol.proj.Projection({
 	extent: [441867.78, 1116915.04, 833978.56, 10000000.00],
 });
 
-var drawNuevaLocalizacion;
 var lastFeature;
 var lastMarkFeature;
 

@@ -52,7 +52,7 @@ for det in paradas:
     consulta += '\'' + det['desc_parada'] + '\', '
     consulta += str(det['via1']) + ', '
     consulta += str(det['via2']) + ', '
-    consulta += 'ST_GeometryFromText(\'POINT(' + str(det['geom']).replace(',', ' ').replace('[', '').replace(']','') + ')\', 32721), '
+    consulta += 'ST_GeometryFromText(\'POINT(' + str(det['geom']).replace(',', '').replace('[', '').replace(']','') + ')\', 32721), '
     consulta += det['habilitada'] + ');\n' 
     f.write(consulta)
 

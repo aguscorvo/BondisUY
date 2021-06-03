@@ -6,6 +6,7 @@ Paradas cercanas:
 Formato devuelto: JSON
 http://127.0.0.1:8080/geoserver/wfs?request=getfeature&version=1.0.0&service=wfs&typename=bondisuy:ft_paradas&outputformat=json&cql_filter=DWITHIN(geom,Point(X Y),DISTANCIA,meters)
 
+http://127.0.0.1:8080/geoserver/wfs?request=getfeature&version=1.0.0&service=wfs&typename=bondisuy:ft_recorridoparadas&outputformat=json&viewparams=recorrido:2778;
 
 Recorrido por ID
 http://127.0.0.1:8080/geoserver/wfs?request=getfeature&version=1.0.0&service=wfs&typename=bondisuy:ft_recorridos&outputformat=json&id=28

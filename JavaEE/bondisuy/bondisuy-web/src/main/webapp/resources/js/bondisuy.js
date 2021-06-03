@@ -77,6 +77,7 @@ $ds("#selectEmpresas").on("change", function() {
 	$ds("#selectTableLineas").height(size);
 });
 
+
 /*
 Función para utilizar en la opción busqueda del menu
 Limpia el detalle y arma lo necesario
@@ -111,7 +112,7 @@ function searchOptions(id) {
 
 		var recorrido = '';
 		var databody = $ds("#selectTableLineas").children("table").get(0);
-		
+
 		$ds(databody).off("click");
 
 		$ds(databody).on('click', 'tr', function() {
@@ -120,12 +121,10 @@ function searchOptions(id) {
 			}
 			else {
 				recorrido = $ds(this).attr('data-counter_id');
-				
+
 				$ds('#selectTableLineas tr.selected').removeClass('selected');
 				$ds(this).addClass('selected');
-				
-				var otd = $ds(this).children('td').get(0);
-				
+
 				bondisuy_LoadShow();
 				getRecorrido(recorrido);
 			}
@@ -149,17 +148,16 @@ function searchOptions(id) {
 		$ds("#inputLinea").on("keypress", function(ev) {
 			switch (ev.which) {
 				case 8: // Backspace
-					nombre = $ds(this).val();
 				case 9: // Tab
 				case 13: // Enter
 				case 37: // Left
 				case 38: // Up
 				case 39: // Right
 				case 40: // Down
-					break;
 				default:
 					nombre = $ds(this).val() + String.fromCharCode(ev.which);
 			}
+			bondisuy_LoadShow();
 			filtrarLineaByName(nombre);
 			var size = $ds("#map").height() - 50 - $ds(this).offset().top;
 			$ds("#selectTableLineas").height(size);
@@ -168,18 +166,16 @@ function searchOptions(id) {
 		$ds("#inputLinea").on("keydown", function(ev) {
 			switch (ev.which) {
 				case 8: // Backspace
-					nombre = $ds(this).val();
 				case 9: // Tab
 				case 13: // Enter
 				case 37: // Left
 				case 38: // Up
 				case 39: // Right
 				case 40: // Down
-					break;
-
 				default:
 					nombre = $ds(this).val() + String.fromCharCode(ev.which);
 			}
+			bondisuy_LoadShow();
 			filtrarLineaByName(nombre);
 			var size = $ds("#map").height() - 50 - $ds(this).offset().top;
 			$ds("#selectTableLineas").height(size);
@@ -187,7 +183,7 @@ function searchOptions(id) {
 
 		var recorrido = '';
 		var databody = $ds("#selectTableLineas").children("table").get(0);
-		
+
 		$ds(databody).off("click");
 
 		$ds(databody).on('click', 'tr', function() {
@@ -196,10 +192,10 @@ function searchOptions(id) {
 			}
 			else {
 				recorrido = $ds(this).attr('data-counter_id');
-				
+
 				$ds('#selectTableLineas tr.selected').removeClass('selected');
 				$ds(this).addClass('selected');
-				
+
 				//bondisuy_LoadShow();
 				getRecorrido(recorrido);
 			}
