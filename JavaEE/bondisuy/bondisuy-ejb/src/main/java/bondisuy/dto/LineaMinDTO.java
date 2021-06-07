@@ -1,5 +1,7 @@
 package bondisuy.dto;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,5 +20,6 @@ public class LineaMinDTO {
 	private String origen;
 	private String destino;
 	private CompaniaDTO compania;
+	private List<RecorridoSinLineaDTO> recorridos;
 	
 }

@@ -1,11 +1,18 @@
 package bondisuy.converter;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
+import bondisuy.business.RecorridoServiceImpl;
+import bondisuy.dto.LineaMinDTO;
 import bondisuy.dto.RecorridoCrearDTO;
 import bondisuy.dto.RecorridoDTO;
 import bondisuy.dto.RecorridoMinDTO;
+import bondisuy.dto.RecorridoSinLineaDTO;
+import bondisuy.entity.Linea;
 import bondisuy.entity.Recorrido;
 
 @Singleton
@@ -67,6 +74,21 @@ public class RecorridoConverter extends AbstractConverter<Recorrido, RecorridoDT
 				.activo(r.getActivo())
 				.linea(lineaConverter.fromMinDTO(r.getLinea()))
 				.build();
+	}
+	
+	public RecorridoSinLineaDTO fromEntityToSinLineaDTO(Recorrido r) {
+		if(r == null) return null;
+		return RecorridoSinLineaDTO.builder()
+				.id(r.getId())
+				.descripcion(r.getDescripcion())
+				.build();
+	}
+	
+	public List<RecorridoSinLineaDTO> fromEntityToSinLineaDTO(List<Recorrido> entities){
+		if(entities == null) return null;
+		return entities.stream()
+			.map(e -> fromEntityToSinLineaDTO(e))
+			.collect(Collectors.toList());
 	}
 	
 }

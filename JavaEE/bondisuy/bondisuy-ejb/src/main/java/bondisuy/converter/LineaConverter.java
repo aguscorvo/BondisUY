@@ -61,6 +61,7 @@ public class LineaConverter extends AbstractConverter<Linea, LineaDTO>{
 				.origen(l.getOrigen())
 				.destino(l.getDestino())
 				.compania(companiaConverter.fromEntity(l.getCompania()))
+				.recorridos(recorridoConverter.fromEntityToSinLineaDTO(l.getRecorridos()))
 				.build();
 	}
 	
