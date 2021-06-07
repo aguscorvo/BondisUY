@@ -10,6 +10,7 @@ import bondisuy.dao.IHorarioDAO;
 import bondisuy.dao.IParadaDAO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
+import bondisuy.dto.ProximaLineaDTO;
 import bondisuy.entity.Horario;
 import bondisuy.entity.Parada;
 import bondisuy.exception.BondisUyException;
@@ -93,6 +94,18 @@ public class ParadaServiceImpl implements IParadaService {
 		// se asocia el horario a la parada
 		paradaAux.getHorarios().add(horarioAux);
 		paradaDAO.editar(paradaAux);
+	}
+	
+	@Override
+	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario) throws BondisUyException{
+		try {
+			//se valida que parada exista
+			Parada parada = paradaDAO.listarPorId(idParada);
+			if(parada ==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			return paradaDAO.proximasLineas(idParada, horario);		
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
 	}
 
 

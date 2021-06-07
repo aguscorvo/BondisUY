@@ -39,5 +39,9 @@ public class BondisUyException extends Exception implements Serializable {
 		super(cause);
 		this.codigo = codigo;
 	}
+	
+	public int getCodigo() {
+		return this.codigo;
+	}
 
 }
