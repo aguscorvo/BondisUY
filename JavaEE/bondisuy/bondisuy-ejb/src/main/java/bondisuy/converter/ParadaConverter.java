@@ -43,7 +43,6 @@ public class ParadaConverter extends AbstractConverter<Parada, ParadaDTO>{
 	public Parada fromCrearDTO(ParadaCrearDTO p) {
 		if(p==null) return null;
 		return Parada.builder()
-				.id(p.getId())
 				.descripcion(p.getDescripcion())
 				.codVia1(p.getCodVia1())
 				.codVia2(p.getCodVia2())

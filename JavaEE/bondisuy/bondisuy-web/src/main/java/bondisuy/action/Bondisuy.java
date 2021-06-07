@@ -20,6 +20,7 @@ import bondisuy.business.ILineaService;
 import bondisuy.dto.AdministradorCrearDTO;
 import bondisuy.dto.CompaniaDTO;
 import bondisuy.dto.LineaDTO;
+import bondisuy.dto.LineaMinDTO;
 import bondisuy.exception.BondisUyException;
 
 /**
@@ -75,7 +76,7 @@ public class Bondisuy extends HttpServlet {
 			actionType = request.getParameter("actionType");
 
 		if (actionType.equalsIgnoreCase("list")) {
-			List<LineaDTO> lenf = null;
+			List<LineaMinDTO> lenf = null;
 			List<CompaniaDTO> lcom = null;
 			try {
 				lenf = linea.listar();

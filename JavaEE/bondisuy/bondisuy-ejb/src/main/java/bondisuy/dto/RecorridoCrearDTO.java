@@ -13,7 +13,6 @@ import lombok.Setter;
 @Builder
 public class RecorridoCrearDTO {
 
-	private Long id;
 	private String descripcion;
 	private Boolean activo;
 	private Long linea;

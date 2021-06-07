@@ -44,7 +44,6 @@ public class RecorridoConverter extends AbstractConverter<Recorrido, RecorridoDT
 	public Recorrido fromCrearDTO(RecorridoCrearDTO r) {
 		if(r==null) return null;
 		return Recorrido.builder()
-				.id(r.getId())
 				.descripcion(r.getDescripcion())
 				.activo(r.getActivo())
 				.build();

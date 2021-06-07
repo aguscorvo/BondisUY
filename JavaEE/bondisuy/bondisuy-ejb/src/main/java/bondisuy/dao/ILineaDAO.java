@@ -11,6 +11,7 @@ public interface ILineaDAO {
 	
 	public List<Linea> listar();
 	public Linea listarPorId(Long id);
+	public List<Linea> listarPorCompania(Long idCompania);
 	public Linea crear(Linea linea);
 	public Linea editar(Linea linea);
 	public void eliminar(Linea linea);	

@@ -18,6 +18,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import bondisuy.business.ILineaService;
 import bondisuy.dto.LineaDTO;
+import bondisuy.dto.LineaMinDTO;
 import bondisuy.exception.BondisUyException;
 
 /**
@@ -54,7 +55,6 @@ public class LineaBondisuy extends HttpServlet {
 				lin = linea.listarPorId(Long.valueOf(request.getParameter("lineaId")));
 			} catch (NumberFormatException | BondisUyException e) {
 				logger.info(e.getMessage().trim());
-				
 			}
 			
 			if(lin!=null) {
@@ -73,47 +73,33 @@ public class LineaBondisuy extends HttpServlet {
 			}
 						
 		} else if(request.getParameter("companyId")!=null){
-			List<LineaDTO> llin= null;
 			try {
-				llin = linea.listar();
-			} catch (NumberFormatException | BondisUyException e) {
-				logger.info(e.getMessage().trim());
-			}
-			
-			if(llin!=null) {
-				List<LineaDTO> aux = new ArrayList<LineaDTO>();
+				List<LineaMinDTO> lineas= null;
+				String parametro = request.getParameter("companyId");
 				
-				if(request.getParameter("companyId").equals("ALL")) {
-					aux = llin;
+				if(parametro.equals("ALL")) {
+					lineas = linea.listar();
 				} else {
-					for (LineaDTO lin: llin) {
-						if(lin.getCompania()!=null) {
-							//logger.info(llin.get(0).getRecorridos().size());
-							if(lin.getCompania().getId()==Long.valueOf(request.getParameter("companyId"))) {
-								aux.add(lin);
-							}
-						}
-					}	
+					lineas = linea.listarPorCompania(Long.valueOf(parametro));
 				}
 				
 				//Creating the ObjectMapper object
 				ObjectMapper mapper = new ObjectMapper();
 				//Converting the Object to JSONString
-				String jsonString = mapper.writeValueAsString(aux);
+				String jsonString = mapper.writeValueAsString(lineas);
 				
 				PrintWriter salida = response.getWriter();
 				response.setContentType("application/json");
 				response.setCharacterEncoding("UTF-8");
 				salida.print(jsonString);
 				salida.flush();
-			}else {
+			} catch (Exception e) {
+				e.printStackTrace();
 				response.getWriter();
 			}
-
-			
-		} else if(request.getParameter("lineaName")!=null){
+		} else if(request.getParameter("lineaName")!=null) {
 			logger.info(request.getParameter("lineaName"));
-			List<LineaDTO> llin= null;
+			List<LineaMinDTO> llin= null;
 			try {
 				llin = linea.listar();
 			} catch (NumberFormatException | BondisUyException e) {
@@ -124,8 +110,8 @@ public class LineaBondisuy extends HttpServlet {
 			if(llin!=null) {
 				
 				
-				List<LineaDTO> aux = new ArrayList<LineaDTO>();
-				for (LineaDTO lin: llin) {
+				List<LineaMinDTO> aux = new ArrayList<LineaMinDTO>();
+				for (LineaMinDTO lin: llin) {
 					if(lin.getNombre().contains(request.getParameter("lineaName"))) {
 						aux.add(lin);
 					}

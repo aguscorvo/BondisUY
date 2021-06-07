@@ -10,7 +10,6 @@ import javax.persistence.Query;
 
 import bondisuy.entity.Linea;
 
-
 @Singleton
 public class LineaDAOImpl implements ILineaDAO {
 
@@ -29,6 +28,13 @@ public class LineaDAOImpl implements ILineaDAO {
 	}
 	
 	@Override
+	public List<Linea> listarPorCompania(Long idCompania) {
+		Query consulta = em.createQuery("SELECT l FROM Linea l WHERE l.compania.id = :idCompania");
+		consulta.setParameter("idCompania", idCompania);
+		return consulta.getResultList();
+	}
+	
+	@Override
 	public Linea crear(Linea linea) {
 		em.persist(linea);
 		return linea;
@@ -43,7 +49,6 @@ public class LineaDAOImpl implements ILineaDAO {
 	@Override
 	public void eliminar(Linea linea) {
 		em.remove(linea);
-	}	
-    
+	}
 
 }

@@ -57,8 +57,6 @@ public class RecorridoServiceImpl implements IRecorridoService {
 	@Override
 	public RecorridoDTO crear(RecorridoCrearDTO recorridoDTO) throws BondisUyException{
 		try {
-			Recorrido recorridoAux = recorridoDAO.listarPorId(recorridoDTO.getId());
-			if(recorridoAux!=null) throw new BondisUyException("El id indicado ya se encuentra en uso.", BondisUyException.EXISTE_REGISTRO);
 			Linea linea = lineaDAO.listarPorId(recorridoDTO.getLinea());
 			if(linea ==null) throw new BondisUyException("La linea indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			Recorrido recorrido = recorridoConverter.fromCrearDTO(recorridoDTO);

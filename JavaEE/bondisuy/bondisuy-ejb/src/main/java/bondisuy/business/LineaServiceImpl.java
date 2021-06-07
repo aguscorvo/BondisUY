@@ -11,6 +11,7 @@ import bondisuy.dao.ILineaDAO;
 import bondisuy.dao.IRecorridoDAO;
 import bondisuy.dto.LineaCrearDTO;
 import bondisuy.dto.LineaDTO;
+import bondisuy.dto.LineaMinDTO;
 import bondisuy.entity.Compania;
 import bondisuy.entity.Linea;
 import bondisuy.entity.Recorrido;
@@ -33,9 +34,9 @@ public class LineaServiceImpl implements ILineaService {
 
 	
 	@Override
-	public List<LineaDTO> listar() throws BondisUyException{
+	public List<LineaMinDTO> listar() throws BondisUyException{
 		try {
-			return lineaConverter.fromEntity(lineaDAO.listar());
+			return lineaConverter.fromEntityToMin(lineaDAO.listar());
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
@@ -53,10 +54,18 @@ public class LineaServiceImpl implements ILineaService {
 	}
 	
 	@Override
+	public List<LineaMinDTO> listarPorCompania(Long idCompania) throws BondisUyException {
+		try {
+			List<Linea> lineas = lineaDAO.listarPorCompania(idCompania);
+			return lineaConverter.fromEntityToMin(lineas);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
+	
+	@Override
 	public LineaDTO crear(LineaCrearDTO lineaDTO) throws BondisUyException{
 		try {
-			Linea lineaAux = lineaDAO.listarPorId(lineaDTO.getId());
-			if(lineaAux!=null) throw new BondisUyException("El id indicado ya se encuentra en uso.", BondisUyException.EXISTE_REGISTRO);
 			Compania compania = companiaDAO.listarPorId(lineaDTO.getCompania());
 			if(compania==null) throw new BondisUyException("La compania indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO); 
 			Linea linea = lineaConverter.fromCrearDTO(lineaDTO);
@@ -109,6 +118,6 @@ public class LineaServiceImpl implements ILineaService {
 		// se agrega el recorrido a la linea
 		lineaAux.getRecorridos().add(recorridoAux);
 		lineaDAO.editar(lineaAux);
-	}    
+	}   
 
 }

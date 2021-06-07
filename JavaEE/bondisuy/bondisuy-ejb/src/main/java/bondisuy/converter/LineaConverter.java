@@ -1,8 +1,9 @@
 package bondisuy.converter;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
-
 import bondisuy.dto.LineaCrearDTO;
 import bondisuy.dto.LineaDTO;
 import bondisuy.dto.LineaMinDTO;
@@ -46,7 +47,6 @@ public class LineaConverter extends AbstractConverter<Linea, LineaDTO>{
 	public Linea fromCrearDTO(LineaCrearDTO l) {
 		if(l==null) return null;
 		return Linea.builder()
-				.id(l.getId())
 				.nombre(l.getNombre())
 				.origen(l.getOrigen())
 				.destino(l.getDestino())
@@ -74,4 +74,12 @@ public class LineaConverter extends AbstractConverter<Linea, LineaDTO>{
 				.compania(companiaConverter.fromDTO(l.getCompania()))
 				.build();
 	}
+	
+	public List<LineaMinDTO> fromEntityToMin(List<Linea> entities){
+		if(entities == null) return null;
+		return entities.stream()
+			.map(e -> fromEntityToMin(e))
+			.collect(Collectors.toList());
+	}
+	
 }

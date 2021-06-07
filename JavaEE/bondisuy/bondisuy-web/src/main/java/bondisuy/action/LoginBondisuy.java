@@ -21,6 +21,7 @@ import bondisuy.dto.AdministradorDTO;
 import bondisuy.dto.AdministradorLoginDTO;
 import bondisuy.dto.CompaniaDTO;
 import bondisuy.dto.LineaDTO;
+import bondisuy.dto.LineaMinDTO;
 import bondisuy.exception.BondisUyException;
 
 /**
@@ -65,7 +66,7 @@ public class LoginBondisuy extends HttpServlet {
 		String loginname=request.getParameter("loginName")==null?"":request.getParameter("loginName");
 		String loginpassword=request.getParameter("loginPassword")==null?"":request.getParameter("loginPassword");
 		
-		List<LineaDTO> lenf = null;
+		List<LineaMinDTO> lenf = null;
 		List<CompaniaDTO> lcom = null;
 		try {
 			lenf = linea.listar();

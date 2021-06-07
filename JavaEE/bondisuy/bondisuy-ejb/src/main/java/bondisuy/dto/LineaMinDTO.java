@@ -18,4 +18,5 @@ public class LineaMinDTO {
 	private String origen;
 	private String destino;
 	private CompaniaDTO compania;
+	
 }

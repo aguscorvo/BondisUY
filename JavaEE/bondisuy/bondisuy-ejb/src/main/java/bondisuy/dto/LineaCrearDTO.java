@@ -13,7 +13,6 @@ import lombok.Setter;
 @Builder
 public class LineaCrearDTO {
 	
-	private Long id;
 	private String nombre;
 	private String origen;
 	private String destino;

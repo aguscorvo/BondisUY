@@ -49,8 +49,6 @@ public class ParadaServiceImpl implements IParadaService {
 	@Override
 	public ParadaDTO crear(ParadaCrearDTO paradaDTO) throws BondisUyException{
 		try {
-			Parada paradaAux = paradaDAO.listarPorId(paradaDTO.getId());
-			if(paradaAux!=null) throw new BondisUyException("El id indicado ya se encuentra en uso.", BondisUyException.EXISTE_REGISTRO);
 			Parada parada = paradaConverter.fromCrearDTO(paradaDTO);
 			return paradaConverter.fromEntity(paradaDAO.crear(parada));
 		}catch (Exception e) {
