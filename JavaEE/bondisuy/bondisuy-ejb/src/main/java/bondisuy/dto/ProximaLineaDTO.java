@@ -1,5 +1,7 @@
 package bondisuy.dto;
 
+import java.time.LocalTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
