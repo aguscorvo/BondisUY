@@ -585,7 +585,7 @@ function searchOptions(id) {
 
 	} else if (id == 8) {
 		var card = $ds("#to_do_some");
-		var button = '<button class="btn btn-secondary btn-fw" id="confNParada">Confirmar Ubicaci\u00F3n</select>';
+		var button = '<button class="btn btn-secondary btn-fw" id="confNuevaParada">Confirmar Ubicaci\u00F3n</select>';
 
 		$ds("a[href='#ui-busstop']").click();
 		$ds(card_title).html("Crear Parada");
@@ -605,6 +605,19 @@ function searchOptions(id) {
 		borrarCapaPorNombre(L_NUEVAPARADA);
 
 		addParada();
+
+		var buttonConf = $ds("#confNuevaParada");
+
+		$ds(buttonConf).off("click");
+
+		$ds(buttonConf).on('click', function() {
+			var point = new Proj4js.Point(coordNuevaParada);   //any object will do as long as it has 'x' and 'y' properties
+			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+			getRecorridoCercanosNuevaParada([point32721['x'], point32721['y']], DISTANCIA_LINEAPARADA);
+
+		});
+
 
 	} else if (id == 9) {
 		$ds("a[href='#ui-basic']").click();

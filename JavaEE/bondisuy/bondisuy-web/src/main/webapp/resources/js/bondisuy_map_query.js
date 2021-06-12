@@ -31,9 +31,10 @@ function getParadasCercanas(coord, distancia) {
 				try {
 
 					//descripcion: TEXT, coordenadas: [lat, long], img: SRC
-					var text = 'Descripci\u00F3n: ' + prop["descripcion"] +
-						'<br>Estado: ' + (prop["habilitada"] ? 'Habilitada' : 'Deshabilitada')+
-						"<div id='ver_Lineas_Paradas'><div id='id_parada:_:"+ prop["id"] +"'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>";
+					var text = 'Identificador: ' +  prop["id"] +
+						'Descripci\u00F3n: ' + prop["descripcion"] +
+						'<br>Estado: ' + (prop["habilitada"] ? 'Habilitada' : 'Deshabilitada') +
+						"<div id='ver_Lineas_Paradas'><div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>";
 
 					//Transformo del sistema EPSG:32721 a EPSG:4326
 					var point = new Proj4js.Point(geom["coordinates"]);   //any object will do as long as it has 'x' and 'y' properties
@@ -57,7 +58,9 @@ function getParadasCercanas(coord, distancia) {
 
 			geolocation.setTracking(false);
 			borrarCapaPorNombre(L_PARADAS);
+			borrarCapaPorNombre(L_NUEVAPARADA);
 			addMarcadores(paradas, L_PARADAS);
+
 			$ds('#mappopup').popover('dispose');
 
 		})
@@ -134,7 +137,7 @@ function getAllParadasEstado(habilitado) {
 	var paradas = [];
 
 	url = url.replace('{habilitado}', habilitado);
-	
+
 	console.log(url);
 
 	$ds.ajaxSetup({
@@ -157,10 +160,10 @@ function getAllParadasEstado(habilitado) {
 
 					//descripcion: TEXT, coordenadas: [lat, long], img: SRC
 
-					var text = 'Identificador: ' + prop["id"] + 
+					var text = 'Identificador: ' + prop["id"] +
 						'<br>Descripci\u00F3n: ' + prop["descripcion"] +
 						'<br>Estado: ' + (prop["habilitada"] ? 'Habilitada' : 'Deshabilitada') +
-						"<div id='ver_Lineas_Paradas'><div id='id_parada:_:"+ prop["id"] +"'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>";
+						"<div id='ver_Lineas_Paradas'><div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>";
 
 					//Transformo del sistema EPSG:32721 a EPSG:4326
 					var point = new Proj4js.Point(geom["coordinates"]);   //any object will do as long as it has 'x' and 'y' properties
@@ -184,6 +187,7 @@ function getAllParadasEstado(habilitado) {
 			borrarCapaPorNombre(L_PARADAS);
 			borrarCapaPorNombre(L_RECORRIDOS);
 			addMarcadores(paradas, L_PARADAS);
+			borrarCapaPorNombre(L_NUEVAPARADA);
 			centerMap(coordinates);
 			$ds('#mappopup').popover('dispose');
 
@@ -228,8 +232,8 @@ function getRecorrido(id) {
 					var text = 'L\u00EDnea: ' + prop["linea_nombre"] +
 						'<br>Compa\u00F1\u00EDa: ' + prop["com_nombre"] +
 						'<br>Ruta: ' + prop["ruta"];
-						
-					
+
+
 
 
 					for (var co in geom["coordinates"]) {
@@ -256,8 +260,10 @@ function getRecorrido(id) {
 
 			geolocation.setTracking(false);
 			borrarCapaPorNombre(L_RECORRIDOS);
+			borrarCapaPorNombre(L_NUEVAPARADA);
 			addRecorrido(recorridos, L_RECORRIDOS)
 			getRecorridoParada(id, L_PARADAS);
+
 			$ds('#mappopup').popover('dispose');
 
 			var center = parseInt(recorridos[0]['coordenadas'].length / 2);
@@ -270,7 +276,7 @@ function getRecorrido(id) {
 		});
 }
 
-//Funcion que retorna un recorrido por ID
+//Funcion que retorna un recorrido cercano
 //Parámetros: id: numerico
 function getRecorridoCercanos(coord, distancia) {
 	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.recorridoscercanos + "&outputformat=json" +
@@ -314,6 +320,7 @@ function getRecorridoCercanos(coord, distancia) {
 
 			geolocation.setTracking(false);
 			borrarCapaPorNombre(L_RECORRIDOS);
+			borrarCapaPorNombre(L_NUEVAPARADA);
 			addRecorridoCercano(recorridos);
 
 			$ds('#mappopup').popover('dispose');
@@ -412,6 +419,7 @@ function getRecorridoParada(id, distancia) {
 
 			geolocation.setTracking(false);
 			borrarCapaPorNombre(L_PARADAS);
+			borrarCapaPorNombre(L_NUEVAPARADA);
 			addMarcadores(recorridos, L_PARADAS);
 			bondisuy_LoadHide();
 
@@ -423,46 +431,74 @@ function getRecorridoParada(id, distancia) {
 
 }
 
-//Funcion que retorna un recorrido por ID
+//Funcion que retorna un recorrido cercano
 //Parámetros: id: numerico
-function setMarca(coord) {
-	/*
-	<wfs:Transaction service="WFS" version="1.0.0"
-  xmlns:wfs="http://www.opengis.net/wfs"
-  xmlns:bondisuy="bondisuy"
-  xmlns:gml="http://www.opengis.net/gml"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-transaction.xsd bondisuy http://bondisuy.web.elasticloud.uy/geoserver/wfs/DescribeFeatureType?typename=bondisuy:ft_paradas">
-  <wfs:Insert>
-	<bondisuy:ft_paradas>
-		<bondisuy:id>6611</bondisuy:id>
-		<bondisuy:codvia1>1</bondisuy:codvia1>
-		<bondisuy:codvia2>1</bondisuy:codvia2>
-		<bondisuy:descripcion>Parada de prueba desde WFS</bondisuy:descripcion>
-		<bondisuy:habilitada>true</bondisuy:habilitada>
-		<bondisuy:geom>
-			<gml:Point srsName="http://www.opengis.net/gml/srs/epsg.xml#32721">
-			<gml:coordinates decimal="." cs="," ts=" ">-55.95509,-34.72082</gml:coordinates>
-		</gml:Point>
-		</bondisuy:geom>
-	</bondisuy:ft_paradas>
-  </wfs:Insert>
-</wfs:Transaction>
+function getRecorridoCercanosNuevaParada(coord, distancia) {
+	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.recorridoscercanos + "&outputformat=json" +
+		'&viewparams=X:{X};Y:{Y};distancia:{DISTANCIA}';
 
-	*/
+	var recorridos = [];
 
+	url = url.replace('{X}', coord[0]).replace('{Y}', coord[1]).replace('{DISTANCIA}', distancia);
+	
+	console.log(url);
+
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+	});
+
+	$ds.getJSON(url)
+		.done(function(data) {
+
+			var features = data["features"];
+			for (var lin in features) {
+				var auxlinea = features[lin];
+				var geom = auxlinea["geometry"];
+				var prop = auxlinea["properties"];
+				var coord = [];
+
+				try {
+					var newRecorrido = {
+						"descripcion": prop["ruta"],
+						"id": prop["id"],
+						"nombre": prop["linea_nombre"]
+					};
+
+					recorridos.push(newRecorrido);
+
+				} catch (e) {
+					console.log(prop["id"]);
+					console.log(auxlinea);
+				}
+			}
+
+			geolocation.setTracking(false);
+			//borrarCapaPorNombre(L_RECORRIDOS);
+			//borrarCapaPorNombre(L_NUEVAPARADA);
+			addRecorridoCercanoNuevaParada(recorridos);
+
+		})
+		.fail(function(jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
 }
+
+
 
 function htmlParadaHorario(objParada) {
 	var str = '';
 	var hr = '';
 	var cont = 0;
 	var objlineas = objParada['lineas'];
-	
+
 	str += '<div>';
 	str += '<p>Identificador: ' + objParada['id'] + '<br>' + objParada['descrip'] + '</p>';
 	str += '<div>';
-	
+
 
 	str += '<div id="PopParadaHorario">';
 	for (lin in objlineas) {
@@ -499,54 +535,3 @@ function htmlParadaHorario(objParada) {
 	return str;
 }
 
-
-function htmlParadaHorarioOLD(objParada) {
-	var str = '';
-	var hr = '';
-
-	str += '<div>';
-	str += '<p>' + objParada['descrip'] + '</p>';
-	str += '<div>';
-	str += '<nav>';
-	str += '  <div class="nav nav-tabs" id="nav-tab_horas" role="tablist">';
-
-	for (lin in objParada['lineas']) {
-		str += '<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="# ' + objParada['lineas'][lin]['linea'] + '" role="tab" aria-controls="nav-home" aria-selected="true">' + objParada['lineas'][lin]['linea'] + '</a>';
-		hr += '<div class="tab-pane fade show active" id=" ' + objParada['lineas'][lin]['linea'] + '" role="tabpanel" aria-labelledby="nav-home-tab">';
-		hr += '<ul class="list-group list-group-flush">';
-
-		for (h in objParada['lineas'][lin]['horarios']) {
-			hr += '<li class="list-group-item">' + objParada['lineas'][lin]['horarios'][h] + '</li>';
-		}
-		hr += '</ul>';
-		hr += '</div>';
-
-	}
-
-	str += '</div>';
-	str += '</nav>';
-	str += '<div class="tab-content" id="nav-tabContent">';
-	str += hr;
-	str += '<div>';
-	str += '<div>';
-	str += '</div>';
-
-	return str;
-	/*
-	
-	<nav>
-  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-	<a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>
-	<a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-	<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
-  </div>
-</nav>
-<div class="tab-content" id="nav-tabContent">
-  <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>
-  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
-  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
-</div>
-	*/
-
-
-}

@@ -139,6 +139,7 @@ function getEsquinaCalle(calle1, calle2, texto) {
 
 			borrarCapaPorNombre('ESQUINA');
 			addMarcadores(puntos, 'ESQUINA');
+			borrarCapaPorNombre(L_NUEVAPARADA);
 
 			centerMap([point4326['x'], point4326['y']]);
 			
@@ -186,6 +187,7 @@ function filtrarDireccion(calle, numero, texto) {
 
 					borrarCapaPorNombre('DIRECCION');
 					addMarcadores(puntos, 'DIRECCION');
+					borrarCapaPorNombre(L_NUEVAPARADA);
 
 					centerMap([point4326['x'], point4326['y']]);
 
@@ -439,7 +441,7 @@ function htmlParadaHorarioLinea(objlineas) {
 		str += '<div class="card">';
 		str += '<div class="card-header" id="heading' + objlineas[lin]['linea'] + '">';
 		str += '<h5 class="mb-0">';
-		str += '<button class="btn btn-link" data-toggle="collapse" data-target="#collapse' +
+		str += '<button class="btn" data-toggle="collapse" data-target="#collapse' +
 			objlineas[lin]['linea'] + '" aria-expanded="true" aria-controls="collapse' + objlineas[lin]['linea'] + '">';
 		str += objlineas[lin]['linea'];
 		str += '</button>';
@@ -449,11 +451,11 @@ function htmlParadaHorarioLinea(objlineas) {
 		str += '<div id="collapse' + objlineas[lin]['linea'] + '" class="collapse' + (cont == 0 ? ' show' : '') +
 			'" aria-labelledby="headingOne" data-parent="#accordionLinea">';
 		str += '<div class="card-body">';
-		str += '<p><a href="javascript:viewRecorridoHorario(' + objlineas[lin]['recorrido'] + ')""><i class="mdi mdi-eye"></i> ' + objlineas[lin]['detalle'] + '</a></p>';
+		str += '<a class="nav-link" href="javascript:viewRecorridoHorario(' + objlineas[lin]['recorrido'] + ')""><i class="mdi mdi-eye"></i> ' + objlineas[lin]['detalle'] + '</a>';
 		str += '<ul class="list-group list-group-flush">';
 
 		for (h in objlineas[lin]['horarios']) {
-			str += '<li class="list-group-item">' + objlineas[lin]['horarios'][h] + '</li>';
+			str += '<li class="list-group-item pl-4">' + objlineas[lin]['horarios'][h] + '</li>';
 		}
 		str += '</ul>';
 		str += '</div>';
@@ -467,4 +469,19 @@ function htmlParadaHorarioLinea(objlineas) {
 	str += '</div>';
 
 	return str;
+}
+
+function addRecorridoCercanoNuevaParada(objlineas){
+	
+	var str = '';
+	
+	console.log(objlineas);
+	
+	for (lin in objlineas) {
+		str += '<option value="' + objlineas[lin]['id'] + '">' + objlineas[lin]['nombre'] +' - '+ objlineas[lin]['descripcion'] + '</option>';	
+	}
+
+	$ds("#addNuevaParadaLineasCercanas").html(str);
+	
+	$ds('#addParada').modal('show');
 }

@@ -78,7 +78,8 @@
 							<li class="nav-item"><a class="nav-link"
 								href="javascript:searchOptions(6);">Paradas Deshabilitadas</a></li>
 							<li class="nav-item"><a class="nav-link"
-								href="javascript:searchOptions(7);">Ver l&iacute;neas Cercanas</a></li>
+								href="javascript:searchOptions(7);">Ver l&iacute;neas
+									Cercanas</a></li>
 						</ul>
 					</div></li>
 				<c:if test="${(sessionScope.USER!=null)}">
@@ -90,8 +91,10 @@
 					</a>
 						<div class="collapse" id="ui-busstop">
 							<ul class="nav flex-column sub-menu">
-								<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(8);">Alta</a></li>
-								<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(9);">Modificaci&oacute;n</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="javascript:searchOptions(8);">Alta</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="javascript:searchOptions(9);">Modificaci&oacute;n</a></li>
 							</ul>
 						</div></li>
 					<li class="nav-item menu-items"><a class="nav-link"
@@ -103,8 +106,10 @@
 					</a>
 						<div class="collapse" id="ui-busline">
 							<ul class="nav flex-column sub-menu">
-								<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(10);">Alta</a></li>
-								<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(11);">Modificaci&oacute;n</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="javascript:searchOptions(10);">Alta</a></li>
+								<li class="nav-item"><a class="nav-link"
+									href="javascript:searchOptions(11);">Modificaci&oacute;n</a></li>
 							</ul>
 						</div></li>
 				</c:if>
@@ -161,8 +166,7 @@
 	</div>
 
 	<div id="mappopup" data-toggle="popover" data-placement="top"
-		data-content="" data-html="true">
-		</div>
+		data-content="" data-html="true"></div>
 
 	<div class="modal" tabindex="-1" role="dialog" id="general_error">
 		<div class="modal-dialog" role="document">
@@ -206,6 +210,50 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- Modal ADD-->
+	<div class="modal" tabindex="-1" role="dialog" id="addParada">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Crear Parada</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row validate-input">
+						<label for="addName">Nombre</label>
+							<input type="text" class="form-control mb-3" id="addName"
+								name="addName" placeholder="Nombre">
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="form-group">
+								<label for="addNuevaParadaLineasCercanas">L&iacute;neas Cercanas</label> 
+								<select multiple class="form-control"
+									id="addNuevaParadaLineasCercanas">
+									<option>1</option>
+									<option>2</option>
+									<option>3</option>
+									<option>4</option>
+									<option>5</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row">
+							<button type="submit" class="btn btn-primary">CREAR</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 
 
 	<!-- jquery -->

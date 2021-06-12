@@ -4,6 +4,7 @@ var projectionSRS = 'EPSG:32721';
 
 var GEOSERVER = '/geoserver/wms';
 var DISTANCIA = 500;
+var DISTANCIA_LINEAPARADA = 10;
 var ZOOMDEFECTO = 16;
 var ZOOMLINEA = 15;
 var MINZOOM = 14; // visible at zoom levels above 14

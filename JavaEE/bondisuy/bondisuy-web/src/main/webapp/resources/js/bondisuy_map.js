@@ -436,6 +436,9 @@ map.on('click', function(evt) {
 			var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
 			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
+			var databody = $ds("#selectTableLineas").children("table").get(0);
+			$ds(databody).off("click");
+
 			getParadaLineaHorario(paradaID);
 		});
 
@@ -532,7 +535,7 @@ function addParada() {
 	modifyNuevaParada.on('modifyend', function(evt) {
 		var features = evt.features.getArray();
 		for (var i = 0; i < features.length; i++) {
-			console.log("feature changed id is", features[i].getGeometry().getCoordinates());
+			coordNuevaParada = features[i].getGeometry().getCoordinates();
 		}
 
 	});

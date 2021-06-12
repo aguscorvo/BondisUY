@@ -117,3 +117,10 @@ tbody tr.selected {
 	overflow: auto !important;
 	
 }
+
+.card-body {
+    padding-left: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
+}
+
+
