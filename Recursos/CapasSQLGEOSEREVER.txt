@@ -38,7 +38,7 @@ WHERE
 ST_Intersects(r.geom, ST_BUFFER(ST_GeometryFromText('POINT(%X% %Y%)', 32721), %distancia%))
 
 MARCAR id como clave primaria
-
+Validar Expresión: ^[.\w\d\s]+$
 ----------------------------------
 Recorridos Paradas
 
@@ -54,7 +54,8 @@ SELECT
 	p.id AS parada_id,
 	p.descripcion AS parada_desc,
 	p.geom AS p_geom,
-	h.hora AS hora
+	h.hora AS hora,
+	to_char(h.hora, 'HH24:MI') AS shora
 	
 	
 FROM ft_paradas p

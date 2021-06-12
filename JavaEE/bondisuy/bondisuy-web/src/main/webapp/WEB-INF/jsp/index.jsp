@@ -90,8 +90,8 @@
 					</a>
 						<div class="collapse" id="ui-busstop">
 							<ul class="nav flex-column sub-menu">
-								<li class="nav-item"><a class="nav-link" href="#">Alta</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Modificaci&oacute;n</a></li>
+								<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(8);">Alta</a></li>
+								<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(9);">Modificaci&oacute;n</a></li>
 							</ul>
 						</div></li>
 					<li class="nav-item menu-items"><a class="nav-link"
@@ -103,8 +103,8 @@
 					</a>
 						<div class="collapse" id="ui-busline">
 							<ul class="nav flex-column sub-menu">
-								<li class="nav-item"><a class="nav-link" href="#">Alta</a></li>
-								<li class="nav-item"><a class="nav-link" href="#">Modificaci&oacute;n</a></li>
+								<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(10);">Alta</a></li>
+								<li class="nav-item"><a class="nav-link" href="javascript:searchOptions(11);">Modificaci&oacute;n</a></li>
 							</ul>
 						</div></li>
 				</c:if>

@@ -1,12 +1,16 @@
 var coordinates = ol.proj.fromLonLat([-56.17938, -34.86157]);
+var coordNuevaParada = ol.proj.fromLonLat([-56.17938, -34.86157]);
 var projectionSRS = 'EPSG:32721';
 
 var GEOSERVER = '/geoserver/wms';
 var DISTANCIA = 500;
 var ZOOMDEFECTO = 16;
-var ZOOMLINEA = 14;
+var ZOOMLINEA = 15;
+var MINZOOM = 14; // visible at zoom levels above 14
+var MAXZOOM = 11;// visible at zoom levels 14 and below
 var L_RECORRIDOS = 'RECORRIDO';
 var L_PARADAS = 'PARADAS';
+var L_NUEVAPARADA = 'NUEVAPARADA';
 
 var CAPAS = {
 	'calles': 'bondisuy:ft_ejes',
@@ -25,17 +29,19 @@ var FORMATO = {
 var IMAGENES = {
 	'parada': '/bondisuy-web/resources/images/map/IconMapBus.png',
 	'paradadeshabilitada': '/bondisuy-web/resources/images/map/IconMapBusDes.png',
+	'paradanueva': '/bondisuy-web/resources/images/map/IconMapBusNew.png',
 	'esquina': '/bondisuy-web/resources/images/map/IconMapCorner.png',
 	'direccion': '/bondisuy-web/resources/images/map/IconMapDir.png',
 	'gps': '/bondisuy-web/resources/images/map/IconGps.png',
+	
 
 };
 
 var COMPANY = {
 	'cutcsa': '#314f5f',
 	'coetc': '#cc0033',
-	'ucot': '#fff700',
-	'comesa': '#66cc33',
+	'ucot': '#ffBF00',
+	'comesa': '#2D572C',
 };
 
 

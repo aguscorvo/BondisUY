@@ -80,6 +80,7 @@ var removeLastFeature = function() {
 
 
 
+
 function addInteraction() {
 	//Se deshabilita la geolocalizacion
 	geolocation.setTracking(false);
@@ -95,7 +96,7 @@ function addInteraction() {
 		coordinates = feature.getGeometry().getCoordinates();
 
 		feature.setProperties({
-			name: "<div id='ver_Lineas_Cercanas'><a href='javascript:verLineasCercanas();'><i class='mdi mdi-eye'></i> Ver L\u00EDneas Cercanas</a></div>",
+			name: "Mi Ubicaci\u00F3nn",
 			tipo: 'localizacion',
 		})
 
@@ -103,6 +104,17 @@ function addInteraction() {
 		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
 		getParadasCercanas([point32721['x'], point32721['y']], DISTANCIA);
+
+		var card = $ds("#to_do_some");
+		var card_title = $ds(card).find("h6.card-title");
+		var card_subtitle = $ds(card).find("h7.card-title");
+		var form_group = $ds(card).find(".form-group");
+
+		$ds(card_title).html("L&iacute;neas cercanas");
+
+		getRecorridoCercanos([point32721['x'], point32721['y']], DISTANCIA);
+
+		map.removeInteraction(drawNuevaLocalizacion);
 	});
 
 	drawNuevaLocalizacion.on('drawend', function(evt) {
@@ -174,7 +186,8 @@ geolocation.on('change:accuracyGeometry', function() {
 //Central el mapa en la localizacion actual
 
 var positionFeature = new ol.Feature({
-	name: "<div id='ver_Lineas_Cercanas'><a href='javascript:verLineasCercanas();'><i class='mdi mdi-eye'></i> Ver L\u00EDneas Cercanas</a></div>",
+	//name: "<div id='ver_Lineas_Cercanas'><a href='javascript:verLineasCercanas();'><i class='mdi mdi-eye'></i> Ver L\u00EDneas Cercanas</a></div>",
+	name: "Mi Ubicaci\u00F3nn",
 	tipo: 'localizacion',
 });
 
@@ -195,6 +208,20 @@ geolocation.on('change:position', function() {
 	var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
 	getParadasCercanas([point32721['x'], point32721['y']], DISTANCIA);
+
+
+	var card = $ds("#to_do_some");
+	var card_title = $ds(card).find("h6.card-title");
+	var card_subtitle = $ds(card).find("h7.card-title");
+	var form_group = $ds(card).find(".form-group");
+
+	$ds(card_title).html("L&iacute;neas cercanas");
+	//$ds(card_subtitle).html("L&iacute;nea");
+
+	//var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
+	//var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+	getRecorridoCercanos([point32721['x'], point32721['y']], DISTANCIA);
 
 });
 
@@ -287,6 +314,7 @@ function addMarcadores(list, typeSource) {
 	var capa = new ol.layer.Vector({
 		name: typeSource,
 		source: marcadoresSource,
+		minZoom: MINZOOM,
 		zIndex: 3,
 	});
 
@@ -392,24 +420,24 @@ map.on('click', function(evt) {
 			$ds('#mappopup').popover('show');
 
 
-		/*Opcion busqueda Localizacion se asigna acción al div */
-		$ds("#ver_Lineas_Cercanas").on("click", function() {
+		$ds("#ver_Lineas_Paradas").on("click", function() {
+			var divID = $ds(this).find("div[id*='id_parada:_:']").attr('id');
+			var auxID = divID.split(":_:");
+			var paradaID = auxID[1];
+
 			var card = $ds("#to_do_some");
 			var card_title = $ds(card).find("h6.card-title");
 			var card_subtitle = $ds(card).find("h7.card-title");
 			var form_group = $ds(card).find(".form-group");
 
-			$ds(card_title).html("L&iacute;neas cercanas");
-			//$ds(card_subtitle).html("L&iacute;nea");
+			$ds(card_title).html("Parada " + paradaID);
+			$ds(card_subtitle).html("L&iacute;nea");
 
 			var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
 			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
-			getRecorridoCercanos([point32721['x'], point32721['y']], DISTANCIA);
-
+			getParadaLineaHorario(paradaID);
 		});
-
-
 
 
 		feature = undefined;
@@ -440,3 +468,87 @@ function borrarCapaPorNombre(nombre) {
 		}
 	}
 }
+
+
+//Source de Nueva Parada
+var sourceNuevaParada = new ol.source.Vector({
+	wrapX: false,
+});
+
+var snapNuevaParada = new ol.interaction.Snap({
+	source: sourceNuevaParada
+});
+
+var modifyNuevaParada = new ol.interaction.Modify({
+	source: sourceNuevaParada
+});
+
+
+// removes the last feature from the vector source.
+var removeLastNuevaParada = function() {
+	console.log(lastFeature);
+	if (lastFeature) {
+		sourceNuevaParada.removeFeature(lastFeature);
+		modifyNuevaParada.removeFeature(lastFeature);
+	}
+
+};
+
+
+function addParada() {
+	//Se deshabilita la geolocalizacion
+	geolocation.setTracking(false);
+
+	var drawNuevaParada = new ol.interaction.Draw({
+		source: sourceNuevaParada,
+		type: 'Point',
+	});
+
+	//Vector de Nueva Parada
+	var vectorNuevaParada = new ol.layer.Vector({
+		name: L_NUEVAPARADA,
+		source: sourceNuevaParada,
+		style: IconNuevaParadaStyle,
+	});
+
+	sourceNuevaParada.on('addfeature', function(evt) {
+		//removeLastNuevaParada();
+		lastFeature = evt.feature;
+
+		var feature = evt.feature;
+		coordNuevaParada = feature.getGeometry().getCoordinates();
+
+		console.log(coordNuevaParada);
+		feature.setProperties({
+			name: "Nueva Parada",
+			tipo: 'nuevaparada',
+		})
+
+		map.removeInteraction(drawNuevaParada);
+		map.removeInteraction(snapNuevaParada);
+
+	});
+
+	modifyNuevaParada.on('modifyend', function(evt) {
+		var features = evt.features.getArray();
+		for (var i = 0; i < features.length; i++) {
+			console.log("feature changed id is", features[i].getGeometry().getCoordinates());
+		}
+
+	});
+
+
+	// Agregamos la capa al mapa
+	map.addLayer(vectorNuevaParada);
+
+	map.addInteraction(modifyNuevaParada);
+	map.addInteraction(drawNuevaParada);
+	map.addInteraction(snapNuevaParada);
+
+
+}
+
+
+
+
+

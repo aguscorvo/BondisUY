@@ -25,10 +25,11 @@ public class ParadaREST {
 	IParadaService paradaService;
 	
 	@GET
-	@Path("/{idParada}/{horario}")
-	public Response proximasLineas(@PathParam("idParada") Long idParada, @PathParam("horario") String horario) {
+	@Path("/{idParada}/{hora}")
+	public Response proximasLineas(@PathParam("idParada") Long idParada, @PathParam("hora") String horario) {
 		RespuestaREST<List<ProximaLineaDTO>> respuesta = null;
 		try {
+			//String horario = hora + ":" + min + ":" + "00";
 			List<ProximaLineaDTO> proximasLineas = paradaService.proximasLineas(idParada, horario);
 			respuesta = new RespuestaREST<List<ProximaLineaDTO>>(true, "Próximas líneas listadas con éxito", proximasLineas);
 			return Response.ok(respuesta).build();

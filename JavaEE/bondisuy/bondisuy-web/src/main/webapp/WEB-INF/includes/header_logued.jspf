@@ -181,10 +181,10 @@
 						<div class="card-body px-5 py-5">
 							<div class="form-group validate-input">
 								<label>Usuario *</label> <input type="text"
-									class="form-control p_input" id="signupNickName"
-									name="signupNickName">
+									class="form-control p_input" id="signupNickNameR"
+									name="signupNickNameR">
 								<div class="p-2 alert alert-warning d-none"
-									id="signupNickNameError">
+									id="signupNickNameRError">
 									<i class="fas fa-exclamation-triangle" title="Ingrese Usuario"></i>
 								</div>
 							</div>

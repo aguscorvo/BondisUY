@@ -35,6 +35,18 @@ var IconLocalizacionStyle = new ol.style.Style({
 	}),
 });
 
+// Icono Nueva Parada
+var IconNuevaParadaStyle = new ol.style.Style({
+	image: new ol.style.Icon({
+		anchor: [0.5, 46],
+		anchorXUnits: 'fraction',
+		anchorYUnits: 'pixels',
+		opacity: 1,
+		src: IMAGENES.paradanueva
+	}),
+});
+
+
 var styles = [
 	new ol.style.Style({
 		image: new ol.style.Circle({
@@ -45,7 +57,7 @@ var styles = [
 		fill: fillAzul7,
 		stroke: strokeBlanco
 	}),
-		new ol.style.Style({
+	new ol.style.Style({
 		image: new ol.style.Circle({
 			radius: 4,
 			fill: new ol.style.Fill({

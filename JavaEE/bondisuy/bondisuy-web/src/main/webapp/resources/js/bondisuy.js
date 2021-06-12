@@ -73,8 +73,8 @@ $ds(".head_search_bar").on("click", "i", function() {
 $ds("#selectEmpresas").on("change", function() {
 	bondisuy_LoadShow();
 	filtrarLineaByCompany($ds(this).val());
-	var size = $ds("#map").height() - 50 - $ds(this).offset().top;
-	$ds("#selectTableLineas").height(size);
+	//;var size = $ds("#map").height() - 50 - $ds(this).offset().top;
+	//$ds("#selectTableLineas").height(size);
 });
 
 
@@ -106,8 +106,8 @@ function searchOptions(id) {
 		$ds("#selectEmpresas").on("change", function() {
 			bondisuy_LoadShow();
 			filtrarLineaByCompany($ds(this).val());
-			var size = $ds("#map").height() - 50 - $ds(this).offset().top;
-			$ds("#selectTableLineas").height(size);
+			//var size = $ds("#map").height() - 50 - $ds(this).offset().top;
+			//$ds("#selectTableLineas").height(size);
 		});
 
 		var recorrido = '';
@@ -133,8 +133,6 @@ function searchOptions(id) {
 
 
 	} else if (id == 2) {
-		//$ds( "#selectTableLineas" ).off( "click", "**" );
-
 		$ds("a[href='#ui-basic']").click();
 		select = '<input type="text" class="form-control form-control-sm" id="inputLinea">';
 		$ds(card_title).html("Buscar l&iacute;nea");
@@ -157,10 +155,10 @@ function searchOptions(id) {
 				default:
 					nombre = $ds(this).val() + String.fromCharCode(ev.which);
 			}
-			bondisuy_LoadShow();
+			//bondisuy_LoadShow();
 			filtrarLineaByName(nombre);
-			var size = $ds("#map").height() - 50 - $ds(this).offset().top;
-			$ds("#selectTableLineas").height(size);
+			//var size = $ds("#map").height() - 50 - $ds(this).offset().top;
+			//$ds("#selectTableLineas").height(size);
 		});
 
 		$ds("#inputLinea").on("keydown", function(ev) {
@@ -175,10 +173,10 @@ function searchOptions(id) {
 				default:
 					nombre = $ds(this).val() + String.fromCharCode(ev.which);
 			}
-			bondisuy_LoadShow();
+			//bondisuy_LoadShow();
 			filtrarLineaByName(nombre);
-			var size = $ds("#map").height() - 50 - $ds(this).offset().top;
-			$ds("#selectTableLineas").height(size);
+			//var size = $ds("#map").height() - 50 - $ds(this).offset().top;
+			//$ds("#selectTableLineas").height(size);
 		});
 
 		var recorrido = '';
@@ -530,5 +528,98 @@ function searchOptions(id) {
 				}
 			}
 		});
+	} else if (id == 5) {
+		var card = $ds("#to_do_some");
+
+		$ds("a[href='#ui-basic']").click();
+		$ds(card_title).html("Ver Paradas Habilitadas");
+		$ds(card_subtitle).html("Informaci\u00F3n");
+		var form_group = $ds(card).find(".form-group");
+		var table = $ds("#selectTableLineas").children("table").get(0);
+
+		$ds(form_group).html("");
+		$ds(table).html('');
+
+		$ds(table).off("click");
+
+		getAllParadasEstado(true);
+
+
+
+	} else if (id == 6) {
+		var card = $ds("#to_do_some");
+
+		$ds("a[href='#ui-basic']").click();
+		$ds(card_title).html("Ver Paradas Habilitadas");
+		$ds(card_subtitle).html("Informaci\u00F3n");
+		var form_group = $ds(card).find(".form-group");
+		var table = $ds("#selectTableLineas").children("table").get(0);
+
+		$ds(form_group).html("");
+		$ds(table).html('');
+
+		$ds(table).off("click");
+
+		getAllParadasEstado(false);
+
+	} else if (id == 7) {
+		var card = $ds("#to_do_some");
+		var table = $ds("#selectTableLineas").children("table").get(0);
+		$ds("a[href='#ui-basic']").click();
+
+		var card_title = $ds(card).find("h6.card-title");
+		var card_subtitle = $ds(card).find("h7.card-title");
+		var form_group = $ds(card).find(".form-group");
+
+		$ds(card_title).html("L&iacute;neas cercanas");
+		$ds(card_subtitle).html("");
+		$ds(form_group).html("");
+
+		var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
+		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+		getRecorridoCercanos([point32721['x'], point32721['y']], DISTANCIA);
+		var txttable = '<thead><tr><th>l&iacute;nea</th><th>Detalle</th></tr></thead><tbody></tbody>';
+
+		$ds(table).html(txttable);
+
+	} else if (id == 8) {
+		var card = $ds("#to_do_some");
+		var button = '<button class="btn btn-secondary btn-fw" id="confNParada">Confirmar Ubicaci\u00F3n</select>';
+
+		$ds("a[href='#ui-busstop']").click();
+		$ds(card_title).html("Crear Parada");
+		$ds(card_subtitle).html("");
+		var form_group = $ds(card).find(".form-group");
+		var table = $ds("#selectTableLineas").children("table").get(0);
+
+		$ds(form_group).html(button);
+		$ds(table).html('');
+
+		$ds(table).off("click");
+
+		borrarCapaPorNombre('DIRECCION');
+		borrarCapaPorNombre('ESQUINA');
+		borrarCapaPorNombre(L_RECORRIDOS);
+		borrarCapaPorNombre(L_PARADAS);
+		borrarCapaPorNombre(L_NUEVAPARADA);
+
+		addParada();
+
+	} else if (id == 9) {
+		$ds("a[href='#ui-basic']").click();
+		select = '<select class="form-control form-control-sm text-secondary" id="selectEmpresas"></select>';
+
+		$ds(card_title).html("Buscar l&iacute;neas por empresa");
+		$ds(card_subtitle).html("L&iacute;nea");
+		$ds(form_group).html(select);
+
+		listarCompany();
+
+	} else if (id == 10) {
+
+	} else if (id == 11) {
+
 	}
+
 }

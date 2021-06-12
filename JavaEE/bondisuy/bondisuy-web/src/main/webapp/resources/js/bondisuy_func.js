@@ -33,6 +33,7 @@ function filtrarLineaByCompany(companyId) {
 	var txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
+
 	if (companyId != '' && companyId != null) {
 		var url = "/bondisuy-web/LineaBondisuy?companyId=" + companyId;
 
@@ -51,9 +52,7 @@ function filtrarLineaByCompany(companyId) {
 				for (var td in data) {
 					var recorridos = data[td].recorridos;
 					for (var rec in recorridos) {
-						if (recorridos[rec].activo) {
-							txttable += '<tr data-counter_id=' + recorridos[rec].id + '><td>' + data[td].nombre + '</td><td>' + recorridos[rec].descripcion + '</td></tr>'
-						}
+						txttable += '<tr data-counter_id=' + recorridos[rec].id + '><td>' + data[td].nombre + '</td><td>' + recorridos[rec].descripcion + '</td></tr>'
 					}
 				}
 
@@ -142,6 +141,7 @@ function getEsquinaCalle(calle1, calle2, texto) {
 			addMarcadores(puntos, 'ESQUINA');
 
 			centerMap([point4326['x'], point4326['y']]);
+			
 
 		})
 		.fail(function(jqxhr, textStatus, error) {
@@ -231,9 +231,7 @@ function filtrarLineaByName(lineaName) {
 					for (var td in data) {
 						var recorridos = data[td].recorridos;
 						for (var rec in recorridos) {
-							if (recorridos[rec].activo) {
-								txttable += '<tr data-counter_id=' + recorridos[rec].id + '><td>' + data[td].nombre + '</td><td>' + recorridos[rec].descripcion + '</td></tr>'
-							}
+							txttable += '<tr data-counter_id=' + recorridos[rec].id + '><td>' + data[td].nombre + '</td><td>' + recorridos[rec].descripcion + '</td></tr>'
 						}
 					}
 				}
@@ -307,9 +305,7 @@ function addRecorridoCercano(list) {
 	//SE agrega la accion de click en la tabla de recorridos
 	var recorrido = '';
 	var databody = $ds("#selectTableLineas").children("table").get(0);
-	//var size = $ds("#map").height() - 50 - $ds(this).offset().top;
-	$ds("#selectTableLineas").height(200);
-
+	
 
 	$ds(databody).off("click");
 
@@ -337,6 +333,84 @@ function addRecorridoCercano(list) {
 
 }
 
+//filtrar linea por Nombre
+function getParadaLineaHorario(paradaID) {
+	var txttable = '<thead><tr><th></th></thead><tbody><td>';
+	var table = $ds("#selectTableLineas").children("table").get(0);
+
+	if (paradaID != '') {
+		var url = "/bondisuy-web/bondisuyrest/paradas/{PARADA}/{HORA}";
+
+		var dia = new Date();
+		//var hh = dia.getHours();
+		//var mmm = dia.getMinutes();
+
+		//date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+
+		//var hora = (hh<10?"0":"") + hh + (mm<10?"0":"") + mm;
+		var hora = dia.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+
+
+		url = url.replace("{PARADA}", paradaID).replace("{HORA}", hora);
+
+		$ds.ajaxSetup({
+			scriptCharset: "utf-8",
+			contentType: "application/json; charset=utf-8",
+			mimeType: "text/plain",
+			headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+		});
+
+
+		$ds.getJSON(url)
+			.done(function(data) {
+
+				if (!$ds.isEmptyObject(data)) {
+					var lineas = {};
+
+					for (var lin in data["cuerpo"]) {
+
+						var recorrido = data["cuerpo"][lin];
+						var linea = {};
+
+						if (lineas[recorrido[2]] == undefined) {
+							linea['linea'] = recorrido[0];
+							linea['recorrido'] = recorrido[2];
+							linea['detalle'] = recorrido[3];
+							linea['horarios'] = [];
+
+							linea['horarios'].push(recorrido[1]);
+						} else {
+							linea = lineas[recorrido[2]];
+
+							linea['horarios'].push(recorrido[1]);
+
+						}
+
+						lineas[recorrido[2]] = linea;
+
+					}
+				}
+
+				txttable += htmlParadaHorarioLinea(lineas);
+
+				txttable += '</td></tbody>';
+
+				$ds(table).html(txttable);
+
+				bondisuy_LoadHide();
+			})
+			.fail(function(jqxhr, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err + "file: " + url);
+			});
+	} else {
+		txttable += '</td></tbody>';
+		$ds(table).html(txttable);
+
+	}
+
+}
+
 
 //Mostrar icono de  espera
 function bondisuy_LoadShow() {
@@ -353,4 +427,44 @@ function bondisuy_LoadHide() {
 function bondisuy_msgError(message) {
 	$ds("#general_error_msj").html(message);
 	$ds('#general_error').modal('show');
+}
+
+function htmlParadaHorarioLinea(objlineas) {
+	var str = '';
+	var hr = '';
+	var cont = 0;
+
+	str += '<div id="accordionLinea">';
+	for (lin in objlineas) {
+		str += '<div class="card">';
+		str += '<div class="card-header" id="heading' + objlineas[lin]['linea'] + '">';
+		str += '<h5 class="mb-0">';
+		str += '<button class="btn btn-link" data-toggle="collapse" data-target="#collapse' +
+			objlineas[lin]['linea'] + '" aria-expanded="true" aria-controls="collapse' + objlineas[lin]['linea'] + '">';
+		str += objlineas[lin]['linea'];
+		str += '</button>';
+		str += '<h5>';
+		str += '</div>';
+
+		str += '<div id="collapse' + objlineas[lin]['linea'] + '" class="collapse' + (cont == 0 ? ' show' : '') +
+			'" aria-labelledby="headingOne" data-parent="#accordionLinea">';
+		str += '<div class="card-body">';
+		str += '<p><a href="javascript:viewRecorridoHorario(' + objlineas[lin]['recorrido'] + ')""><i class="mdi mdi-eye"></i> ' + objlineas[lin]['detalle'] + '</a></p>';
+		str += '<ul class="list-group list-group-flush">';
+
+		for (h in objlineas[lin]['horarios']) {
+			str += '<li class="list-group-item">' + objlineas[lin]['horarios'][h] + '</li>';
+		}
+		str += '</ul>';
+		str += '</div>';
+		str += '</div>';
+		str += '</div>';
+
+		cont += 1;
+
+	}
+
+	str += '</div>';
+
+	return str;
 }
