@@ -1,6 +1,7 @@
 package bondisuy.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -35,6 +36,9 @@ private static final long serialVersionUID = 1L;
 	
 	@Column(name = "descripcion")
 	private String descripcion;
+	
+	@Column(name = "fecha")
+	private LocalDateTime fecha; 
 	
 	@Column(name = "codVia1")
 	private Long codVia1;

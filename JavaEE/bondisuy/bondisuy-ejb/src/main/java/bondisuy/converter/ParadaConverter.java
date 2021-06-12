@@ -1,5 +1,8 @@
 package bondisuy.converter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
@@ -20,6 +23,7 @@ public class ParadaConverter extends AbstractConverter<Parada, ParadaDTO>{
 		return ParadaDTO.builder()
 				.id(p.getId())
 				.descripcion(p.getDescripcion())
+				.fecha(p.getFecha().toString())
 				.codVia1(p.getCodVia1())
 				.codVia2(p.getCodVia2())
 				.habilitada(p.getHabilitada())
@@ -30,9 +34,11 @@ public class ParadaConverter extends AbstractConverter<Parada, ParadaDTO>{
 	@Override
 	public Parada fromDTO(ParadaDTO p) {
 		if (p==null) return null;
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		return Parada.builder()
 				.id(p.getId())
 				.descripcion(p.getDescripcion())
+				.fecha(LocalDateTime.parse(p.getFecha(), formato))
 				.codVia1(p.getCodVia1())
 				.codVia2(p.getCodVia2())
 				.habilitada(p.getHabilitada())
@@ -42,8 +48,10 @@ public class ParadaConverter extends AbstractConverter<Parada, ParadaDTO>{
 	
 	public Parada fromCrearDTO(ParadaCrearDTO p) {
 		if(p==null) return null;
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		return Parada.builder()
 				.descripcion(p.getDescripcion())
+				.fecha(LocalDateTime.parse(p.getFecha(), formato))
 				.codVia1(p.getCodVia1())
 				.codVia2(p.getCodVia2())
 				.habilitada(p.getHabilitada())
@@ -55,6 +63,7 @@ public class ParadaConverter extends AbstractConverter<Parada, ParadaDTO>{
 		return ParadaMinDTO.builder()
 				.id(p.getId())
 				.descripcion(p.getDescripcion())
+				.fecha(p.getFecha().toString())
 				.codVia1(p.getCodVia1())
 				.codVia2(p.getCodVia2())
 				.habilitada(p.getHabilitada())
@@ -63,9 +72,11 @@ public class ParadaConverter extends AbstractConverter<Parada, ParadaDTO>{
 	
 	public Parada fromMinDTO(ParadaMinDTO p) {
 		if(p==null) return null;
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		return Parada.builder()
 				.id(p.getId())
 				.descripcion(p.getDescripcion())
+				.fecha(LocalDateTime.parse(p.getFecha(), formato))
 				.codVia1(p.getCodVia1())
 				.codVia2(p.getCodVia2())
 				.habilitada(p.getHabilitada())

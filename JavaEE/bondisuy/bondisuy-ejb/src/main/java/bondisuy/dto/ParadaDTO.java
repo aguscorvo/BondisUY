@@ -17,6 +17,7 @@ public class ParadaDTO {
 
 	private Long id;
 	private String descripcion;
+	private String fecha;
 	private Long codVia1;
 	private Long codVia2;
 	private Boolean habilitada;

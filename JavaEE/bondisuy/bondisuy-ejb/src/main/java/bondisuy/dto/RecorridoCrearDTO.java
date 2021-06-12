@@ -15,6 +15,7 @@ public class RecorridoCrearDTO {
 
 	private String descripcion;
 	private Boolean activo;
+	private String fecha;
 	private Long linea;
 
 }

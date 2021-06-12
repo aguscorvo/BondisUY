@@ -1,6 +1,7 @@
 package bondisuy.entity;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -40,6 +41,9 @@ public class Recorrido implements Serializable{
 	
 	@Column(name = "activo")
 	private Boolean activo;
+	
+	@Column(name = "fecha")
+	private LocalDateTime fecha; 
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "linea_id", referencedColumnName = "id")

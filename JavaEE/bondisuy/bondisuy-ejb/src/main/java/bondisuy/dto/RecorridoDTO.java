@@ -18,6 +18,7 @@ public class RecorridoDTO {
 	private Long id;
 	private String descripcion;
 	private Boolean activo;
+	private String fecha;
 	private LineaMinDTO linea;
 	private List<HorarioDTO> horarios;
 }

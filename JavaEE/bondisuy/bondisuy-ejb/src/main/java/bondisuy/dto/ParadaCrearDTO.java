@@ -14,6 +14,7 @@ import lombok.Setter;
 public class ParadaCrearDTO {
 
 	private String descripcion;
+	private String fecha;
 	private Long codVia1;
 	private Long codVia2;
 	private Boolean habilitada;

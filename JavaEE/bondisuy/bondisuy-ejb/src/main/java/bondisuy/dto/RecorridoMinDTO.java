@@ -16,6 +16,7 @@ public class RecorridoMinDTO {
 	private Long id;
 	private String descripcion;
 	private Boolean activo;
+	private String fecha;
 	private LineaMinDTO linea;
 	
 }
