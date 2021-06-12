@@ -6,12 +6,15 @@ import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import bondisuy.business.IParadaService;
+import bondisuy.dto.ParadaCrearDTO;
+import bondisuy.dto.ParadaDTO;
 import bondisuy.dto.ProximaLineaDTO;
 import bondisuy.exception.BondisUyException;
 
@@ -23,6 +26,19 @@ public class ParadaREST {
 	
 	@EJB
 	IParadaService paradaService;
+	
+	@POST
+	public Response crear(ParadaCrearDTO request) {
+		RespuestaREST<ParadaDTO> respuesta =null;
+		try {
+			ParadaDTO parada = paradaService.crear(request);
+			respuesta = new RespuestaREST<ParadaDTO>(true, "Parada creada con éxito.", parada);
+			return Response.ok(respuesta).build();
+		}catch(BondisUyException e) {
+			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+		}		
+	}
 	
 	@GET
 	@Path("/{idParada}/{hora}")
