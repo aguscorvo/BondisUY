@@ -13,7 +13,7 @@ public interface IParadaDAO {
 
 	public List<Parada> listar();
 	public Parada listarPorId(Long id);
-	public Parada crear(Parada parada);
+	public Parada crear(Parada parada, String geometria);
 	public Parada editar(Parada parada);
 	public void eliminar(Parada parada);
 	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario);

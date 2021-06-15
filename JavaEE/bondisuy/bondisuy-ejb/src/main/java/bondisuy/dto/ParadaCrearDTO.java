@@ -18,5 +18,6 @@ public class ParadaCrearDTO {
 	private Long codVia1;
 	private Long codVia2;
 	private Boolean habilitada;
+	private String geometria;
 
 }

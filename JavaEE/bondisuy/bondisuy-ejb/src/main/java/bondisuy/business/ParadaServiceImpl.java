@@ -51,7 +51,7 @@ public class ParadaServiceImpl implements IParadaService {
 	public ParadaDTO crear(ParadaCrearDTO paradaDTO) throws BondisUyException{
 		try {
 			Parada parada = paradaConverter.fromCrearDTO(paradaDTO);
-			return paradaConverter.fromEntity(paradaDAO.crear(parada));
+			return paradaConverter.fromEntity(paradaDAO.crear(parada, paradaDTO.getGeometria()));
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}

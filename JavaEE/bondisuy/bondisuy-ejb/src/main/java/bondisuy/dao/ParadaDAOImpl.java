@@ -34,8 +34,16 @@ public class ParadaDAOImpl implements IParadaDAO {
 	}
 	
 	@Override
-	public Parada crear(Parada parada) {
-		em.persist(parada);
+	public Parada crear(Parada parada, String geometria) {
+		Query consulta = em.createNativeQuery("INSERT INTO ft_paradas (codvia1, codvia2, descripcion, fecha, habilitada, geom) VALUES (?, ?, ?, ?, ?, ST_GeometryFromText(?, 32721))");
+		System.out.println(parada.getCodVia1());
+		consulta.setParameter(1, Long.valueOf(parada.getCodVia1()));
+		consulta.setParameter(2, Long.valueOf(parada.getCodVia2()));
+		consulta.setParameter(3, parada.getDescripcion());
+		consulta.setParameter(4, parada.getFecha());
+		consulta.setParameter(5, parada.getHabilitada());
+		consulta.setParameter(6, geometria);
+		consulta.executeUpdate();
 		return parada;
 	}
 	
