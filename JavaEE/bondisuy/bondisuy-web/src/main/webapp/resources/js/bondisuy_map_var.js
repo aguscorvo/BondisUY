@@ -1,5 +1,6 @@
 var coordinates = ol.proj.fromLonLat([-56.17938, -34.86157]);
 var coordNuevaParada = ol.proj.fromLonLat([-56.17938, -34.86157]);
+var coordNuevaLinea = [];
 var projectionSRS = 'EPSG:32721';
 
 var GEOSERVER = '/geoserver/wms';
@@ -12,6 +13,7 @@ var MAXZOOM = 11;// visible at zoom levels 14 and below
 var L_RECORRIDOS = 'RECORRIDO';
 var L_PARADAS = 'PARADAS';
 var L_NUEVAPARADA = 'NUEVAPARADA';
+var L_NUEVALINEA = 'NUEVALINEA';
 
 
 var CAPAS = {

@@ -46,6 +46,14 @@ var IconNuevaParadaStyle = new ol.style.Style({
 	}),
 });
 
+// estilo Nueva Linea
+var StrokeNuevaLineaStyle = new ol.style.Style({
+	stroke: new ol.style.Stroke({
+		width: 4,
+		color: '#152238'
+	}),
+});
+
 
 var styles = [
 	new ol.style.Style({

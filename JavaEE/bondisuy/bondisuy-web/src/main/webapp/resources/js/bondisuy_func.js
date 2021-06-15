@@ -545,8 +545,10 @@ function addParadaPOSTREST() {
 				},
 				error: function(err) {
 					// check the err for error details
-					console.log(err)
-					const obj = JSON.parse(result);
+					$ds('#errorModalLabel').html('Error');
+					$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+					$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
+					$ds('#general_error').modal('show');
 				}
 			}); // ajax call closing
 
@@ -572,7 +574,10 @@ function addHorarioParada(idParada, lineas) {
 				//console.log(result);
 			},
 			error: function(err) {
-				console.log(err)
+				$ds('#errorModalLabel').html('Error');
+				$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+				$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
+				$ds('#general_error').modal('show');
 			}
 		}); // ajax call closing
 	}
@@ -587,3 +592,170 @@ function addHorarioParada(idParada, lineas) {
 
 }
 
+function getCompanyNuevaLinea() {
+	var options = '<option	value=""></option>';
+	var url = "/bondisuy-web/CompanyBondisuy?companyId=ALL";
+
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+	});
+
+
+	$ds.getJSON(url)
+		.done(function(data) {
+
+			for (var op in data) {
+				options += '<option	value="' + data[op].id + '">' + data[op].nombre + '</option>'
+			}
+
+			$ds("#addLineaEmpresa").html(options);
+			$ds('#addLinea').modal('show');
+
+		})
+		.fail(function(jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
+}
+
+
+
+function addLineaPOSTREST() {
+	var url = "/bondisuy-web/bondisuyrest/lineas";
+	var nombre = $ds('#addLineaName').val();
+	var descrip = $ds('#addLineaDescripcion').val();
+	var empresa = $ds('#addLineaEmpresa').val();
+
+
+	if (coordNuevaLinea.length == 0) {
+		$ds('#errorModalLabel').html('Error');
+		$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+		$ds('#general_error_msj').html('Debe definir una ruta');
+		$ds('#general_error').modal('show');
+	} else {
+		if (nombre.trim() == "") {
+			$ds('#errorModalLabel').html('Error');
+			$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+			$ds('#general_error_msj').html('El nombre no puede ser vac\u00EDo');
+			$ds('#general_error').modal('show');
+		} else {
+			if (descrip == "") {
+				$ds('#errorModalLabel').html('Error');
+				$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+				$ds('#general_error_msj').html('La descripci\u00F3n no puede ser vac\u00EDa');
+				$ds('#general_error').modal('show');
+			} else {
+				if (empresa == "") {
+					$ds('#errorModalLabel').html('Error');
+					$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+					$ds('#general_error_msj').html('Debe seleccionar una empresa');
+					$ds('#general_error').modal('show');
+				} else {
+
+					var linea = { nombre: nombre, origen: 'N/A', destino: 'N/A', compania: empresa };
+					const jsLinea = JSON.stringify(linea);
+					
+					$ds.ajax({
+						url: url,
+						type: "POST",
+						dataType: "json",
+						contentType: "application/json; charset=utf-8",
+						data: jsLinea,
+						success: function(result) {
+							// when call is sucessfull
+							if (result['ok'] == true) {
+								var idLinea = result['cuerpo']['id'];
+								addRecorridoLinea(idLinea, descrip);
+							} else {
+								$ds('#errorModalLabel').html('Error');
+								$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+								$ds('#general_error_msj').html(result['cuerpo']['mensaje']);
+								$ds('#general_error').modal('show');
+							}
+						},
+						error: function(err) {
+							// check the err for error details
+							console.log(err);
+							$ds('#errorModalLabel').html('Error');
+							$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+							$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
+							$ds('#general_error').modal('show');
+						}
+					}); // ajax call closing
+				}
+			}
+		}
+	}
+}
+
+function addRecorridoLinea(idLinea, descrip) {
+	var url = "/bondisuy-web/bondisuyrest/recorridos";
+	
+	var date = new Date();
+	var dd = date.getDate();
+	var mm = date.getMonth() + 1;
+	var hh = date.getHours();
+	var mi = date.getMinutes();
+
+	var ahora = date.getFullYear() + '-' +
+		(mm > 9 ? '' : '0') + mm + '-' +
+		(dd > 9 ? '' : '0') + dd + ' ' +
+		(hh > 9 ? '' : '0') + hh + ':' +
+		(mi > 9 ? '' : '0') + mi;
+
+
+	console.log(coordNuevaLinea);
+	var geom = 'LINESTRING(';
+	for (var p = 0; p < coordNuevaLinea.length; p++) {
+		var point = new Proj4js.Point(coordNuevaLinea[p]);   //any object will do as long as it has 'x' and 'y' properties
+		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+		
+		console.log(point32721);
+
+		geom += point32721['x'] + ' ' + point32721['y'];
+		if (p < coordNuevaLinea.length - 1)
+			geom += ', ';
+	}
+	geom += ')'
+
+	var recorrido = { fecha: ahora, descripcion: descrip, activo: true, linea: idLinea, geometria: geom };
+	const jsRecorrido = JSON.stringify(recorrido);
+
+	console.log(jsRecorrido);
+
+	$ds.ajax({
+		url: url,
+		type: "POST",
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		data: jsRecorrido,
+		success: function(result) {
+			// when call is sucessfull
+			console.log(result)
+
+			var idRecorrido = result['cuerpo']['id'];
+			
+			map.removeInteraction(drawNuevaLinea);
+			map.removeInteraction(snapNuevaLinea);
+			getRecorrido(idRecorrido);
+			bondisuy_LoadHide();
+
+			$ds('#errorModalLabel').html('Informaci\u00F3n');
+			$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-information-outline display-3 text-info" ></i></h1>');
+			$ds('#general_error_msj').html('Linea creada con \u00E9xito.');
+			$ds('#general_error').modal('show');
+		},
+		error: function(err) {
+			// check the err for error details
+			$ds('#errorModalLabel').html('Error');
+			$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+			$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
+			$ds('#general_error').modal('show');
+		}
+	}); // ajax call closing
+
+
+}

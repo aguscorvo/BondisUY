@@ -261,6 +261,7 @@ function getRecorrido(id) {
 			geolocation.setTracking(false);
 			borrarCapaPorNombre(L_RECORRIDOS);
 			borrarCapaPorNombre(L_NUEVAPARADA);
+			borrarCapaPorNombre(L_NUEVALINEA);
 			addRecorrido(recorridos, L_RECORRIDOS)
 			getRecorridoParada(id, L_PARADAS);
 
@@ -333,8 +334,8 @@ function getRecorridoCercanos(coord, distancia) {
 }
 
 //Funcion que retorna todas las paradas habilitadas cercanas 
-//Parámetros: coord: [x,y]
-//                      distancia: distancia en metros
+//Parámetros: id: codigo de recorrido
+//distancia: distancia en metros
 function getRecorridoParada(id, distancia) {
 	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.recorridosparadas + "&outputformat=json" +
 		'&viewparams=recorrido:{RECORRIDO}';

@@ -187,7 +187,7 @@ geolocation.on('change:accuracyGeometry', function() {
 
 var positionFeature = new ol.Feature({
 	//name: "<div id='ver_Lineas_Cercanas'><a href='javascript:verLineasCercanas();'><i class='mdi mdi-eye'></i> Ver L\u00EDneas Cercanas</a></div>",
-	name: "Mi Ubicaci\u00F3nn",
+	name: "Mi Ubicaci\u00F3n",
 	tipo: 'localizacion',
 });
 
@@ -334,7 +334,7 @@ function addRecorrido(list, typeSource) {
 			name: list[lst]['descripcion']
 		});
 
-		// Agregamos icono
+		// Agregamos estilo
 		let routeStyle = new ol.style.Style({
 			stroke: new ol.style.Stroke({
 				width: 6,
@@ -491,7 +491,7 @@ var modifyNuevaParada = new ol.interaction.Modify({
 
 // removes the last feature from the vector source.
 var removeLastNuevaParada = function() {
-	console.log(lastFeatureNuevaParada);
+	//console.log(lastFeatureNuevaParada);
 	if (lastFeatureNuevaParada) {
 		sourceNuevaParada.removeFeature(lastFeatureNuevaParada);
 		modifyNuevaParada.removeFeature(lastFeatureNuevaParada);
@@ -549,6 +549,80 @@ function addParada() {
 	map.addInteraction(modifyNuevaParada);
 	map.addInteraction(drawNuevaParada);
 	map.addInteraction(snapNuevaParada);
+
+}
+
+//Source de Nueva Parada
+var sourceNuevaLinea = new ol.source.Vector({
+	wrapX: false,
+});
+
+var snapNuevaLinea = new ol.interaction.Snap({
+	source: sourceNuevaLinea
+});
+
+var modifyNuevaLinea = new ol.interaction.Modify({
+	source: sourceNuevaLinea
+});
+
+
+// removes the last feature from the vector source.
+var removeLastNuevaLinea = function() {
+	console.log(lastFeatureNuevaLinea);
+	if (lastFeatureNuevaLinea) {
+		sourceNuevaLinea.removeFeature(lastFeatureNuevaLinea);
+		modifyNuevaLinea.removeFeature(lastFeatureNuevaLinea);
+	}
+
+};
+
+function addLinea() {
+	//Se deshabilita la geolocalizacion
+	geolocation.setTracking(false);
+
+	var drawNuevaLinea = new ol.interaction.Draw({
+		name: L_NUEVALINEA,
+		source: sourceNuevaLinea,
+		type: 'LineString',
+	});
+
+	//Vector de Nueva Parada
+	var vectorNuevaLinea = new ol.layer.Vector({
+		name: L_NUEVALINEA,
+		source: sourceNuevaLinea,
+		style: StrokeNuevaLineaStyle,
+	});
+
+	sourceNuevaLinea.on('addfeature', function(evt) {
+		//removeLastNuevaParada();
+		lastFeatureNuevaLinea = evt.feature;
+
+		var feature = evt.feature;
+		coordNuevaLinea = feature.getGeometry().getCoordinates();
+
+		feature.setProperties({
+			name: "Nueva L\u00EDnea",
+			tipo: 'nuevaparada',
+		})
+
+		map.removeInteraction(drawNuevaLinea);
+		map.removeInteraction(snapNuevaLinea);
+
+	});
+
+	modifyNuevaLinea.on('modifyend', function(evt) {
+		
+		coordNuevaLinea = evt.features.getArray();
+
+	});
+
+
+	// Agregamos la capa al mapa
+	map.addLayer(vectorNuevaLinea);
+
+	map.addInteraction(modifyNuevaLinea);
+	map.addInteraction(drawNuevaLinea);
+	map.addInteraction(snapNuevaLinea);
 
 
 }

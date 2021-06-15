@@ -213,7 +213,7 @@
 		</div>
 	</div>
 
-	<!-- Modal ADD-->
+	<!-- Modal ADD PARADA-->
 	<div class="modal" tabindex="-1" role="dialog" id="addParada">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -257,6 +257,55 @@
 		</div>
 	</div>
 
+	<!-- Modal ADD LINEA-->
+	<div class="modal" tabindex="-1" role="dialog" id="addLinea">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Crear L&iacute;nea</h3>
+					<button type="button" class="close text-light" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+							<label for="addLineaName">Nombre L&iacute;nea</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text" class="form-control mb-3" id="addLineaName"
+									name="addLineaName" placeholder="Nombre">
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+							<label for="addLineaDescripcion">Descripci&oacute;n</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text" class="form-control mb-3" id="addLineaDescripcion"
+									name="addLineaDescripcion" placeholder="Descripci&oacute;n">
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+							<label for="addLineaEmpresa">Compa&ntilde;&iacute;a</label>
+							</div>
+							<div class="col-9  mb-3">
+								<select class="form-control form-control-sm text-secondary" id="addLineaEmpresa"></select>
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row">
+							<button type="button" onclick='addLineaPOSTREST()' id="buttonAddLineaREST" class="btn btn-primary">CREAR</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 
