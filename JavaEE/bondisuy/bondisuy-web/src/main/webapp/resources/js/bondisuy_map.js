@@ -524,7 +524,6 @@ function addParada() {
 		var feature = evt.feature;
 		coordNuevaParada = feature.getGeometry().getCoordinates();
 
-		console.log(coordNuevaParada);
 		feature.setProperties({
 			name: "Nueva Parada",
 			tipo: 'nuevaparada',

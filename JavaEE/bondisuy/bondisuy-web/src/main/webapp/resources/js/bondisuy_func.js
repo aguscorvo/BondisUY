@@ -488,44 +488,102 @@ function addRecorridoCercanoNuevaParada(objlineas) {
 function addParadaPOSTREST() {
 	var url = "/bondisuy-web/bondisuyrest/paradas";
 	var nombre = $ds('#addParadaName').val();
-	var date = new Date();
-	var dd = date.getDate();
-	var mm = date.getMonth() + 1;
-	var hh = date.getHours();
-	var mi = date.getMinutes();
+	var lineas = $ds('#addNuevaParadaLineasCercanas').val();
 
-	var ahora = date.getFullYear() + '-' +
-		(mm > 9 ? '' : '0') + mm + '-' +
-		(dd > 9 ? '' : '0') + dd + ' ' +
-		(hh > 9 ? '' : '0') + hh + ':' +
-		(mi > 9 ? '' : '0') + mi;
+	if (nombre.trim() == "") {
+		$ds('#errorModalLabel').html('Error');
+		$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+		$ds('#general_error_msj').html('El nombre no puede ser vac\u00EDo');
+		$ds('#general_error').modal('show');
+	} else {
+		if (lineas.length == 0) {
+			$ds('#errorModalLabel').html('Error');
+			$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+			$ds('#general_error_msj').html('Debe seleccionar por lo menos una l\u00EDnea');
+			$ds('#general_error').modal('show');
+		} else {
+			$ds('#addParada').modal('hide');
+			bondisuy_LoadShow();
 
-	var point = new Proj4js.Point(coordNuevaParada);   //any object will do as long as it has 'x' and 'y' properties
-	var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+			var date = new Date();
+			var dd = date.getDate();
+			var mm = date.getMonth() + 1;
+			var hh = date.getHours();
+			var mi = date.getMinutes();
 
-	
-	var geom = 'POINT(' + point32721['x'] + ' ' + point32721['y'] + ')';
+			var ahora = date.getFullYear() + '-' +
+				(mm > 9 ? '' : '0') + mm + '-' +
+				(dd > 9 ? '' : '0') + dd + ' ' +
+				(hh > 9 ? '' : '0') + hh + ':' +
+				(mi > 9 ? '' : '0') + mi;
 
-	var parada = { descripcion: nombre, fecha: ahora, codVia1: 0, codVia2: 0, habilitada: true, geometria: geom };
-	const jsParada = JSON.stringify(parada);
-
-	console.log(jsParada);
+			var point = new Proj4js.Point(coordNuevaParada);   //any object will do as long as it has 'x' and 'y' properties
+			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
 
-	$ds.ajax({
-		url: url,
-		type: "POST",
-		dataType: "json",
-		contentType: "application/json; charset=utf-8",
-		data: jsParada,
-		success: function(result) {
-			// when call is sucessfull
-			console.log(result)
-		},
-		error: function(err) {
-			// check the err for error details
-			console.log(err)
+			var geom = 'POINT(' + point32721['x'] + ' ' + point32721['y'] + ')';
+
+			var parada = { descripcion: nombre, fecha: ahora, codVia1: 0, codVia2: 0, habilitada: true, geometria: geom };
+			const jsParada = JSON.stringify(parada);
+
+			//console.log(jsParada);
+
+
+			$ds.ajax({
+				url: url,
+				type: "POST",
+				dataType: "json",
+				contentType: "application/json; charset=utf-8",
+				data: jsParada,
+				success: function(result) {
+					// when call is sucessfull
+					console.log(result)
+
+					var idParada = result['cuerpo']['id'];
+					addHorarioParada(idParada, lineas);
+
+				},
+				error: function(err) {
+					// check the err for error details
+					console.log(err)
+					const obj = JSON.parse(result);
+				}
+			}); // ajax call closing
+
 		}
-	}); // ajax call closing
-	
+	}
+
 }
+
+function addHorarioParada(idParada, lineas) {
+	var url = "/bondisuy-web/bondisuyrest/horarios";
+
+	for (var p = 0; p < lineas.length; p++) {
+		var horario = { hora: "00:00", recorrido: lineas[p], parada: idParada };
+		const jsHorario = JSON.stringify(horario);
+
+		$ds.ajax({
+			url: url,
+			type: "POST",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data: jsHorario,
+			success: function(result) {
+				//console.log(result);
+			},
+			error: function(err) {
+				console.log(err)
+			}
+		}); // ajax call closing
+	}
+
+	getParadasByID(idParada)
+	bondisuy_LoadHide();
+
+	$ds('#errorModalLabel').html('Informaci\u00F3n');
+	$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-information-outline display-3 text-info" ></i></h1>');
+	$ds('#general_error_msj').html('Parada creada con \u00E9xito.');
+	$ds('#general_error').modal('show');
+
+}
+

@@ -165,21 +165,23 @@
 		<!-- page-body-wrapper ends -->
 	</div>
 
+	<!-- POPUP Mapa INFO-->
 	<div id="mappopup" data-toggle="popover" data-placement="top"
 		data-content="" data-html="true"></div>
 
-	<div class="modal" tabindex="-1" role="dialog" id="general_error">
+	<!-- Modal ERROR-->
+	<div class="modal error-modal" tabindex="-1" role="dialog" id="general_error">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+			<div class="modal-content bg-secondary text-dark">
 				<div class="modal-header">
-					<h5 class="modal-title">Error</h5>
-					<button type="button" class="close" data-dismiss="modal"
+					<h5 class="modal-title" id="errorModalLabel">Error</h5>
+					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="col-md-3">
+					<div class="col-md-3 d-flex flex-row" id="general_error_icon">
 						<h1>
 							<i class="mdi mdi-alert display-3" style="color: #cc0000"></i>
 						</h1>
@@ -187,7 +189,7 @@
 					<p id="general_error_msj"></p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary"
+					<button type="button" class="btn btn-dark"
 						data-dismiss="modal">Cerrar</button>
 				</div>
 			</div>

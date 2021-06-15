@@ -1,3 +1,6 @@
+.error-modal{
+	z-index: 1060 !important;
+}
 #map {
 	z-index: 2;
 	height: calc(100vh - 70px);
