@@ -19,5 +19,6 @@ public interface IRecorridoService {
 	
 	// solo se llama desde backend
 	public void agregarHorario(Long recorrido, Long horario) throws BondisUyException;
+	public void eliminarHorarios(Long recorrido, List<Long> horarios) throws BondisUyException;
 
 }

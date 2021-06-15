@@ -1,5 +1,6 @@
 package bondisuy.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -106,6 +107,28 @@ public class RecorridoServiceImpl implements IRecorridoService {
 		recorridoAux.getHorarios().add(horarioAux);
 		recorridoDAO.editar(recorridoAux);		
 	}
+	
+	// solo se llama desde backend
+	@Override
+	public void eliminarHorarios(Long recorrido, List<Long> horarios) throws BondisUyException{
+		try {
+			Recorrido recorridoAux = recorridoDAO.listarPorId(recorrido);
+			List<Horario> horariosAEliminar = new ArrayList<Horario>();
+			for(Long horarioAEliminar: horarios) {
+				for(Horario horario: recorridoAux.getHorarios()) {
+					if (horario.getId()==horarioAEliminar) {
+						horariosAEliminar.add(horario);
+						return;
+					}
+				}
+			}
+			recorridoAux.getHorarios().removeAll(horariosAEliminar);
+			recorridoDAO.editar(recorridoAux);	
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
+
 
     
 }

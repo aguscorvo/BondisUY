@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -57,6 +58,25 @@ public class ParadaREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}
+	}
+	
+	@DELETE
+	@Path("/eliminarHorarios/{parada}/{recorrido}")
+	public Response eliminarHorarios(@PathParam("parada") Long parada, @PathParam("recorrido") Long recorrido){
+		RespuestaREST <ParadaDTO> respuesta = null;
+		try {
+			paradaService.eliminarHorarios(parada, recorrido);
+			respuesta = new RespuestaREST<ParadaDTO>(true, "Los horarios asociados a la parada y recorrido indicados fueron"
+					+ "eliminados con éxito.");
+			return Response.ok(respuesta).build();
+		}catch (BondisUyException e) {
+			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}		
 	}
 	
 

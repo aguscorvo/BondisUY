@@ -6,6 +6,7 @@ import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import bondisuy.entity.Horario;
 
@@ -45,8 +46,11 @@ public class HorarioDAOImpl implements IHorarioDAO {
 	
 	@Override
 	public List<Long> listarPorParadaYRecorrido(Long paradaId, Long recorridoId) {
-		Query consulta = em.createQuery("SELECT ph.horarios_id "
-				+ "FROM ft_paradas_horarios AS ph "
+		@SuppressWarnings("unchecked")
+		TypedQuery<Long>consulta = (TypedQuery<Long>)
+				em.createNativeQuery("SELECT h.id "
+				+ "FROM horarios AS h "
+				+ "INNER JOIN ft_paradas_horarios AS ph ON h.id=ph.horarios_id "
 				+ "INNER JOIN ft_recorridos_horarios AS rh ON ph.horarios_id=rh.horarios_id "
 				+ "WHERE ph.parada_id=:paradaId AND rh.recorrido_id=:recorridoId");
 		consulta.setParameter("paradaId", paradaId);

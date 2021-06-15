@@ -1,5 +1,6 @@
 package bondisuy.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -8,6 +9,7 @@ import javax.ejb.Stateless;
 import bondisuy.converter.ParadaConverter;
 import bondisuy.dao.IHorarioDAO;
 import bondisuy.dao.IParadaDAO;
+import bondisuy.dao.IRecorridoDAO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
 import bondisuy.dto.ProximaLineaDTO;
@@ -23,6 +25,12 @@ public class ParadaServiceImpl implements IParadaService {
    
    @EJB
    private IHorarioDAO horarioDAO;
+   
+   @EJB
+   private IHorarioService horarioService;
+   
+   @EJB
+   private IRecorridoService recorridoService;
    
    @EJB
    private ParadaConverter paradaConverter;
@@ -95,6 +103,35 @@ public class ParadaServiceImpl implements IParadaService {
 		paradaAux.getHorarios().add(horarioAux);
 		paradaDAO.editar(paradaAux);
 	}
+	
+	@Override
+	public void eliminarHorarios(Long parada, Long recorrido) throws BondisUyException{
+		try {
+			List<Long> horarios = horarioDAO.listarPorParadaYRecorrido(parada, recorrido);
+			//eliminar asociacion entre parada y horarios
+			Parada paradaAux = paradaDAO.listarPorId(parada);
+			List<Horario> horariosAEliminar = new ArrayList<Horario>();
+			for(Long horarioAEliminar: horarios) {
+				for(Horario horario: paradaAux.getHorarios()) {
+					if (horario.getId()==horarioAEliminar) {
+						horariosAEliminar.add(horario);
+						return;
+					}
+				}
+			}
+			paradaAux.getHorarios().removeAll(horariosAEliminar);
+			paradaDAO.editar(paradaAux);
+			//eliminar asociacion entre horarios y recorrido
+			recorridoService.eliminarHorarios(recorrido, horarios);
+			//eliminar horarios;
+			for(Long horarioAEliminar: horarios) {
+				horarioService.eliminar(horarioAEliminar);
+			}			
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
+	
 	
 	@Override
 	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario) throws BondisUyException{

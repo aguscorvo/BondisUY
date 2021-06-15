@@ -90,8 +90,9 @@ public class HorarioServiceImpl implements IHorarioService {
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
-	}
+	}	
 	
+	//desde backend
 	@Override
 	public void eliminar(Long id) throws BondisUyException{
 		try {
@@ -114,7 +115,6 @@ public class HorarioServiceImpl implements IHorarioService {
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
-	}
-   
+	}   
 
 }
