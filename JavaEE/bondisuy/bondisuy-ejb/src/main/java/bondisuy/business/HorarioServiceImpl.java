@@ -102,6 +102,19 @@ public class HorarioServiceImpl implements IHorarioService {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
 	}
+	
+	@Override
+	public List<Long> listarPorParadaYRecorrido(Long paradaId, Long recorridoId) throws BondisUyException{
+		try {
+			Parada parada = paradaDAO.listarPorId(paradaId);
+			if(parada==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			Recorrido recorrido = recorridoDAO.listarPorId(recorridoId);
+			if(recorrido==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			return horarioDAO.listarPorParadaYRecorrido(paradaId, recorridoId);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
    
 
 }

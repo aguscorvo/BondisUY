@@ -14,5 +14,7 @@ public interface IHorarioDAO {
 	public Horario crear(Horario horario);
 	public Horario editar(Horario horario);
 	public void eliminar(Horario horario);
+	
+	public List<Long> listarPorParadaYRecorrido(Long paradaId, Long recorridoId);
 
 }

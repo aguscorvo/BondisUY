@@ -42,6 +42,16 @@ public class HorarioDAOImpl implements IHorarioDAO {
 	public void eliminar(Horario horario) {
 		em.remove(horario);
 	}
-    
+	
+	@Override
+	public List<Long> listarPorParadaYRecorrido(Long paradaId, Long recorridoId) {
+		Query consulta = em.createQuery("SELECT ph.horarios_id "
+				+ "FROM ft_paradas_horarios AS ph "
+				+ "INNER JOIN ft_recorridos_horarios AS rh ON ph.horarios_id=rh.horarios_id "
+				+ "WHERE ph.parada_id=:paradaId AND rh.recorrido_id=:recorridoId");
+		consulta.setParameter("paradaId", paradaId);
+		consulta.setParameter("recorridoId", recorridoId);
+		return consulta.getResultList();
+	}    
 
 }

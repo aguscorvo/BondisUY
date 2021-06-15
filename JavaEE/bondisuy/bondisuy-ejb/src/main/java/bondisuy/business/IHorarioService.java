@@ -16,5 +16,7 @@ public interface IHorarioService {
 	public HorarioDTO crear(HorarioCrearDTO horarioDTO) throws BondisUyException;
 	public HorarioDTO editar(Long id, HorarioCrearDTO horarioDTO) throws BondisUyException;
 	public void eliminar(Long id) throws BondisUyException;
+	
+	public List<Long> listarPorParadaYRecorrido(Long paradaId, Long recorridoId) throws BondisUyException;
 		
 }
