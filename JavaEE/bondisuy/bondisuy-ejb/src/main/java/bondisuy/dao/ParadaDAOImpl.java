@@ -12,6 +12,8 @@ import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
+import com.sun.jdi.LongType;
+
 import bondisuy.dto.ProximaLineaDTO;
 import bondisuy.entity.Horario;
 import bondisuy.entity.Parada;
@@ -35,14 +37,11 @@ public class ParadaDAOImpl implements IParadaDAO {
 	
 	@Override
 	public Parada crear(Parada parada, String geometria) {
-		Query consulta = em.createNativeQuery("INSERT INTO ft_paradas (codvia1, codvia2, descripcion, fecha, habilitada, geom) VALUES (?, ?, ?, ?, ?, ST_GeometryFromText(?, 32721))");
-		System.out.println(parada.getCodVia1());
-		consulta.setParameter(1, Long.valueOf(parada.getCodVia1()));
-		consulta.setParameter(2, Long.valueOf(parada.getCodVia2()));
-		consulta.setParameter(3, parada.getDescripcion());
-		consulta.setParameter(4, parada.getFecha());
-		consulta.setParameter(5, parada.getHabilitada());
-		consulta.setParameter(6, geometria);
+		Query consulta = em.createNativeQuery("INSERT INTO ft_paradas (descripcion, fecha, habilitada, geom) VALUES (?, ?, ?, ST_GeometryFromText(?, 32721))");
+		consulta.setParameter(1, parada.getDescripcion());
+		consulta.setParameter(2, parada.getFecha());
+		consulta.setParameter(3, parada.getHabilitada());
+		consulta.setParameter(4, geometria);
 		consulta.executeUpdate();
 		return parada;
 	}
