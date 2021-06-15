@@ -620,7 +620,7 @@ function searchOptions(id) {
 
 
 	} else if (id == 9) {
-		$ds("a[href='#ui-basic']").click();
+		$ds("a[href='#ui-busstop']").click();
 		select = '<select class="form-control form-control-sm text-secondary" id="selectEmpresas"></select>';
 
 		$ds(card_title).html("Buscar l&iacute;neas por empresa");

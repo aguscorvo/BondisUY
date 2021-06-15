@@ -5,6 +5,8 @@ http://geoserver.montevideo.gub.uy/geoserver/ows?SERVICE=WFS&VERSION=1.1.0&REQUE
 
 Parada con lineas:
 http://geoserver.montevideo.gub.uy/geoserver/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&typeName=imm:v_uptu_paradas_con_horarios&outputFormat=application/json
+
+http://geoserver.montevideo.gub.uy/geoserver/ows?SERVICE=WFS&VERSION=1.1.0&REQUEST=GetFeature&typeName=imm:v_uptu_paradas_con_horarios&outputFormat=application/json
 http://www.montevideo.gub.uy/transporteRest/lineas/2778
 
 Parada con lineas horario:

@@ -217,7 +217,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h3 class="modal-title">Crear Parada</h3>
-					<button type="button" class="close" data-dismiss="modal"
+					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -225,27 +225,29 @@
 				<div class="modal-body">
 					<div class="col-12">
 						<div class="col-12 d-flex flex-row validate-input">
-						<label for="addName">Nombre</label>
-							<input type="text" class="form-control mb-3" id="addName"
-								name="addName" placeholder="Nombre">
+							<div class="col-3  mb-3">
+							<label for="addParadaName">Nombre</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text" class="form-control mb-3" id="addParadaName"
+									name="addParadaName" placeholder="Nombre">
+							</div>
 						</div>
 						<div class="col-12 d-flex flex-row validate-input">
-							<div class="form-group">
-								<label for="addNuevaParadaLineasCercanas">L&iacute;neas Cercanas</label> 
-								<select multiple class="form-control"
-									id="addNuevaParadaLineasCercanas">
-									<option>1</option>
-									<option>2</option>
-									<option>3</option>
-									<option>4</option>
-									<option>5</option>
-								</select>
+							<div class="col-12  mb-3">
+								<div class="form-group">
+									<label for="addNuevaParadaLineasCercanas">L&iacute;neas Cercanas</label> 
+									<select multiple class="form-control"
+										id="addNuevaParadaLineasCercanas">
+										
+									</select>
+								</div>
 							</div>
 						</div>
 					</div>
 					<div class="col-12">
 						<div class="col-12 d-flex flex-row">
-							<button type="submit" class="btn btn-primary">CREAR</button>
+							<button type="button" onclick='addParadaPOSTREST()' id="buttonAddParadaREST" class="btn btn-primary">CREAR</button>
 						</div>
 					</div>
 				</div>

@@ -464,6 +464,8 @@ function borrarCapaPorNombre(nombre) {
 	for (var lay in map.getLayers().getArray()) {
 		if (!(lay instanceof ol.layer.Group)) {
 			var layer = map.getLayers().getArray()[lay];
+			
+			//console.log(layer.get('name'));
 
 			if (layer.get('name') == nombre) {
 				map.removeLayer(layer);
@@ -489,10 +491,10 @@ var modifyNuevaParada = new ol.interaction.Modify({
 
 // removes the last feature from the vector source.
 var removeLastNuevaParada = function() {
-	console.log(lastFeature);
-	if (lastFeature) {
-		sourceNuevaParada.removeFeature(lastFeature);
-		modifyNuevaParada.removeFeature(lastFeature);
+	console.log(lastFeatureNuevaParada);
+	if (lastFeatureNuevaParada) {
+		sourceNuevaParada.removeFeature(lastFeatureNuevaParada);
+		modifyNuevaParada.removeFeature(lastFeatureNuevaParada);
 	}
 
 };
@@ -503,6 +505,7 @@ function addParada() {
 	geolocation.setTracking(false);
 
 	var drawNuevaParada = new ol.interaction.Draw({
+		name: L_NUEVAPARADA,
 		source: sourceNuevaParada,
 		type: 'Point',
 	});
@@ -516,7 +519,7 @@ function addParada() {
 
 	sourceNuevaParada.on('addfeature', function(evt) {
 		//removeLastNuevaParada();
-		lastFeature = evt.feature;
+		lastFeatureNuevaParada = evt.feature;
 
 		var feature = evt.feature;
 		coordNuevaParada = feature.getGeometry().getCoordinates();

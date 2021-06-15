@@ -32,7 +32,7 @@ function getParadasCercanas(coord, distancia) {
 
 					//descripcion: TEXT, coordenadas: [lat, long], img: SRC
 					var text = 'Identificador: ' +  prop["id"] +
-						'Descripci\u00F3n: ' + prop["descripcion"] +
+						'<br>Descripci\u00F3n: ' + prop["descripcion"] +
 						'<br>Estado: ' + (prop["habilitada"] ? 'Habilitada' : 'Deshabilitada') +
 						"<div id='ver_Lineas_Paradas'><div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>";
 
@@ -441,8 +441,6 @@ function getRecorridoCercanosNuevaParada(coord, distancia) {
 
 	url = url.replace('{X}', coord[0]).replace('{Y}', coord[1]).replace('{DISTANCIA}', distancia);
 	
-	console.log(url);
-
 	$ds.ajaxSetup({
 		scriptCharset: "utf-8",
 		contentType: "application/json; charset=utf-8",
@@ -476,8 +474,6 @@ function getRecorridoCercanosNuevaParada(coord, distancia) {
 			}
 
 			geolocation.setTracking(false);
-			//borrarCapaPorNombre(L_RECORRIDOS);
-			//borrarCapaPorNombre(L_NUEVAPARADA);
 			addRecorridoCercanoNuevaParada(recorridos);
 
 		})

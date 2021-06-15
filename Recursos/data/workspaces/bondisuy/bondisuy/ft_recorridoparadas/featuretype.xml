@@ -1,0 +1,103 @@
+<featureType>
+  <id>FeatureTypeInfoImpl-2854dbcd:17a0d4133aa:-7fec</id>
+  <name>ft_recorridoparadas</name>
+  <nativeName>ft_recorridoparadas</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-2854dbcd:17a0d4133aa:-7ffe</id>
+  </namespace>
+  <title>ft_recorridoparadas</title>
+  <keywords>
+    <string>features</string>
+    <string>ft_recorridoparadas</string>
+  </keywords>
+  <nativeCRS class="projected">PROJCS[&quot;WGS 84 / UTM zone 21S&quot;, &#xd;
+  GEOGCS[&quot;WGS 84&quot;, &#xd;
+    DATUM[&quot;World Geodetic System 1984&quot;, &#xd;
+      SPHEROID[&quot;WGS 84&quot;, 6378137.0, 298.257223563, AUTHORITY[&quot;EPSG&quot;,&quot;7030&quot;]], &#xd;
+      AUTHORITY[&quot;EPSG&quot;,&quot;6326&quot;]], &#xd;
+    PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]], &#xd;
+    UNIT[&quot;degree&quot;, 0.017453292519943295], &#xd;
+    AXIS[&quot;Geodetic longitude&quot;, EAST], &#xd;
+    AXIS[&quot;Geodetic latitude&quot;, NORTH], &#xd;
+    AUTHORITY[&quot;EPSG&quot;,&quot;4326&quot;]], &#xd;
+  PROJECTION[&quot;Transverse_Mercator&quot;, AUTHORITY[&quot;EPSG&quot;,&quot;9807&quot;]], &#xd;
+  PARAMETER[&quot;central_meridian&quot;, -57.0], &#xd;
+  PARAMETER[&quot;latitude_of_origin&quot;, 0.0], &#xd;
+  PARAMETER[&quot;scale_factor&quot;, 0.9996], &#xd;
+  PARAMETER[&quot;false_easting&quot;, 500000.0], &#xd;
+  PARAMETER[&quot;false_northing&quot;, 10000000.0], &#xd;
+  UNIT[&quot;m&quot;, 1.0], &#xd;
+  AXIS[&quot;Easting&quot;, EAST], &#xd;
+  AXIS[&quot;Northing&quot;, NORTH], &#xd;
+  AUTHORITY[&quot;EPSG&quot;,&quot;32721&quot;]]</nativeCRS>
+  <srs>EPSG:32721</srs>
+  <nativeBoundingBox>
+    <minx>573088.71504226</minx>
+    <maxx>576739.78351</maxx>
+    <miny>6135099.25926</miny>
+    <maxy>6137434.68616074</maxy>
+    <crs class="projected">EPSG:32721</crs>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-56.19999542313179</minx>
+    <maxx>-56.15982123638708</maxx>
+    <miny>-34.923941669909034</miny>
+    <maxy>-34.90261425577964</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="JDBC_VIRTUAL_TABLE">
+      <virtualTable>
+        <name>ft_recorridoparadas</name>
+        <sql>SELECT &#xd;
+	r.id AS id,&#xd;
+	r.descripcion AS detalle,&#xd;
+	c.id AS com_id,&#xd;
+	c.nombre AS com_nombre,&#xd;
+	l.id AS linea_id,&#xd;
+	l.nombre AS linea,&#xd;
+	p.id AS parada_id,&#xd;
+	p.descripcion AS parada_desc,&#xd;
+	p.geom AS p_geom,&#xd;
+	h.hora AS hora,&#xd;
+	to_char(h.hora, &apos;HH24:MI&apos;) AS shora&#xd;
+FROM ft_paradas p&#xd;
+JOIN horarios h ON h.parada_id = p.id&#xd;
+JOIN ft_recorridos r ON r.id = h.recorrido_id&#xd;
+JOIN lineas l ON l.id = r.linea_id&#xd;
+JOIN companias c ON c.id = l.compania_id&#xd;
+WHERE r.id = %recorrido%&#xd;
+ORDER BY p.id, h.hora DESC
+</sql>
+        <escapeSql>false</escapeSql>
+        <keyColumn>id</keyColumn>
+        <geometry>
+          <name>p_geom</name>
+          <type>Point</type>
+          <srid>32721</srid>
+        </geometry>
+        <parameter>
+          <name>recorrido</name>
+          <defaultValue>2778</defaultValue>
+          <regexpValidator>^[\w\d\s]+$</regexpValidator>
+        </parameter>
+      </virtualTable>
+    </entry>
+    <entry key="cacheAgeMax">3600</entry>
+    <entry key="cachingEnabled">false</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-2854dbcd:17a0d4133aa:-7ffc</id>
+  </store>
+  <serviceConfiguration>false</serviceConfiguration>
+  <simpleConversionEnabled>false</simpleConversionEnabled>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <padWithZeros>false</padWithZeros>
+  <forcedDecimal>false</forcedDecimal>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>
