@@ -11,7 +11,7 @@ public interface IRecorridoDAO {
 
 	public List<Recorrido> listar();
 	public Recorrido listarPorId(Long id);
-	public Recorrido crear(Recorrido recorrido);
+	public Recorrido crear(Recorrido recorrido, String geometria);
 	public Recorrido editar(Recorrido recorrido);
 	public void eliminar(Recorrido recorrido);
 	

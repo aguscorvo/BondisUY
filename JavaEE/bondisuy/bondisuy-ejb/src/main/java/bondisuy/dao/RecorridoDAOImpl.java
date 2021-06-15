@@ -1,5 +1,6 @@
 package bondisuy.dao;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.ejb.Singleton;
@@ -27,9 +28,24 @@ public class RecorridoDAOImpl implements IRecorridoDAO {
 	}
 	
 	@Override
-	public Recorrido crear(Recorrido recorrido) {
-		em.persist(recorrido);
+	public Recorrido crear(Recorrido recorrido, String geometria) {
+		Query consulta = em.createNativeQuery("INSERT INTO ft_recorridos (activo, descripcion, fecha, linea_id, geom) VALUES (?, ?, ?, ?, ST_GeometryFromText(?, 32721)) RETURNING id");
+		consulta.setParameter(1, recorrido.getActivo());
+		consulta.setParameter(2, recorrido.getDescripcion());
+		consulta.setParameter(3, recorrido.getFecha());
+		consulta.setParameter(4, recorrido.getLinea().getId());
+		consulta.setParameter(5, geometria);
+		BigInteger id = (BigInteger) consulta.getSingleResult();
+		actualizarRecorrido(id.longValue(), recorrido.getLinea().getId());
+		recorrido.setId(id.longValue());
 		return recorrido;
+	}
+	
+	public void actualizarRecorrido(Long idRecorrido, Long idLinea) {
+		Query consulta = em.createNativeQuery("INSERT INTO lineas_ft_recorridos (linea_id, recorridos_id) VALUES (?, ?)");
+		consulta.setParameter(1, idLinea);
+		consulta.setParameter(2, idRecorrido);
+		consulta.executeUpdate();
 	}
 	
 	@Override

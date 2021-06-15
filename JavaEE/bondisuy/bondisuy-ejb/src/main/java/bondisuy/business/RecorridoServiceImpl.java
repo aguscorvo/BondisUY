@@ -61,9 +61,7 @@ public class RecorridoServiceImpl implements IRecorridoService {
 			if(linea ==null) throw new BondisUyException("La linea indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			Recorrido recorrido = recorridoConverter.fromCrearDTO(recorridoDTO);
 			recorrido.setLinea(linea);
-			RecorridoDTO recorridoCreado = recorridoConverter.fromEntity(recorridoDAO.crear(recorrido));
-			// Se agrega el recorrido a la Linea
-			lineaService.agregarRecorrido(linea.getId(), recorridoCreado.getId());
+			RecorridoDTO recorridoCreado = recorridoConverter.fromEntity(recorridoDAO.crear(recorrido,recorridoDTO.getGeometria()));
 			return recorridoCreado;
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
