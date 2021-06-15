@@ -43,7 +43,21 @@ public class ParadaDAOImpl implements IParadaDAO {
 		consulta.setParameter(3, parada.getHabilitada());
 		consulta.setParameter(4, geometria);
 		consulta.executeUpdate();
-		return parada;
+	
+		//Se busca parada insertada para obtener el ID
+		Query busqueda = em.createQuery("SELECT p FROM Parada p "
+				+ "WHERE p.descripcion = :descripcion "
+				+ "AND p.fecha = :fecha "
+				+ "AND p.habilitada = :habilitada");
+		
+		busqueda.setParameter("descripcion", parada.getDescripcion());
+		busqueda.setParameter("fecha", parada.getFecha());
+		busqueda.setParameter("habilitada", parada.getHabilitada());
+		
+		List<Parada> lp = busqueda.getResultList();
+		
+		//return parada;
+		return lp.get(0);
 	}
 	
 	@Override

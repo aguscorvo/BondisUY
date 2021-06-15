@@ -489,7 +489,7 @@ function addParadaPOSTREST() {
 	var url = "/bondisuy-web/bondisuyrest/paradas";
 	var nombre = $ds('#addParadaName').val();
 	var date = new Date();
-	var dd = date.getDay();
+	var dd = date.getDate();
 	var mm = date.getMonth() + 1;
 	var hh = date.getHours();
 	var mi = date.getMinutes();
