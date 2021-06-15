@@ -13,6 +13,7 @@ var L_RECORRIDOS = 'RECORRIDO';
 var L_PARADAS = 'PARADAS';
 var L_NUEVAPARADA = 'NUEVAPARADA';
 
+
 var CAPAS = {
 	'calles': 'bondisuy:ft_ejes',
 	'paradas': 'bondisuy:ft_paradas',
@@ -60,5 +61,6 @@ var projection32721 = new ol.proj.Projection({
 });
 
 var lastFeature;
+var lastFeatureNuevaParada;
 var lastMarkFeature;
 

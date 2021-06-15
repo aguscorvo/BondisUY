@@ -1,0 +1,16 @@
+<layer>
+  <name>ft_recorridos</name>
+  <id>LayerInfoImpl-2854dbcd:17a0d4133aa:-7ffa</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--570ae188:124761b8d78:-7fe3</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-2854dbcd:17a0d4133aa:-7ffb</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-06-15 01:29:30.801 UTC</dateCreated>
+</layer>

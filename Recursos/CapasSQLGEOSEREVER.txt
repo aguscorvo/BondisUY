@@ -56,8 +56,6 @@ SELECT
 	p.geom AS p_geom,
 	h.hora AS hora,
 	to_char(h.hora, 'HH24:MI') AS shora
-	
-	
 FROM ft_paradas p
 JOIN horarios h ON h.parada_id = p.id
 JOIN ft_recorridos r ON r.id = h.recorrido_id

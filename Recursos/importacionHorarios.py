@@ -24,7 +24,7 @@ web_pg=r.text
 codparada = list() 
 paradas = {}
 paradas_horas = list()
-"""
+
 j=json.loads(web_pg)
 for f in j['features']:
     fobj = json.loads(json.dumps(f['properties']))
@@ -32,46 +32,43 @@ for f in j['features']:
     codparada.append(pobj['cod_ubic_parada'])
 
 print ("Paso 1 - Carga de paradas")
-"""
-codparada.append(2778) 
+
+flog = open("horarios.log", "w")
 
 for p in codparada:
-    
-    urln = urllineas+str(p) 
-    rl = requests.get(urln)
-    web_pgl=rl.text
-
     try:
+        urln = urllineas+str(p) 
+        rl = requests.get(urln)
+        web_pgl=rl.text
         jl=json.loads(web_pgl)
         lineas = []
         for linea in jl['lineas']:
             lineas.append(linea['codigo'])
         paradas[p] = lineas
-    except:
-        print('error paradas lineas ' + str(p))
+    except Exception as e:
+        flog.write('error key' + str(p) + ' URL: ' + urln + ' Exception: ' + str(e) + '\n')
 
 
 print ("Paso 2 - Carga de lineas")
 
 for key in paradas:
-
     try:
         for h in paradas[key]:
-                urlh = url_horario + str(key) +'/HABIL/'+ str(h)
-                rh = requests.get(urlh)
-                web_pgh=rh.text
+            urlh = url_horario + str(key) +'/HABIL/'+ str(h)
+            rh = requests.get(urlh)
+            web_pgh=rh.text
+            
+            jh=json.loads(web_pgh)
+            for horas in jh:
+                hora = {}
+                hora['parada'] = key
+                hora['hora'] = horas['time']
+                hora['ruta'] = horas['variante']
+                paradas_horas.append(hora)
+    except Exception as e:
+        flog.write('error key' + str(key) + ' URL: ' + urlh + ' Exception: ' + str(e) + '\n')
 
-                jh=json.loads(web_pgh)
-                
-                for horas in jh:
-                    hora = {}
-                    hora['parada'] = key
-                    hora['hora'] = horas['time']
-                    hora['ruta'] = horas['variante']
-                    paradas_horas.append(hora)
-
-    except:
-        print('error key' + str(key))
+flog.close()
 
 print ("Paso 3 - Creando Archivo")
 

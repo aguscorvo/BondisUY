@@ -133,7 +133,7 @@ function strInsertLinea(){
 function strInsertRecorrido(){
 	var str = "";
 	for(var rec in recorrido){
-		str += "INSERT INTO ft_recorridos (id, activo, descripcion, linea_id, geom) " +
+		str += "INSERT INTO ft_recorridos (id, activo, descripcion, linea_id, geom, fecha) " +
 		" VALUES ( " + recorrido[rec]["cod_recorrido"] + ", true, " +
 		"'" + recorrido[rec]["descripcion"] + "', " +
 		recorrido[rec]["cod_linea"] + ", " + 
@@ -144,7 +144,7 @@ function strInsertRecorrido(){
 				str += ",";
 		}
 		
-		str += ")', 32721));" + "<br>";
+		str += ")', 32721), now());" + "<br>";
 	}
 
 	$ds('#result').append(str);

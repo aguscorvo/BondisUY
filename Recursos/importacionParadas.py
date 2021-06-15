@@ -44,16 +44,16 @@ print ("Paso 1 - Carga de paradas")
 
 print ("Paso 2 - Creando Archivo")
 
-f = open("C:/Users/Usuario/Documents/Tecnologo/UTU2021S05/TSIG/Proyecto/Recursos/paradas.sql", "w")
+f = open("paradas.sql", "w")
 
 for det in paradas:
-    consulta = 'INSERT INTO ft_paradas (id, descripcion, codvia1, codvia2, geom, habilitada) '
+    consulta = 'INSERT INTO ft_paradas (id, descripcion, codvia1, codvia2, geom, habilitada, fecha) '
     consulta += 'VALUES(' + str(det['id']) + ', '
     consulta += '\'' + det['desc_parada'] + '\', '
     consulta += str(det['via1']) + ', '
     consulta += str(det['via2']) + ', '
     consulta += 'ST_GeometryFromText(\'POINT(' + str(det['geom']).replace(',', '').replace('[', '').replace(']','') + ')\', 32721), '
-    consulta += det['habilitada'] + ');\n' 
+    consulta += det['habilitada'] + ', now());\n' 
     f.write(consulta)
 
 f.close()

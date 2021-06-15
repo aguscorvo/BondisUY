@@ -126,7 +126,7 @@ function getEsquinaCalle(calle1, calle2, texto) {
 		.done(function(data) {
 
 			//Transformo del sistema EPSG:32721 a EPSG:4326
-			var point = new Proj4js.Point([data.x, data.y]);   //any object will do as long as it has 'x' and 'y' properties
+			var point = new Proj4js.Point(coordNuevaParada);   //any object will do as long as it has 'x' and 'y' properties
 			var point4326 = Proj4js.transform(proj32721, proj4326, point);      //do the transformation.  x and y are modified in place
 
 			var punto = {
@@ -142,7 +142,7 @@ function getEsquinaCalle(calle1, calle2, texto) {
 			borrarCapaPorNombre(L_NUEVAPARADA);
 
 			centerMap([point4326['x'], point4326['y']]);
-			
+
 
 		})
 		.fail(function(jqxhr, textStatus, error) {
@@ -307,7 +307,7 @@ function addRecorridoCercano(list) {
 	//SE agrega la accion de click en la tabla de recorridos
 	var recorrido = '';
 	var databody = $ds("#selectTableLineas").children("table").get(0);
-	
+
 
 	$ds(databody).off("click");
 
@@ -471,17 +471,61 @@ function htmlParadaHorarioLinea(objlineas) {
 	return str;
 }
 
-function addRecorridoCercanoNuevaParada(objlineas){
-	
+function addRecorridoCercanoNuevaParada(objlineas) {
+
 	var str = '';
-	
-	console.log(objlineas);
-	
+
 	for (lin in objlineas) {
-		str += '<option value="' + objlineas[lin]['id'] + '">' + objlineas[lin]['nombre'] +' - '+ objlineas[lin]['descripcion'] + '</option>';	
+		str += '<option value="' + objlineas[lin]['id'] + '">' + objlineas[lin]['nombre'] + ' - ' + objlineas[lin]['descripcion'] + '</option>';
 	}
 
 	$ds("#addNuevaParadaLineasCercanas").html(str);
-	
+
 	$ds('#addParada').modal('show');
+}
+
+
+function addParadaPOSTREST() {
+	var url = "/bondisuy-web/bondisuyrest/paradas";
+	var nombre = $ds('#addParadaName').val();
+	var date = new Date();
+	var dd = date.getDay();
+	var mm = date.getMonth() + 1;
+	var hh = date.getHours();
+	var mi = date.getMinutes();
+
+	var ahora = date.getFullYear() + '-' +
+		(mm > 9 ? '' : '0') + mm + '-' +
+		(dd > 9 ? '' : '0') + dd + ' ' +
+		(hh > 9 ? '' : '0') + hh + ':' +
+		(mi > 9 ? '' : '0') + mi;
+
+	var point = new Proj4js.Point(coordNuevaParada);   //any object will do as long as it has 'x' and 'y' properties
+	var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+	
+	var geom = 'POINT(' + point32721['x'] + ' ' + point32721['y'] + ')';
+
+	var parada = { descripcion: nombre, fecha: ahora, codVia1: 0, codVia2: 0, habilitada: true, geometria: geom };
+	const jsParada = JSON.stringify(parada);
+
+	console.log(jsParada);
+
+
+	$ds.ajax({
+		url: url,
+		type: "POST",
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		data: jsParada,
+		success: function(result) {
+			// when call is sucessfull
+			console.log(result)
+		},
+		error: function(err) {
+			// check the err for error details
+			console.log(err)
+		}
+	}); // ajax call closing
+	
 }

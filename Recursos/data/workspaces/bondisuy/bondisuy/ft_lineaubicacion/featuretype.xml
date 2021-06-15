@@ -1,0 +1,108 @@
+<featureType>
+  <id>FeatureTypeInfoImpl-2854dbcd:17a0d4133aa:-7ff0</id>
+  <name>ft_lineaubicacion</name>
+  <nativeName>ft_lineaubicacion</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-2854dbcd:17a0d4133aa:-7ffe</id>
+  </namespace>
+  <title>ft_lineaubicacion</title>
+  <keywords>
+    <string>ft_lineaubicacion</string>
+    <string>features</string>
+  </keywords>
+  <nativeCRS class="projected">PROJCS[&quot;WGS 84 / UTM zone 21S&quot;, &#xd;
+  GEOGCS[&quot;WGS 84&quot;, &#xd;
+    DATUM[&quot;World Geodetic System 1984&quot;, &#xd;
+      SPHEROID[&quot;WGS 84&quot;, 6378137.0, 298.257223563, AUTHORITY[&quot;EPSG&quot;,&quot;7030&quot;]], &#xd;
+      AUTHORITY[&quot;EPSG&quot;,&quot;6326&quot;]], &#xd;
+    PRIMEM[&quot;Greenwich&quot;, 0.0, AUTHORITY[&quot;EPSG&quot;,&quot;8901&quot;]], &#xd;
+    UNIT[&quot;degree&quot;, 0.017453292519943295], &#xd;
+    AXIS[&quot;Geodetic longitude&quot;, EAST], &#xd;
+    AXIS[&quot;Geodetic latitude&quot;, NORTH], &#xd;
+    AUTHORITY[&quot;EPSG&quot;,&quot;4326&quot;]], &#xd;
+  PROJECTION[&quot;Transverse_Mercator&quot;, AUTHORITY[&quot;EPSG&quot;,&quot;9807&quot;]], &#xd;
+  PARAMETER[&quot;central_meridian&quot;, -57.0], &#xd;
+  PARAMETER[&quot;latitude_of_origin&quot;, 0.0], &#xd;
+  PARAMETER[&quot;scale_factor&quot;, 0.9996], &#xd;
+  PARAMETER[&quot;false_easting&quot;, 500000.0], &#xd;
+  PARAMETER[&quot;false_northing&quot;, 10000000.0], &#xd;
+  UNIT[&quot;m&quot;, 1.0], &#xd;
+  AXIS[&quot;Easting&quot;, EAST], &#xd;
+  AXIS[&quot;Northing&quot;, NORTH], &#xd;
+  AUTHORITY[&quot;EPSG&quot;,&quot;32721&quot;]]</nativeCRS>
+  <srs>EPSG:32721</srs>
+  <nativeBoundingBox>
+    <minx>565954.84406936</minx>
+    <maxx>589500.97856872</maxx>
+    <miny>6136031.2</miny>
+    <maxy>6148142.8699027</maxy>
+    <crs class="projected">EPSG:32721</crs>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-56.27891760254021</minx>
+    <maxx>-56.020223119351805</maxx>
+    <miny>-34.91602774954828</miny>
+    <maxy>-34.805020161209576</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <metadata>
+    <entry key="JDBC_VIRTUAL_TABLE">
+      <virtualTable>
+        <name>ft_lineaubicacion</name>
+        <sql>SELECT &#xd;
+	l.id AS linea_id,&#xd;
+	l.nombre AS linea_nombre,&#xd;
+	c.id AS com_id,&#xd;
+	c.nombre AS com_nombre,&#xd;
+	r.id AS id,&#xd;
+	r.activo AS activo,&#xd;
+	r.descripcion AS ruta,&#xd;
+	geom&#xd;
+FROM lineas l&#xd;
+JOIN ft_recorridos r ON r.linea_id =l.id&#xd;
+JOIN companias c ON c.id = l.compania_id&#xd;
+WHERE &#xd;
+ST_Intersects(r.geom, ST_BUFFER(ST_GeometryFromText(&apos;POINT(%X% %Y%)&apos;, 32721), %distancia%))
+</sql>
+        <escapeSql>false</escapeSql>
+        <keyColumn>id</keyColumn>
+        <geometry>
+          <name>geom</name>
+          <type>LineString</type>
+          <srid>32721</srid>
+        </geometry>
+        <parameter>
+          <name>distancia</name>
+          <defaultValue>500</defaultValue>
+          <regexpValidator>^[\w\d\s]+$</regexpValidator>
+        </parameter>
+        <parameter>
+          <name>X</name>
+          <defaultValue>575065.97121632</defaultValue>
+          <regexpValidator>^[.\w\d\s]+$</regexpValidator>
+        </parameter>
+        <parameter>
+          <name>Y</name>
+          <defaultValue>6141925.46184307</defaultValue>
+          <regexpValidator>^[.\w\d\s]+$</regexpValidator>
+        </parameter>
+      </virtualTable>
+    </entry>
+    <entry key="cacheAgeMax">3600</entry>
+    <entry key="cachingEnabled">false</entry>
+  </metadata>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-2854dbcd:17a0d4133aa:-7ffc</id>
+  </store>
+  <serviceConfiguration>false</serviceConfiguration>
+  <simpleConversionEnabled>false</simpleConversionEnabled>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <padWithZeros>false</padWithZeros>
+  <forcedDecimal>false</forcedDecimal>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>
