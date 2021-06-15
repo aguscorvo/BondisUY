@@ -7,6 +7,7 @@ import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import bondisuy.entity.Recorrido;
 
@@ -58,5 +59,17 @@ public class RecorridoDAOImpl implements IRecorridoDAO {
 	public void eliminar(Recorrido recorrido) {
 		em.remove(recorrido);
 	}
+	
+	@Override
+	public List<Long> listarParadas(Long idRecorrido){
+		@SuppressWarnings("unchecked")
+		TypedQuery<Long> consulta = (TypedQuery<Long>)
+				em.createNativeQuery("SELECT DISTINCT(ph.parada_id) "
+						+ "FROM ft_paradas_horarios AS ph "
+						+ "INNER JOIN ft_recorridos_horarios AS rh ON ph.horarios_id=rh.horarios_id "
+						+ "WHERE rh.recorrido_id=:idRecorrido");
+		consulta.setParameter("idRecorrido", idRecorrido);
+		return consulta.getResultList();
+	} 
 	
 }

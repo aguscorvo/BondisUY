@@ -3,8 +3,10 @@ package bondisuy.rest;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -38,6 +40,24 @@ public class RecorridoREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}		
+	}
+	
+	@DELETE
+	@Path("/{id}")
+	public Response eliminar(@PathParam("id") Long id) {
+		RespuestaREST<RecorridoDTO> respuesta = null;
+		try {
+			recorridoService.eliminar(id);
+			respuesta = new RespuestaREST<RecorridoDTO>(true, "El recorrido fue eliminado con éxito.");
+			return Response.ok(respuesta).build();
+		}catch (BondisUyException e) {
+			respuesta = new RespuestaREST<RecorridoDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
 	}
 
 }

@@ -14,5 +14,6 @@ public interface IRecorridoDAO {
 	public Recorrido crear(Recorrido recorrido, String geometria);
 	public Recorrido editar(Recorrido recorrido);
 	public void eliminar(Recorrido recorrido);
+	public List<Long> listarParadas(Long idRecorrido);
 	
 }

@@ -33,6 +33,9 @@ public class RecorridoServiceImpl implements IRecorridoService {
 	private IHorarioDAO horarioDAO;
 	
 	@EJB
+	private IParadaService paradaService;
+	
+	@EJB
 	private RecorridoConverter recorridoConverter;
 	
 	@Override
@@ -86,6 +89,13 @@ public class RecorridoServiceImpl implements IRecorridoService {
 		try {
 			Recorrido recorrido = recorridoDAO.listarPorId(id);
 			if(recorrido ==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			//obtengo las paradas asociadas a los horarios asociados al recorrido
+			List<Long> paradas = recorridoDAO.listarParadas(id);
+			//por cada parada ejecuto eliminarHorarios
+			for (Long parada: paradas) {
+				paradaService.eliminarHorarios(parada, id);
+			}
+			//eliminar recorrido
 			recorridoDAO.eliminar(recorrido);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);

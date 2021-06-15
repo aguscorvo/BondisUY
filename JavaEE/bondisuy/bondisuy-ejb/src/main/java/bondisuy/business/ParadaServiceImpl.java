@@ -77,11 +77,19 @@ public class ParadaServiceImpl implements IParadaService {
 		}
 	}
 	
+	
 	@Override
 	public void eliminar(Long id) throws BondisUyException{
 		try {
 			Parada parada = paradaDAO.listarPorId(id);
 			if(parada ==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			//obtengo los recorridos asociados a los horarios asociados a la parada
+			List<Long> recorridos = paradaDAO.listarRecorridos(id);
+			//por cada recorrido ejecuto eliminarHorarios
+			for(Long recorrido: recorridos) {
+				eliminarHorarios(id, recorrido);
+			}
+			//eliminar parada
 			paradaDAO.eliminar(parada);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
@@ -103,7 +111,7 @@ public class ParadaServiceImpl implements IParadaService {
 		paradaAux.getHorarios().add(horarioAux);
 		paradaDAO.editar(paradaAux);
 	}
-	
+		
 	@Override
 	public void eliminarHorarios(Long parada, Long recorrido) throws BondisUyException{
 		try {

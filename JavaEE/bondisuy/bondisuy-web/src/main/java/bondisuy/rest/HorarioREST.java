@@ -18,7 +18,6 @@ import bondisuy.dto.HorarioCrearDTO;
 import bondisuy.dto.HorarioDTO;
 import bondisuy.exception.BondisUyException;
 
-
 @RequestScoped
 @Path("/horarios")
 @Consumes("application/json")

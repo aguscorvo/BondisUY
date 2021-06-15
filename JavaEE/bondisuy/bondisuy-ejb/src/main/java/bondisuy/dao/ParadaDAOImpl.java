@@ -73,6 +73,7 @@ public class ParadaDAOImpl implements IParadaDAO {
 	
 	@Override
 	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario){
+		@SuppressWarnings("unchecked")
 		TypedQuery<ProximaLineaDTO> proximasLineas = (TypedQuery<ProximaLineaDTO>)
 				em.createNativeQuery("SELECT l.nombre, to_char(h.hora, 'HH24:MI:ss'), h.recorrido_id, r.descripcion "
 						+ "FROM horarios h "
@@ -86,7 +87,17 @@ public class ParadaDAOImpl implements IParadaDAO {
 		proximasLineas.setParameter("idParada", idParada);
 		return proximasLineas.getResultList();
 	}
-
-    
+	
+	@Override
+	public List<Long> listarRecorridos(Long idParada){
+		@SuppressWarnings("unchecked")
+		TypedQuery<Long> consulta = (TypedQuery<Long>)
+				em.createNativeQuery("SELECT DISTINCT(rh.recorrido_id) "
+						+ "FROM ft_paradas_horarios AS ph "
+						+ "INNER JOIN ft_recorridos_horarios AS rh ON ph.horarios_id=rh.horarios_id "
+						+ "WHERE ph.parada_id=:idParada");
+		consulta.setParameter("idParada", idParada);
+		return consulta.getResultList();
+	}    
 
 }
