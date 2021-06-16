@@ -554,9 +554,10 @@ function getParadasByID(paradaID) {
 
 //Funcion que retorna un recorrido cercano
 //Parámetros: id: numerico
-function getRecorridoCerZona(zona) {
+function getRecorridoZona(zona) {
+	
 	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.recorridozonas + "&outputformat=json" +
-		'&viewparams=polygon:{ZONA}';
+		'&cql_filter=INTERSECTS(geom,{ZONA})';
 
 	var recorridos = [];
 

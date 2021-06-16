@@ -67,9 +67,26 @@ ORDER BY p.id, h.hora DESC
 MARCAR id como clave primaria
 
 ----------------------------------
-Recorridos Paradas
+Recorridos Zona
 
-Nombre de vista: 	bondisuy:ft_recorridoparadas
+Nombre de vista: 	bondisuy:ft_recorridoszona
 
+SELECT 
+	l.id AS linea_id,
+	l.nombre AS linea_nombre,
+	c.id AS com_id,
+	c.nombre AS com_nombre,
+	r.id AS id,
+	r.activo AS activo,
+	r.descripcion AS ruta,
+	r.geom
+FROM lineas l
+JOIN ft_recorridos r ON r.linea_id =l.id
+JOIN companias c ON c.id = l.compania_id
+WHERE r.activo = TRUE
+
+MARCAR id como clave primaria
+
+----------------------------------
 
 

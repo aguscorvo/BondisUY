@@ -26,7 +26,7 @@ var CAPAS = {
 	'recorridos': 'bondisuy:ft_recorridolinea',
 	'recorridoscercanos': 'bondisuy:ft_lineaubicacion',
 	'recorridosparadas': 'bondisuy:ft_recorridoparadas',
-	'recorridozonas': 'bondisuy:ft_recorridozona',
+	'recorridozonas': 'bondisuy:ft_recorridoszona',
 };
 
 var FORMATO = {

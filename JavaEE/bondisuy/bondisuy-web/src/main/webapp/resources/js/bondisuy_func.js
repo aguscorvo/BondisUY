@@ -733,8 +733,6 @@ function addRecorridoLinea(idLinea, descrip) {
 	var recorrido = { fecha: ahora, descripcion: descrip, activo: true, linea: idLinea, geometria: geom };
 	const jsRecorrido = JSON.stringify(recorrido);
 
-	console.log(jsRecorrido);
-
 	$ds.ajax({
 		url: url,
 		type: "POST",
@@ -781,7 +779,7 @@ function getZonaLinea() {
 	console.log(coordZonaLinea);
 	var polygon = coordZonaLinea[0];
 
-	var geom = '(';
+	var geom = 'POLYGON((';
 
 	for (var z = 0; z < polygon.length; z++) {
 
@@ -795,9 +793,12 @@ function getZonaLinea() {
 		if (z < polygon.length - 1)
 			geom += ', ';
 	}
-	geom += ')'
+	geom += '))'
 
 	console.log(geom);
-	getRecorridoCerZona(geom);
+	getRecorridoZona(geom);
+
+	map.removeInteraction(modifyZonaLinea);
+	map.removeInteraction(snapZonaLinea);
 
 }
