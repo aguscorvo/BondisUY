@@ -14,6 +14,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import bondisuy.business.IParadaService;
+import bondisuy.dto.HorarioCrearDTO;
+import bondisuy.dto.HorarioDTO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
 import bondisuy.dto.ProximaLineaDTO;
@@ -27,6 +29,24 @@ public class ParadaREST {
 	
 	@EJB
 	IParadaService paradaService;
+	
+	@GET
+	@Path("/{id}")
+	public Response listarPorId(@PathParam("id") Long id) {
+		RespuestaREST<ParadaDTO> respuesta = null;
+		try {
+			ParadaDTO parada = paradaService.listarPorId(id);
+			respuesta = new RespuestaREST<ParadaDTO>(true, "Parada listada con éxito.", parada);
+			return Response.ok(respuesta).build();
+		}catch (BondisUyException e) {
+			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}
 	
 	@POST
 	public Response crear(ParadaCrearDTO request) {
@@ -60,6 +80,42 @@ public class ParadaREST {
 		}
 	}
 	
+//	@DELETE
+//	@Path("/{id}")
+//	public Response eliminar(@PathParam("id") Long id) {
+//		RespuestaREST<ParadaDTO> respuesta = null;
+//		try {
+//			paradaService.eliminar(id);
+//			respuesta = new RespuestaREST<ParadaDTO>(true, "La parada fue eliminada con éxito.");
+//			return Response.ok(respuesta).build();
+//		}catch (BondisUyException e) {
+//			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());
+//			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
+//				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+//			}else {
+//				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+//			}
+//		}
+//	}
+	
+	@POST
+	@Path("/crearHorario")
+	public Response crearHorario(HorarioCrearDTO horarioDTO) {
+		RespuestaREST<HorarioDTO> respuesta = null;
+		try {
+			HorarioDTO horario = paradaService.crearHorario(horarioDTO);
+			respuesta = new RespuestaREST<HorarioDTO>(true, "Horario creado con éxito", horario);
+			return Response.ok(respuesta).build();
+		}catch (BondisUyException e) {
+			respuesta = new RespuestaREST<HorarioDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO || e.getCodigo() == BondisUyException.EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}	
+	
 	@DELETE
 	@Path("/eliminarHorarios/{parada}/{recorrido}")
 	public Response eliminarHorarios(@PathParam("parada") Long parada, @PathParam("recorrido") Long recorrido){
@@ -67,7 +123,7 @@ public class ParadaREST {
 		try {
 			paradaService.eliminarHorarios(parada, recorrido);
 			respuesta = new RespuestaREST<ParadaDTO>(true, "Los horarios asociados a la parada y recorrido indicados fueron"
-					+ "eliminados con éxito.");
+					+ " eliminados con éxito.");
 			return Response.ok(respuesta).build();
 		}catch (BondisUyException e) {
 			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());
@@ -78,26 +134,5 @@ public class ParadaREST {
 			}
 		}		
 	}
-	
-	@DELETE
-	@Path("/{id}")
-	public Response eliminar(@PathParam("id") Long id) {
-		RespuestaREST<ParadaDTO> respuesta = null;
-		try {
-			paradaService.eliminar(id);
-			respuesta = new RespuestaREST<ParadaDTO>(true, "La parada fue eliminada con éxito.");
-			return Response.ok(respuesta).build();
-		}catch (BondisUyException e) {
-			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());
-			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
-				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
-			}else {
-				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
-			}
-		}
-	}
-	
-	
-	
 
 }

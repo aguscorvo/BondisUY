@@ -1,12 +1,12 @@
 package bondisuy.dao;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 
 import bondisuy.entity.Horario;
 
@@ -16,15 +16,34 @@ public class HorarioDAOImpl implements IHorarioDAO {
 	@PersistenceContext(name = "LaboratorioTSIG")
 	private EntityManager em;
 	
+	@SuppressWarnings("unchecked")
 	@Override	
 	public List<Horario> listar(){
 		Query consulta = em.createQuery("SELECT h FROM Horario h");
 		return consulta.getResultList();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
-	public Horario listarPorId(Long id) {
-		return em.find(Horario.class, id);
+	public Horario listarPorIds(LocalTime hora, Long recorridoId, Long paradaId) {
+		Query consulta = em.createQuery("SELECT h "
+				+ "FROM Horario h "
+				+ "WHERE h.hora=:hora AND h.parada.id=:paradaId AND h.recorrido.id=:recorridoId");
+		consulta.setParameter("hora", hora);
+		consulta.setParameter("recorridoId", recorridoId);
+		consulta.setParameter("paradaId", paradaId);
+		return (Horario) consulta.getResultList().stream().findFirst().orElse(null);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Horario> listarPorRecorridoYParada(Long recorridoId, Long paradaId) {
+		Query consulta = em.createQuery("SELECT h "
+				+ "FROM Horario h "
+				+ "WHERE h.parada.id=:paradaId AND h.recorrido.id=:recorridoId");
+		consulta.setParameter("recorridoId", recorridoId);
+		consulta.setParameter("paradaId", paradaId);
+		return (List<Horario>) consulta.getResultList();
 	}
 	
 	@Override
@@ -34,28 +53,9 @@ public class HorarioDAOImpl implements IHorarioDAO {
 	}
 	
 	@Override
-	public Horario editar(Horario horario) {
-		em.persist(horario);
-		return horario;
-	}
-	
-	@Override
 	public void eliminar(Horario horario) {
 		em.remove(horario);
 	}
-	
-	@Override
-	public List<Long> listarPorParadaYRecorrido(Long paradaId, Long recorridoId) {
-		@SuppressWarnings("unchecked")
-		TypedQuery<Long>consulta = (TypedQuery<Long>)
-				em.createNativeQuery("SELECT h.id "
-				+ "FROM horarios AS h "
-				+ "INNER JOIN ft_paradas_horarios AS ph ON h.id=ph.horarios_id "
-				+ "INNER JOIN ft_recorridos_horarios AS rh ON ph.horarios_id=rh.horarios_id "
-				+ "WHERE ph.parada_id=:paradaId AND rh.recorrido_id=:recorridoId");
-		consulta.setParameter("paradaId", paradaId);
-		consulta.setParameter("recorridoId", recorridoId);
-		return consulta.getResultList();
-	}    
+	 
 
 }

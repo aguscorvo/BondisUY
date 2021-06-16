@@ -49,9 +49,7 @@ public class Recorrido implements Serializable{
     @JoinColumn(name = "linea_id", referencedColumnName = "id")
 	private Linea linea;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="recorrido", cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Horario> horarios;	
 	
-	//LineString geom;
-
 }

@@ -7,7 +7,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -26,35 +25,30 @@ public class HorarioREST {
 	
 	@EJB
 	IHorarioService horarioService;
-	
-	@POST
-	public Response crear(HorarioCrearDTO request) {
-		RespuestaREST<HorarioDTO> respuesta =null;
+		
+	@GET
+	public Response listarPorIds(HorarioCrearDTO horarioDTO) {
+		RespuestaREST<HorarioDTO> respuesta=null;
 		try {
-			HorarioDTO horario = horarioService.crear(request);
-			respuesta = new RespuestaREST<HorarioDTO>(true, "Horario creado con éxito.", horario);
+			HorarioDTO horario = horarioService.listarPorIds(horarioDTO);
+			respuesta = new RespuestaREST<HorarioDTO>(true, "Horario listado con éxito.", horario);
 			return Response.ok(respuesta).build();
 		}catch(BondisUyException e) {
 			respuesta = new RespuestaREST<HorarioDTO>(false, e.getLocalizedMessage());
-			if(e.getCodigo()==BondisUyException.NO_EXISTE_REGISTRO) {
-				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
-			}			
-			else{
-				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
-			}
-		}		
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+		}	
 	}
 	
 	@GET
-	@Path("/listarPorParadaYRecorrido/{parada}/{recorrido}")
-	public Response listarPorParadaYRecorrido(@PathParam("parada") Long parada, @PathParam("recorrido") Long recorrido) {
-		RespuestaREST<List<Long>> respuesta = null;
+	@Path("/listarPorRecorridoYParada/{recorrido}/{parada}")
+	public Response listarPorRecorridoYParada(@PathParam("parada") Long parada, @PathParam("recorrido") Long recorrido) {
+		RespuestaREST<List<HorarioDTO>> respuesta = null;
 		try {
-			List<Long> horarios = horarioService.listarPorParadaYRecorrido(parada, recorrido);
-			respuesta = new RespuestaREST<List<Long>>(true, "Horarios listados con éxito.", horarios);
+			List<HorarioDTO> horarios = horarioService.listarPorRecorridoYParada(recorrido, parada);
+			respuesta = new RespuestaREST<List<HorarioDTO>>(true, "Horarios listados con éxito", horarios);
 			return Response.ok(respuesta).build();
 		}catch(BondisUyException e) {
-			respuesta = new RespuestaREST<List<Long>>(false, e.getLocalizedMessage());
+			respuesta = new RespuestaREST<List<HorarioDTO>>(false, e.getLocalizedMessage());
 			if(e.getCodigo()==BondisUyException.NO_EXISTE_REGISTRO) {
 				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
 			}			
@@ -63,24 +57,24 @@ public class HorarioREST {
 			}
 		}	
 	}
-	
-	@PUT
-	@Path("/editar/{id}")
-	public Response editar(@PathParam("id") Long id, HorarioCrearDTO horarioDTO) {
-		RespuestaREST<HorarioDTO> respuesta = null;
-		try {
-			HorarioDTO horario = horarioService.editar(id, horarioDTO);
-			respuesta = new RespuestaREST<HorarioDTO>(true, "Horario editado con éxito.", horario);
-			return Response.ok(respuesta).build();
-		}catch(BondisUyException e) {
-			respuesta = new RespuestaREST<HorarioDTO>(false, e.getLocalizedMessage());
-			if(e.getCodigo()==BondisUyException.NO_EXISTE_REGISTRO) {
-				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
-			}			
-			else{
-				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
-			}
-		}	
-	}	
+		
+//	@PUT
+//	@Path("/editar/{id}")
+//	public Response editar(@PathParam("id") Long id, HorarioCrearDTO horarioDTO) {
+//		RespuestaREST<HorarioDTO> respuesta = null;
+//		try {
+//			HorarioDTO horario = horarioService.editar(id, horarioDTO);
+//			respuesta = new RespuestaREST<HorarioDTO>(true, "Horario editado con éxito.", horario);
+//			return Response.ok(respuesta).build();
+//		}catch(BondisUyException e) {
+//			respuesta = new RespuestaREST<HorarioDTO>(false, e.getLocalizedMessage());
+//			if(e.getCodigo()==BondisUyException.NO_EXISTE_REGISTRO) {
+//				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+//			}			
+//			else{
+//				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+//			}
+//		}
+//	}
 
 }

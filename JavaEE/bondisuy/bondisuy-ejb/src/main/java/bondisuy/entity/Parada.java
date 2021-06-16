@@ -49,9 +49,7 @@ private static final long serialVersionUID = 1L;
 	@Column(name = "habilitada")
 	private Boolean habilitada;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="parada", cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Horario> horarios;
-
-	//Point geom;
 
 }

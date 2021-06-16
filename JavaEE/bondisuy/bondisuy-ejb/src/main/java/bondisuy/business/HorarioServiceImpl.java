@@ -12,7 +12,6 @@ import bondisuy.dao.IParadaDAO;
 import bondisuy.dao.IRecorridoDAO;
 import bondisuy.dto.HorarioCrearDTO;
 import bondisuy.dto.HorarioDTO;
-import bondisuy.entity.Horario;
 import bondisuy.entity.Parada;
 import bondisuy.entity.Recorrido;
 import bondisuy.exception.BondisUyException;
@@ -49,72 +48,27 @@ public class HorarioServiceImpl implements IHorarioService {
 	}
 	
 	@Override
-	public HorarioDTO listarPorId(Long id) throws BondisUyException{
+	public HorarioDTO listarPorIds(HorarioCrearDTO horarioDTO) throws BondisUyException{
 		try {
-			Horario horario = horarioDAO.listarPorId(id);
-			if(horario==null) throw new BondisUyException("El horario indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-			return horarioConverter.fromEntity(horario);
+			return horarioConverter.fromEntity(horarioDAO.listarPorIds(LocalTime.parse(horarioDTO.getHora()), 
+					horarioDTO.getRecorrido(), horarioDTO.getParada()));
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
 	}
 	
 	@Override
-	public HorarioDTO crear(HorarioCrearDTO horarioDTO) throws BondisUyException{
-		try {
-			Recorrido recorrido = recorridoDAO.listarPorId(horarioDTO.getRecorrido());
-			if(recorrido==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-			Parada parada = paradaDAO.listarPorId(horarioDTO.getParada());
-			if(parada==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-			Horario horario = horarioConverter.fromCrearDTO(horarioDTO);
-			horario.setRecorrido(recorrido);
-			horario.setParada(parada);
-			HorarioDTO horarioCreado = horarioConverter.fromEntity(horarioDAO.crear(horario));
-			// Se agrega el horario al recorrido
-			recorridoService.agregarHorario(recorrido.getId(), horarioCreado.getId());
-			// Se agrega el horario a la parada
-			paradaService.agregarHorario(parada.getId(), horarioCreado.getId());
-			return horarioCreado;
-		}catch (Exception e) {
-			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
-		}
-	}
-	
-	@Override
-	public HorarioDTO editar(Long id, HorarioCrearDTO horarioDTO) throws BondisUyException{
-		try {
-			Horario horario = horarioDAO.listarPorId(id);
-			if(horario==null) throw new BondisUyException("El horario indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-			horario.setHora(LocalTime.parse(horarioDTO.getHora()));
-			return horarioConverter.fromEntity(horarioDAO.editar(horario));
-		}catch (Exception e) {
-			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
-		}
-	}	
-	
-	//desde backend
-	@Override
-	public void eliminar(Long id) throws BondisUyException{
-		try {
-			Horario horario = horarioDAO.listarPorId(id);
-			if(horario==null) throw new BondisUyException("El horario indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-			horarioDAO.eliminar(horario);
-		}catch (Exception e) {
-			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
-		}
-	}
-	
-	@Override
-	public List<Long> listarPorParadaYRecorrido(Long paradaId, Long recorridoId) throws BondisUyException{
+	public List<HorarioDTO> listarPorRecorridoYParada(Long recorridoId, Long paradaId) throws BondisUyException{
 		try {
 			Parada parada = paradaDAO.listarPorId(paradaId);
 			if(parada==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			Recorrido recorrido = recorridoDAO.listarPorId(recorridoId);
 			if(recorrido==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-			return horarioDAO.listarPorParadaYRecorrido(paradaId, recorridoId);
+			return horarioConverter.fromEntity(horarioDAO.listarPorRecorridoYParada(recorridoId, paradaId));
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
-	}   
+	}
+
 
 }

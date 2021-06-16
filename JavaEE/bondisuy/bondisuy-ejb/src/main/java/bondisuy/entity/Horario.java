@@ -3,18 +3,17 @@ package bondisuy.entity;
 import java.io.Serializable;
 import java.time.LocalTime;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,26 +22,31 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
 @Builder
 @Entity
+@IdClass(Horario.class)
 @Table(name = "horarios")
 public class Horario implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
 
-private static final long serialVersionUID = 1L;
-	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Column(name = "hora")
+	@Column(name = "hora", nullable = false)
 	private LocalTime hora;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "recorrido_id", referencedColumnName = "id")
+	@Id
+	@ManyToOne
+    @JoinColumn(name = "recorrido_id", 
+    	insertable=false,
+		updatable=false)
 	private Recorrido recorrido;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "parada_id", referencedColumnName = "id")
+	@Id
+	@ManyToOne
+    @JoinColumn(name = "parada_id",
+    		insertable=false,
+			updatable=false)
 	private Parada parada;	
 	
 }

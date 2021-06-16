@@ -93,8 +93,9 @@ public class RecorridoServiceImpl implements IRecorridoService {
 			List<Long> paradas = recorridoDAO.listarParadas(id);
 			//por cada parada ejecuto eliminarHorarios
 			for (Long parada: paradas) {
-				paradaService.eliminarHorarios(parada, id);
+//				paradaService.eliminarHorarios(parada, id);
 			}
+			//chequear estado de parada
 			//eliminar recorrido
 			recorridoDAO.eliminar(recorrido);
 		}catch (Exception e) {
@@ -102,42 +103,45 @@ public class RecorridoServiceImpl implements IRecorridoService {
 		}
 	}
 	
-	// solo se llama desde backend
-	@Override
-	public void agregarHorario(Long recorrido, Long horario) throws BondisUyException{
-		// se valida que el horario exista
-		Horario horarioAux = horarioDAO.listarPorId(horario);
-		if(horario ==null) throw new BondisUyException("El horario indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-		// se valida que el horario no se encuentre asociado al recorrido
-		Recorrido recorridoAux = recorridoDAO.listarPorId(recorrido);
-		for(Horario h: recorridoAux.getHorarios()) {
-			if(h.getId()==horario) throw new BondisUyException("El horario indicado ya se encuentra asociado al recorrido.", BondisUyException.EXISTE_REGISTRO);
-		}
-		// se asocia el horario al recorrido
-		recorridoAux.getHorarios().add(horarioAux);
-		recorridoDAO.editar(recorridoAux);		
-	}
+//	// solo se llama desde backend
+//	@Override
+//	public void agregarHorario(Long recorrido, Long horario) throws BondisUyException{
+//		// se valida que el horario exista
+//		Horario horarioAux = horarioDAO.listarPorId(horario);
+//		if(horario ==null) throw new BondisUyException("El horario indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+//		// se valida que el horario no se encuentre asociado al recorrido
+//		Recorrido recorridoAux = recorridoDAO.listarPorId(recorrido);
+//		for(Horario h: recorridoAux.getHorarios()) {
+//			if(h.getId()==horario) throw new BondisUyException("El horario indicado ya se encuentra asociado al recorrido.", BondisUyException.EXISTE_REGISTRO);
+//		}
+//		// se asocia el horario al recorrido
+//		recorridoAux.getHorarios().add(horarioAux);
+//		recorridoDAO.editar(recorridoAux);		
+//	}
 	
-	// solo se llama desde backend
-	@Override
-	public void eliminarHorarios(Long recorrido, List<Long> horarios) throws BondisUyException{
-		try {
-			Recorrido recorridoAux = recorridoDAO.listarPorId(recorrido);
-			List<Horario> horariosAEliminar = new ArrayList<Horario>();
-			for(Long horarioAEliminar: horarios) {
-				for(Horario horario: recorridoAux.getHorarios()) {
-					if (horario.getId()==horarioAEliminar) {
-						horariosAEliminar.add(horario);
-						return;
-					}
-				}
-			}
-			recorridoAux.getHorarios().removeAll(horariosAEliminar);
-			recorridoDAO.editar(recorridoAux);	
-		}catch (Exception e) {
-			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
-		}
-	}
+//	// solo se llama desde backend
+//	@Override
+//	public void eliminarHorarios(Long recorrido, List<Long> horarios) throws BondisUyException{
+//		try {
+//			System.out.println("RecorridoService: eliminarHorarios");
+//			Recorrido recorridoAux = recorridoDAO.listarPorId(recorrido);
+//			List<Horario> horariosAEliminar = new ArrayList<Horario>();
+//			for(Long horarioAEliminar: horarios) {
+//				for(Horario horario: recorridoAux.getHorarios()) {
+//					if (horario.getId()==horarioAEliminar) {
+//						System.out.println("RecorridoService: Encontre horario, agrego a horariosAEliminar");
+//						horariosAEliminar.add(horario);
+//						return;
+//					}
+//				}
+//			}
+//			recorridoAux.getHorarios().removeAll(horariosAEliminar);
+//			recorridoDAO.editar(recorridoAux);	
+//			System.out.println("RecorridoService: Recorrido editado");
+//		}catch (Exception e) {
+//			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+//		}
+//	}
 
 
     

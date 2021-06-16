@@ -13,7 +13,6 @@ import lombok.Setter;
 @Builder
 public class HorarioDTO {
 	
-	private Long id;
 	private String hora;
 	private RecorridoMinDTO recorrido;
 	private ParadaMinDTO parada;

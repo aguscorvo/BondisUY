@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import bondisuy.dto.HorarioCrearDTO;
+import bondisuy.dto.HorarioDTO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
 import bondisuy.dto.ProximaLineaDTO;
@@ -16,10 +18,9 @@ public interface IParadaService {
 	public ParadaDTO listarPorId(Long id) throws BondisUyException;
 	public ParadaDTO crear(ParadaCrearDTO paradaDTO) throws BondisUyException;
 	public ParadaDTO editar(Long id, ParadaCrearDTO paradaDTO) throws BondisUyException;
-	public void eliminar(Long id) throws BondisUyException;
+//	public void eliminar(Long id) throws BondisUyException;
 	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario) throws BondisUyException;
 	public void eliminarHorarios(Long parada, Long recorrido) throws BondisUyException;
+	public HorarioDTO crearHorario(HorarioCrearDTO horarioDTO) throws BondisUyException;
 	
-	// solo se llama desde backend
-	public void agregarHorario(Long parada, Long horario) throws BondisUyException;
 }

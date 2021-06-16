@@ -22,7 +22,6 @@ public class HorarioConverter extends AbstractConverter<Horario, HorarioDTO>{
 	public HorarioDTO fromEntity(Horario h) {
 		if(h==null) return null;
 		return HorarioDTO.builder()
-				.id(h.getId())
 				.hora(h.getHora().toString())
 				.recorrido(recorridoConverter.fromEntityToMin(h.getRecorrido()))
 				.parada(paradaConverter.fromEntityToMin(h.getParada()))
@@ -33,7 +32,6 @@ public class HorarioConverter extends AbstractConverter<Horario, HorarioDTO>{
 	public Horario fromDTO(HorarioDTO h) {
 		if(h==null) return null;
 		return Horario.builder()
-				.id(h.getId())
 				.hora(LocalTime.parse(h.getHora()))
 				.recorrido(recorridoConverter.fromMinDTO(h.getRecorrido()))
 				.parada(paradaConverter.fromMinDTO(h.getParada()))
