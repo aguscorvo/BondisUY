@@ -77,8 +77,9 @@ function filtrarLineaByCompany(companyId) {
 function filtrarCalleByName(calleName) {
 	var txttable = '<thead><tr><th>nombre</th><th>tipo</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
-
-	if (!(calleName == '' || calleName == 'ALL')) {
+	
+		if (!(calleName.replace('/\r?\n|\r/g', '') == '' || calleName == 'ALL' )) {
+		
 		var url = "/bondisuy-web/bondisuyrest/servicios/srchservicio/calle/" + calleName;
 
 		$ds.ajaxSetup({
@@ -126,7 +127,7 @@ function getEsquinaCalle(calle1, calle2, texto) {
 		.done(function(data) {
 
 			//Transformo del sistema EPSG:32721 a EPSG:4326
-			var point = new Proj4js.Point(coordNuevaParada);   //any object will do as long as it has 'x' and 'y' properties
+			var point = new Proj4js.Point([data.x, data.y]);   //any object will do as long as it has 'x' and 'y' properties
 			var point4326 = Proj4js.transform(proj32721, proj4326, point);      //do the transformation.  x and y are modified in place
 
 			var punto = {
@@ -137,10 +138,11 @@ function getEsquinaCalle(calle1, calle2, texto) {
 
 			puntos.push(punto);
 
-			borrarCapaPorNombre('ESQUINA');
-			addMarcadores(puntos, 'ESQUINA');
+			borrarCapaPorNombre(L_ESQUINA);
 			borrarCapaPorNombre(L_NUEVAPARADA);
-
+			
+			addMarcadores(puntos, L_ESQUINA);
+			
 			centerMap([point4326['x'], point4326['y']]);
 
 
@@ -776,18 +778,13 @@ function addRecorridoLinea(idLinea, descrip) {
 
 
 function getZonaLinea() {
-	console.log(coordZonaLinea);
 	var polygon = coordZonaLinea[0];
 
 	var geom = 'POLYGON((';
 
 	for (var z = 0; z < polygon.length; z++) {
-
-		console.log(polygon[z])
 		var point = new Proj4js.Point(polygon[z]);   //any object will do as long as it has 'x' and 'y' properties
 		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
-
-		console.log(point32721);
 
 		geom += point32721['x'] + ' ' + point32721['y'];
 		if (z < polygon.length - 1)
@@ -795,10 +792,6 @@ function getZonaLinea() {
 	}
 	geom += '))'
 
-	console.log(geom);
 	getRecorridoZona(geom);
-
-	map.removeInteraction(modifyZonaLinea);
-	map.removeInteraction(snapZonaLinea);
 
 }

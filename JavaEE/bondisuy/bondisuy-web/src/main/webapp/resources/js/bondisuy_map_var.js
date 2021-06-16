@@ -1,7 +1,9 @@
 var coordinates = ol.proj.fromLonLat([-56.17938, -34.86157]);
 var coordNuevaParada = ol.proj.fromLonLat([-56.17938, -34.86157]);
+var coordUPDParada = ol.proj.fromLonLat([-56.17938, -34.86157]);
 var coordNuevaLinea = [];
 var coordZonaLinea = [];
+var coordUPDLinea = [];
 var projectionSRS = 'EPSG:32721';
 
 var GEOSERVER = '/geoserver/wms';
@@ -16,6 +18,8 @@ var L_PARADAS = 'PARADAS';
 var L_NUEVAPARADA = 'NUEVAPARADA';
 var L_NUEVALINEA = 'NUEVALINEA';
 var L_ZONA = 'ZONA';
+var L_ESQUINA = 'ESQUINA';
+var L_UPDLINEA = 'UPDLINEA';
 
 
 var CAPAS = {

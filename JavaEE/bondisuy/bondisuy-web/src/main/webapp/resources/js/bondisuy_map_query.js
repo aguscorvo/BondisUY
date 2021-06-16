@@ -267,8 +267,12 @@ function getRecorrido(id) {
 
 			$ds('#mappopup').popover('dispose');
 
-			var center = parseInt(recorridos[0]['coordenadas'].length / 2);
-			centerMapLinea(recorridos[0]['coordenadas'][center]);
+			//centra en el medio de la linea
+			//var center = parseInt(recorridos[0]['coordenadas'].length / 2);
+			//centerMapLinea(recorridos[0]['coordenadas'][center]);
+			
+			//centro en mi ubicacio
+			centerMapLinea(coordinates);
 
 		})
 		.fail(function(jqxhr, textStatus, error) {
@@ -601,6 +605,82 @@ function getRecorridoZona(zona) {
 			addRecorridoCercano(recorridos);
 
 			$ds('#mappopup').popover('dispose');
+
+		})
+		.fail(function(jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
+}
+
+//Funcion que retorna un recorrido por ID
+//Parámetros: id: numerico
+function getUPDRecorrido(id) {
+	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.recorridos + "&outputformat=json" +
+		'&viewparams=recorrido:{id}';
+	var recorridos = [];
+
+	url = url.replace('{id}', id);
+
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+	});
+
+	$ds.getJSON(url)
+		.done(function(data) {
+
+			var features = data["features"];
+			for (var lin in features) {
+				var auxlinea = features[lin];
+				var geom = auxlinea["geometry"];
+				var prop = auxlinea["properties"];
+				var coord = [];
+
+				try {
+
+					//descripcion: TEXT, coordenadas: [lat, long], img: SRC
+
+					var text = 'L\u00EDnea: ' + prop["linea_nombre"] +
+						'<br>Compa\u00F1\u00EDa: ' + prop["com_nombre"] +
+						'<br>Ruta: ' + prop["ruta"];
+
+					for (var co in geom["coordinates"]) {
+						//Transformo del sistema EPSG:32721 a EPSG:4326
+						var point = new Proj4js.Point(geom["coordinates"][co]);   //any object will do as long as it has 'x' and 'y' properties
+						var point4326 = Proj4js.transform(proj32721, proj4326, point);      //do the transformation.  x and y are modified in place
+
+						coord.push([point4326['x'], point4326['y']]);
+					}
+
+					var newParada = {
+						"descripcion": text,
+						"coordenadas": coord,
+						"color": COMPANY[prop["com_nombre"].toLowerCase()]
+					};
+
+					recorridos.push(newParada);
+
+				} catch (e) {
+					console.log(prop["id"]);
+					console.log(auxlinea);
+				}
+			}
+
+			geolocation.setTracking(false);
+			addUPDRecorrido(recorridos, L_UPDLINEA)
+			getRecorridoParada(id, L_PARADAS);
+
+			$ds('#mappopup').popover('dispose');
+
+			//centra en el medio de la linea
+			//var center = parseInt(recorridos[0]['coordenadas'].length / 2);
+			//centerMapLinea(recorridos[0]['coordenadas'][center]);
+			
+			//centro en mi ubicacio
+			centerMapLinea(coordinates);
 
 		})
 		.fail(function(jqxhr, textStatus, error) {

@@ -464,7 +464,7 @@ function borrarCapaPorNombre(nombre) {
 	for (var lay in map.getLayers().getArray()) {
 		if (!(lay instanceof ol.layer.Group)) {
 			var layer = map.getLayers().getArray()[lay];
-			
+
 			//console.log(layer.get('name'));
 
 			if (layer.get('name') == nombre) {
@@ -611,7 +611,7 @@ function addLinea() {
 	});
 
 	modifyNuevaLinea.on('modifyend', function(evt) {
-		
+
 		coordNuevaLinea = evt.features.getArray();
 
 	});
@@ -684,8 +684,11 @@ function addZonaLinea() {
 	});
 
 	modifyZonaLinea.on('modifyend', function(evt) {
-		
-		coordZonaLinea = evt.features.getArray();
+
+		var features = evt.features.getArray();
+		for (var i = 0; i < features.length; i++) {
+			coordZonaLinea = features[i].getGeometry().getCoordinates();
+		}
 
 	});
 
@@ -699,4 +702,107 @@ function addZonaLinea() {
 }
 
 
+//Source de Nueva Parada
+var sourceUPDLinea = new ol.source.Vector({
+	wrapX: false,
+});
 
+var snapUPDLinea = new ol.interaction.Snap({
+	source: sourceUPDLinea
+});
+
+var modifyUPDLinea = new ol.interaction.Modify({
+	source: sourceUPDLinea
+});
+
+
+//Modificacion de lineas 
+//List de objetos: {descripcion: TEXT, coordenadas: [[lat, long],[lat, long]], color: HEX }
+function addUPDRecorrido(list, typeSource) {
+	var recorridos = [];
+
+	for (var lst in list) {
+		let recorrido = new ol.Feature({
+			geometry: new ol.geom.LineString(list[lst]['coordenadas']),// Como va a ser
+			name: list[lst]['descripcion']
+		});
+
+		// Agregamos estilo
+		let routeStyle = new ol.style.Style({
+			stroke: new ol.style.Stroke({
+				width: 4,
+				color: list[lst]['color'],
+			}),
+		});
+		recorrido.setStyle(routeStyle);
+
+		recorridos.push(recorrido);// Agregamos el recorrido  al arreglo
+	}
+
+	sourceUPDLinea.addFeatures(recorridos);
+	
+	//Vector de Nueva Parada
+	var vectorUPDLinea = new ol.layer.Vector({
+		name: typeSource,
+		source: sourceUPDLinea,
+		//style: StrokeZonaLineaStyle,
+	});
+
+		/*	var recorridosSource = new ol.source.Vector({
+				options: {
+					projection: projectionSRS,
+				},
+				features: recorridos, // Ponemos los recorridos en la capa
+			});
+		
+			var capa = new ol.layer.Vector({
+				name: typeSource,
+				source: recorridosSource,
+				zIndex: 4,
+			});
+		
+			// Agregamos la capa al mapa
+			map.addLayer(capa);
+			bondisuy_LoadHide();
+		*/
+
+		sourceUPDLinea.on('addfeature', function(evt) {
+			//removeLastNuevaParada();
+			lastFeatureUPDLinea = evt.feature;
+
+			var feature = evt.feature;
+			coordUPDLinea = feature.getGeometry().getCoordinates();
+
+			map.removeInteraction(drawUPDLinea);
+			map.removeInteraction(snapUPDLinea);
+
+		});
+
+	modifyUPDLinea.on('modifyend', function(evt) {
+		var features = evt.features.getArray();
+		for (var i = 0; i < features.length; i++) {
+			coordUPDLinea = features[i].getGeometry().getCoordinates();
+		}
+
+	});
+
+	// Agregamos la capa al mapa
+	map.addLayer(vectorUPDLinea);
+
+	map.addInteraction(modifyUPDLinea);
+//	map.addInteraction(drawUPDLinea);
+	map.addInteraction(snapUPDLinea);
+
+}
+
+
+
+function cleanInteraction() {
+	//	map.removeInteraction(drawNuevaParada);
+	map.removeInteraction(snapNuevaParada);
+	//	map.removeInteraction(drawZonaLinea);
+	map.removeInteraction(snapZonaLinea);
+	//	map.removeInteraction(drawNuevaLinea);
+	map.removeInteraction(snapNuevaLinea);
+
+}

@@ -91,7 +91,11 @@ function searchOptions(id) {
 
 	var select;
 
+	//buscar linea por empresa
 	if (id == 1) {
+		cleanInteraction();
+		removeAllLayers();
+
 		$ds("a[href='#ui-basic']").click();
 		select = '<select class="form-control form-control-sm text-secondary" id="selectEmpresas"></select>';
 
@@ -106,8 +110,6 @@ function searchOptions(id) {
 		$ds("#selectEmpresas").on("change", function() {
 			bondisuy_LoadShow();
 			filtrarLineaByCompany($ds(this).val());
-			//var size = $ds("#map").height() - 50 - $ds(this).offset().top;
-			//$ds("#selectTableLineas").height(size);
 		});
 
 		var recorrido = '';
@@ -131,8 +133,10 @@ function searchOptions(id) {
 		});
 
 
-
+		//Buscar por linea
 	} else if (id == 2) {
+		cleanInteraction();
+
 		$ds("a[href='#ui-basic']").click();
 		select = '<input type="text" class="form-control form-control-sm" id="inputLinea">';
 		$ds(card_title).html("Buscar l&iacute;nea");
@@ -199,9 +203,11 @@ function searchOptions(id) {
 			}
 		});
 
-
+		//Buscar Esquina
 	} else if (id == 3) {
-		//$ds( "#selectTableLineas" ).off( "click", "**" );
+		cleanInteraction();
+		//removeAllLayers();
+
 
 		$ds("a[href='#ui-basic']").click();
 		select = '<label for="inputCalleA">Calle</label><input type="text" class="form-control form-control-sm" id="inputCalleA">';
@@ -229,6 +235,8 @@ function searchOptions(id) {
 					break;
 				case 9: // Tab
 				case 13: // Enter
+					nombre = $ds(this).val();
+					break;
 				case 16: // Shift
 				case 37: // Left
 				case 38: // Up
@@ -244,8 +252,6 @@ function searchOptions(id) {
 			}
 
 			filtrarCalleByName(nombre);
-			var size = $ds("#map").height() - 80 - $ds(this).offset().top;
-			$ds("#selectTableLineas").height(size);
 		});
 
 		$ds("#inputCalleA").on("keydown", function(ev) {
@@ -260,6 +266,8 @@ function searchOptions(id) {
 					break;
 				case 9: // Tab
 				case 13: // Enter
+					nombre = $ds(this).val();
+					break;
 				case 16: // Shift
 				case 37: // Left
 				case 38: // Up
@@ -276,8 +284,6 @@ function searchOptions(id) {
 			}
 
 			filtrarCalleByName(nombre);
-			var size = $ds("#map").height() - 80 - $ds(this).offset().top;
-			$ds("#selectTableLineas").height(size);
 		});
 
 		//Input CalleB
@@ -289,6 +295,8 @@ function searchOptions(id) {
 					break;
 				case 9: // Tab
 				case 13: // Enter
+					nombreb = $ds(this).val();
+					break;
 				case 16: // Shift
 				case 37: // Left
 				case 38: // Up
@@ -305,8 +313,6 @@ function searchOptions(id) {
 
 
 			filtrarEsquinaCalle(calle, nombreb);
-			var size = $ds("#map").height() - 80 - $ds(this).offset().top;
-			$ds("#selectTableLineas").height(size);
 		});
 
 		$ds("#inputCalleB").on("keydown", function(ev) {
@@ -317,6 +323,8 @@ function searchOptions(id) {
 					break;
 				case 9: // Tab
 				case 13: // Enter
+					nombreb = $ds(this).val();
+					break;
 				case 16: // Shift
 				case 37: // Left
 				case 38: // Up
@@ -334,8 +342,6 @@ function searchOptions(id) {
 
 			filtrarEsquinaCalle(calle, nombreb);
 
-			var size = $ds("#map").height() - 80 - $ds(this).offset().top;
-			$ds("#selectTableLineas").height(size);
 		});
 
 		var databody = $ds("#selectTableLineas").children("table").get(0);
@@ -368,8 +374,11 @@ function searchOptions(id) {
 				}
 			}
 		});
-
+		//Buscar direccion
 	} else if (id == 4) {
+		cleanInteraction();
+		removeAllLayers();
+
 		$ds("a[href='#ui-basic']").click();
 		select = '<label for="inputCalleN">Calle</label><input type="text" class="form-control form-control-sm" id="inputCalleN">';
 		select += '<label for="inputNumero">N\u00FAmero</label><input type="number" class="form-control form-control-sm" id="inputNumero" disabled>';
@@ -528,7 +537,12 @@ function searchOptions(id) {
 				}
 			}
 		});
+
+		//Ver paradas habilitadas
 	} else if (id == 5) {
+		cleanInteraction();
+		removeAllLayers();
+
 		var card = $ds("#to_do_some");
 
 		$ds("a[href='#ui-basic']").click();
@@ -545,8 +559,11 @@ function searchOptions(id) {
 		getAllParadasEstado(true);
 
 
-
+		//Ver paradas deshabilitadas
 	} else if (id == 6) {
+		cleanInteraction();
+		removeAllLayers();
+
 		var card = $ds("#to_do_some");
 
 		$ds("a[href='#ui-basic']").click();
@@ -562,7 +579,11 @@ function searchOptions(id) {
 
 		getAllParadasEstado(false);
 
+		//veer lineas cercanas
 	} else if (id == 7) {
+		cleanInteraction();
+		//removeAllLayers();
+
 		var card = $ds("#to_do_some");
 		var table = $ds("#selectTableLineas").children("table").get(0);
 		$ds("a[href='#ui-basic']").click();
@@ -583,7 +604,11 @@ function searchOptions(id) {
 
 		$ds(table).html(txttable);
 
+		//Nueva Parada
 	} else if (id == 8) {
+		cleanInteraction();
+		removeAllLayers();
+		
 		var card = $ds("#to_do_some");
 		var button = '<button class="btn btn-secondary btn-fw" id="confNuevaParada">Confirmar Ubicaci\u00F3n</select>';
 
@@ -598,15 +623,6 @@ function searchOptions(id) {
 
 		$ds(table).off("click");
 
-		/*
-		borrarCapaPorNombre('DIRECCION');
-		borrarCapaPorNombre('ESQUINA');
-		borrarCapaPorNombre(L_RECORRIDOS);
-		borrarCapaPorNombre(L_PARADAS);
-		borrarCapaPorNombre(L_NUEVAPARADA);
-		borrarCapaPorNombre(L_NUEVALINEA);
-*/
-		removeAllLayers();
 		addParada();
 
 		var buttonConf = $ds("#confNuevaParada");
@@ -621,8 +637,11 @@ function searchOptions(id) {
 
 		});
 
-
+		//modificar parada
 	} else if (id == 9) {
+		cleanInteraction();
+		removeAllLayers();
+
 		$ds("a[href='#ui-busstop']").click();
 		select = '<select class="form-control form-control-sm text-secondary" id="selectEmpresas"></select>';
 
@@ -632,7 +651,11 @@ function searchOptions(id) {
 
 		listarCompany();
 
+		//nueva linea
 	} else if (id == 10) {
+		cleanInteraction();
+		removeAllLayers();
+
 		var card = $ds("#to_do_some");
 		var button = '<button class="btn btn-secondary btn-fw" id="confNuevaLinea">Confirmar L\u00EDnea</select>';
 
@@ -657,33 +680,104 @@ function searchOptions(id) {
 
 
 		$ds(buttonConf).on('click', function() {
-	
+
 			getCompanyNuevaLinea();
 
 		});
 
 
-
+		//modificar linea
 	} else if (id == 11) {
+		cleanInteraction();
+		removeAllLayers();
 
+		$ds("a[href='#ui-busline']").click();
+		select = '<input type="text" class="form-control form-control-sm" id="inputLinea"><br>';
+		var button = '<button class="btn btn-secondary btn-fw" id="confUpdLinea">Modificar</select>';
+		$ds(card_title).html("Modificar l&iacute;nea");
+		$ds(card_subtitle).html("L&iacute;nea");
+		$ds(form_group).html(select + button);
+
+		filtrarLineaByName('');
+
+		var nombre;
+		//Input Linea
+		$ds("#inputLinea").on("keypress", function(ev) {
+			switch (ev.which) {
+				case 8: // Backspace
+				case 9: // Tab
+				case 13: // Enter
+				case 37: // Left
+				case 38: // Up
+				case 39: // Right
+				case 40: // Down
+				default:
+					nombre = $ds(this).val() + String.fromCharCode(ev.which);
+			}
+			filtrarLineaByName(nombre);
+		});
+
+		$ds("#inputLinea").on("keydown", function(ev) {
+			switch (ev.which) {
+				case 8: // Backspace
+				case 9: // Tab
+				case 13: // Enter
+				case 37: // Left
+				case 38: // Up
+				case 39: // Right
+				case 40: // Down
+				default:
+					nombre = $ds(this).val() + String.fromCharCode(ev.which);
+			}
+			filtrarLineaByName(nombre);
+		});
+
+		var recorrido = '';
+		var databody = $ds("#selectTableLineas").children("table").get(0);
+
+		$ds(databody).off("click");
+
+		$ds(databody).on('click', 'tr', function() {
+			if ($ds(this).hasClass('selected')) {
+				$ds(this).removeClass('selected');
+			}
+			else {
+				recorrido = $ds(this).attr('data-counter_id');
+
+				$ds('#selectTableLineas tr.selected').removeClass('selected');
+				$ds(this).addClass('selected');
+
+				//bondisuy_LoadShow();
+				getUPDRecorrido(recorrido);
+			}
+		});
+
+
+		//ver paradas cercanas
 	} else if (id == 12) {
+		cleanInteraction();
+		removeAllLayers();
+		
+		$ds("a[href='#ui-basic']").click();
 		var form_group = $ds(card).find(".form-group");
 		var table = $ds("#selectTableLineas").children("table").get(0);
 
 		$ds(form_group).html('');
 		$ds(table).html('');
 
-		removeAllLayers();
 
 		var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
 		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
 		getParadasCercanas([point32721['x'], point32721['y']], DISTANCIA);
-		
+
 		centerMap(coordinates);
 
-
+		//Ver lineas en zona
 	} else if (id == 13) {
+		cleanInteraction();
+		removeAllLayers();
+		
 		var card = $ds("#to_do_some");
 		var button = '<button class="btn btn-secondary btn-fw" id="confZonaLinea">Confirmar zona</select>';
 
@@ -698,8 +792,6 @@ function searchOptions(id) {
 
 		$ds(table).off("click");
 
-		removeAllLayers();
-
 		addZonaLinea();
 
 		var buttonConf = $ds("#confZonaLinea");
@@ -708,14 +800,15 @@ function searchOptions(id) {
 
 
 		$ds(buttonConf).on('click', function() {
-
+			
+			map.removeInteraction(snapZonaLinea);
 			getZonaLinea();
-
+			
 		});
 
-
+		//Ver ultimos cambios
 	} else if (id == 14) {
-
+		cleanInteraction()
 	}
 
 
