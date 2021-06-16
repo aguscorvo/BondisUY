@@ -54,6 +54,17 @@ var StrokeNuevaLineaStyle = new ol.style.Style({
 	}),
 });
 
+// estilo Zona Linea
+var StrokeZonaLineaStyle = new ol.style.Style({
+	fill: new ol.style.Fill({
+      color: 'rgba(0, 0, 255, 0.2)',
+    }),
+	stroke: new ol.style.Stroke({
+		width: 3,
+		color: '#152238'
+	}),
+});
+
 
 var styles = [
 	new ol.style.Style({

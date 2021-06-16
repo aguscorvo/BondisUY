@@ -80,6 +80,14 @@
 							<li class="nav-item"><a class="nav-link"
 								href="javascript:searchOptions(7);">Ver l&iacute;neas
 									Cercanas</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:searchOptions(12);">Ver Paradas Cercanas</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:searchOptions(13);">Ver l&iacute;neas en
+									zona</a></li>
+							<li class="nav-item"><a class="nav-link"
+								href="javascript:searchOptions(14);">Ver &uacuteltimos
+									cambios</a></li>
 						</ul>
 					</div></li>
 				<c:if test="${(sessionScope.USER!=null)}">
@@ -170,7 +178,8 @@
 		data-content="" data-html="true"></div>
 
 	<!-- Modal ERROR-->
-	<div class="modal error-modal" tabindex="-1" role="dialog" id="general_error">
+	<div class="modal error-modal" tabindex="-1" role="dialog"
+		id="general_error">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content bg-secondary text-dark">
 				<div class="modal-header">
@@ -189,8 +198,7 @@
 					<p id="general_error_msj"></p>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-dark"
-						data-dismiss="modal">Cerrar</button>
+					<button type="button" class="btn btn-dark" data-dismiss="modal">Cerrar</button>
 				</div>
 			</div>
 		</div>
@@ -228,7 +236,7 @@
 					<div class="col-12">
 						<div class="col-12 d-flex flex-row validate-input">
 							<div class="col-3  mb-3">
-							<label for="addParadaName">Nombre</label>
+								<label for="addParadaName">Nombre</label>
 							</div>
 							<div class="col-9  mb-3">
 								<input type="text" class="form-control mb-3" id="addParadaName"
@@ -238,10 +246,10 @@
 						<div class="col-12 d-flex flex-row validate-input">
 							<div class="col-12  mb-3">
 								<div class="form-group">
-									<label for="addNuevaParadaLineasCercanas">L&iacute;neas Cercanas</label> 
-									<select multiple class="form-control"
+									<label for="addNuevaParadaLineasCercanas">L&iacute;neas
+										Cercanas</label> <select multiple class="form-control"
 										id="addNuevaParadaLineasCercanas">
-										
+
 									</select>
 								</div>
 							</div>
@@ -249,7 +257,8 @@
 					</div>
 					<div class="col-12">
 						<div class="col-12 d-flex flex-row">
-							<button type="button" onclick='addParadaPOSTREST()' id="buttonAddParadaREST" class="btn btn-primary">CREAR</button>
+							<button type="button" onclick='addParadaPOSTREST()'
+								id="buttonAddParadaREST" class="btn btn-primary">CREAR</button>
 						</div>
 					</div>
 				</div>
@@ -272,7 +281,7 @@
 					<div class="col-12">
 						<div class="col-12 d-flex flex-row validate-input">
 							<div class="col-3  mb-3">
-							<label for="addLineaName">Nombre L&iacute;nea</label>
+								<label for="addLineaName">Nombre L&iacute;nea</label>
 							</div>
 							<div class="col-9  mb-3">
 								<input type="text" class="form-control mb-3" id="addLineaName"
@@ -281,25 +290,28 @@
 						</div>
 						<div class="col-12 d-flex flex-row validate-input">
 							<div class="col-3  mb-3">
-							<label for="addLineaDescripcion">Descripci&oacute;n</label>
+								<label for="addLineaDescripcion">Descripci&oacute;n</label>
 							</div>
 							<div class="col-9  mb-3">
-								<input type="text" class="form-control mb-3" id="addLineaDescripcion"
-									name="addLineaDescripcion" placeholder="Descripci&oacute;n">
+								<input type="text" class="form-control mb-3"
+									id="addLineaDescripcion" name="addLineaDescripcion"
+									placeholder="Descripci&oacute;n">
 							</div>
 						</div>
 						<div class="col-12 d-flex flex-row validate-input">
 							<div class="col-3  mb-3">
-							<label for="addLineaEmpresa">Compa&ntilde;&iacute;a</label>
+								<label for="addLineaEmpresa">Compa&ntilde;&iacute;a</label>
 							</div>
 							<div class="col-9  mb-3">
-								<select class="form-control form-control-sm text-secondary" id="addLineaEmpresa"></select>
+								<select class="form-control form-control-sm text-secondary"
+									id="addLineaEmpresa"></select>
 							</div>
 						</div>
 					</div>
 					<div class="col-12">
 						<div class="col-12 d-flex flex-row">
-							<button type="button" onclick='addLineaPOSTREST()' id="buttonAddLineaREST" class="btn btn-primary">CREAR</button>
+							<button type="button" onclick='addLineaPOSTREST()'
+								id="buttonAddLineaREST" class="btn btn-primary">CREAR</button>
 						</div>
 					</div>
 				</div>

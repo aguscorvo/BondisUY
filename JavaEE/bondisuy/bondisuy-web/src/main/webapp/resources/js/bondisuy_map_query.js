@@ -552,6 +552,62 @@ function getParadasByID(paradaID) {
 
 }
 
+//Funcion que retorna un recorrido cercano
+//Parámetros: id: numerico
+function getRecorridoCerZona(zona) {
+	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.recorridozonas + "&outputformat=json" +
+		'&viewparams=polygon:{ZONA}';
+
+	var recorridos = [];
+
+	url = url.replace('{ZONA}', zona);
+
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+	});
+
+	$ds.getJSON(url)
+		.done(function(data) {
+
+			var features = data["features"];
+			for (var lin in features) {
+				var auxlinea = features[lin];
+				var geom = auxlinea["geometry"];
+				var prop = auxlinea["properties"];
+				var coord = [];
+
+				try {
+					var newRecorrido = {
+						"descripcion": prop["ruta"],
+						"id": prop["id"],
+						"nombre": prop["linea_nombre"]
+					};
+
+					recorridos.push(newRecorrido);
+
+				} catch (e) {
+					console.log(prop["id"]);
+					console.log(auxlinea);
+				}
+			}
+
+			geolocation.setTracking(false);
+			borrarCapaPorNombre(L_RECORRIDOS);
+			borrarCapaPorNombre(L_NUEVAPARADA);
+			addRecorridoCercano(recorridos);
+
+			$ds('#mappopup').popover('dispose');
+
+		})
+		.fail(function(jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
+}
+
 
 
 function htmlParadaHorario(objParada) {

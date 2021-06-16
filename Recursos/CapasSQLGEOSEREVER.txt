@@ -65,3 +65,11 @@ WHERE r.id = %recorrido%
 ORDER BY p.id, h.hora DESC
 
 MARCAR id como clave primaria
+
+----------------------------------
+Recorridos Paradas
+
+Nombre de vista: 	bondisuy:ft_recorridoparadas
+
+
+

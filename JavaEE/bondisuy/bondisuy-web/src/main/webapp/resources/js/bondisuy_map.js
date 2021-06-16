@@ -623,11 +623,80 @@ function addLinea() {
 	map.addInteraction(modifyNuevaLinea);
 	map.addInteraction(drawNuevaLinea);
 	map.addInteraction(snapNuevaLinea);
-
-
 }
 
 
+//Source de Nueva Parada
+var sourceZonaLinea = new ol.source.Vector({
+	wrapX: false,
+});
+
+var snapZonaLinea = new ol.interaction.Snap({
+	source: sourceZonaLinea
+});
+
+var modifyZonaLinea = new ol.interaction.Modify({
+	source: sourceZonaLinea
+});
+
+
+// removes the last feature from the vector source.
+var removeLastZonaLinea = function() {
+	if (lastFeatureNuevaLinea) {
+		sourceZonaLinea.removeFeature(lastFeatureZonaLinea);
+		modifyZonaLinea.removeFeature(lastFeatureZonaLinea);
+	}
+
+};
+
+function addZonaLinea() {
+	//Se deshabilita la geolocalizacion
+	geolocation.setTracking(false);
+
+	var drawZonaLinea = new ol.interaction.Draw({
+		name: L_ZONA,
+		source: sourceZonaLinea,
+		type: 'Polygon',
+	});
+
+	//Vector de Nueva Parada
+	var vectorZonaLinea = new ol.layer.Vector({
+		name: L_ZONA,
+		source: sourceZonaLinea,
+		style: StrokeZonaLineaStyle,
+	});
+
+	sourceZonaLinea.on('addfeature', function(evt) {
+		//removeLastNuevaParada();
+		lastFeatureZonaLinea = evt.feature;
+
+		var feature = evt.feature;
+		coordZonaLinea = feature.getGeometry().getCoordinates();
+
+		feature.setProperties({
+			name: "Zona de b\u00FAsqueda",
+			tipo: 'nuevazona',
+		})
+
+		map.removeInteraction(drawZonaLinea);
+		map.removeInteraction(snapZonaLinea);
+
+	});
+
+	modifyZonaLinea.on('modifyend', function(evt) {
+		
+		coordZonaLinea = evt.features.getArray();
+
+	});
+
+
+	// Agregamos la capa al mapa
+	map.addLayer(vectorZonaLinea);
+
+	map.addInteraction(modifyZonaLinea);
+	map.addInteraction(drawZonaLinea);
+	map.addInteraction(snapZonaLinea);
+}
 
 
 

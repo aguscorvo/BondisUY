@@ -598,13 +598,15 @@ function searchOptions(id) {
 
 		$ds(table).off("click");
 
+		/*
 		borrarCapaPorNombre('DIRECCION');
 		borrarCapaPorNombre('ESQUINA');
 		borrarCapaPorNombre(L_RECORRIDOS);
 		borrarCapaPorNombre(L_PARADAS);
 		borrarCapaPorNombre(L_NUEVAPARADA);
 		borrarCapaPorNombre(L_NUEVALINEA);
-
+*/
+		removeAllLayers();
 		addParada();
 
 		var buttonConf = $ds("#confNuevaParada");
@@ -645,12 +647,7 @@ function searchOptions(id) {
 
 		$ds(table).off("click");
 
-		borrarCapaPorNombre('DIRECCION');
-		borrarCapaPorNombre('ESQUINA');
-		borrarCapaPorNombre(L_RECORRIDOS);
-		borrarCapaPorNombre(L_PARADAS);
-		borrarCapaPorNombre(L_NUEVAPARADA);
-		borrarCapaPorNombre(L_NUEVALINEA);
+		removeAllLayers();
 
 		addLinea();
 
@@ -660,17 +657,67 @@ function searchOptions(id) {
 
 
 		$ds(buttonConf).on('click', function() {
-			var point = new Proj4js.Point(coordNuevaParada);   //any object will do as long as it has 'x' and 'y' properties
-			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
-
+	
 			getCompanyNuevaLinea();
-			
+
 		});
-		
-		
+
+
 
 	} else if (id == 11) {
 
+	} else if (id == 12) {
+		var form_group = $ds(card).find(".form-group");
+		var table = $ds("#selectTableLineas").children("table").get(0);
+
+		$ds(form_group).html('');
+		$ds(table).html('');
+
+		removeAllLayers();
+
+		var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
+		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+		getParadasCercanas([point32721['x'], point32721['y']], DISTANCIA);
+		
+		centerMap(coordinates);
+
+
+	} else if (id == 13) {
+		var card = $ds("#to_do_some");
+		var button = '<button class="btn btn-secondary btn-fw" id="confZonaLinea">Confirmar zona</select>';
+
+		$ds("a[href='#ui-basic']").click();
+		$ds(card_title).html("Buscar L\u00EDnea por Zona");
+		$ds(card_subtitle).html("");
+		var form_group = $ds(card).find(".form-group");
+		var table = $ds("#selectTableLineas").children("table").get(0);
+
+		$ds(form_group).html(button);
+		$ds(table).html('');
+
+		$ds(table).off("click");
+
+		removeAllLayers();
+
+		addZonaLinea();
+
+		var buttonConf = $ds("#confZonaLinea");
+
+		$ds(buttonConf).off("click");
+
+
+		$ds(buttonConf).on('click', function() {
+
+			getZonaLinea();
+
+		});
+
+
+	} else if (id == 14) {
+
 	}
+
+
 
 }

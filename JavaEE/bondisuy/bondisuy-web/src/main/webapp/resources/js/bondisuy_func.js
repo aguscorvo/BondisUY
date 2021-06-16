@@ -582,6 +582,13 @@ function addHorarioParada(idParada, lineas) {
 		}); // ajax call closing
 	}
 
+	var card = $ds("#to_do_some");
+	var form_group = $ds(card).find(".form-group");
+	var table = $ds("#selectTableLineas").children("table").get(0);
+	$ds(form_group).html('');
+	$ds(table).html('');
+
+
 	getParadasByID(idParada)
 	bondisuy_LoadHide();
 
@@ -654,10 +661,12 @@ function addLineaPOSTREST() {
 					$ds('#general_error_msj').html('Debe seleccionar una empresa');
 					$ds('#general_error').modal('show');
 				} else {
+					$ds('#addLinea').modal('hide');
+					bondisuy_LoadShow();
 
 					var linea = { nombre: nombre, origen: 'N/A', destino: 'N/A', compania: empresa };
 					const jsLinea = JSON.stringify(linea);
-					
+
 					$ds.ajax({
 						url: url,
 						type: "POST",
@@ -693,7 +702,7 @@ function addLineaPOSTREST() {
 
 function addRecorridoLinea(idLinea, descrip) {
 	var url = "/bondisuy-web/bondisuyrest/recorridos";
-	
+
 	var date = new Date();
 	var dd = date.getDate();
 	var mm = date.getMonth() + 1;
@@ -712,7 +721,7 @@ function addRecorridoLinea(idLinea, descrip) {
 	for (var p = 0; p < coordNuevaLinea.length; p++) {
 		var point = new Proj4js.Point(coordNuevaLinea[p]);   //any object will do as long as it has 'x' and 'y' properties
 		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
-		
+
 		console.log(point32721);
 
 		geom += point32721['x'] + ' ' + point32721['y'];
@@ -737,9 +746,18 @@ function addRecorridoLinea(idLinea, descrip) {
 			console.log(result)
 
 			var idRecorrido = result['cuerpo']['id'];
-			
-			map.removeInteraction(drawNuevaLinea);
+
+			map.removeInteraction(modifyNuevaLinea);
 			map.removeInteraction(snapNuevaLinea);
+
+			var card = $ds("#to_do_some");
+
+			var form_group = $ds(card).find(".form-group");
+			var table = $ds("#selectTableLineas").children("table").get(0);
+			$ds(form_group).html('');
+			$ds(table).html('');
+
+
 			getRecorrido(idRecorrido);
 			bondisuy_LoadHide();
 
@@ -756,6 +774,30 @@ function addRecorridoLinea(idLinea, descrip) {
 			$ds('#general_error').modal('show');
 		}
 	}); // ajax call closing
+}
 
+
+function getZonaLinea() {
+	console.log(coordZonaLinea);
+	var polygon = coordZonaLinea[0];
+
+	var geom = '(';
+
+	for (var z = 0; z < polygon.length; z++) {
+
+		console.log(polygon[z])
+		var point = new Proj4js.Point(polygon[z]);   //any object will do as long as it has 'x' and 'y' properties
+		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+		console.log(point32721);
+
+		geom += point32721['x'] + ' ' + point32721['y'];
+		if (z < polygon.length - 1)
+			geom += ', ';
+	}
+	geom += ')'
+
+	console.log(geom);
+	getRecorridoCerZona(geom);
 
 }
