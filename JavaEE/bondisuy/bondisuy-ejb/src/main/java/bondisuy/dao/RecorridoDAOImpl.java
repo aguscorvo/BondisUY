@@ -56,6 +56,15 @@ public class RecorridoDAOImpl implements IRecorridoDAO {
 	}
 	
 	@Override
+	public void editarGeom(Long id, String geometria) {
+		Query consulta = em.createNativeQuery("UPDATE ft_recorridos r SET geom = ST_GeometryFromText(:geometria, 32721)"
+				+ " WHERE r.id=:id");
+		consulta.setParameter("id", id);
+		consulta.setParameter("geometria", geometria);
+		consulta.executeUpdate();
+	}
+	
+	@Override
 	public void eliminar(Recorrido recorrido) {
 		em.remove(recorrido);
 	}
@@ -63,12 +72,22 @@ public class RecorridoDAOImpl implements IRecorridoDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Recorrido> listarActivosPorParada(Long idParada){
-		Query consulta = em.createQuery("SELECT r "
+		Query consulta = em.createQuery("SELECT DISTINCT(r) "
 				+ "FROM Parada p "
 				+ "INNER JOIN Horario h ON p.id=h.parada.id "
 				+ "INNER JOIN Recorrido r ON h.recorrido.id=r.id "
 				+ "WHERE p.id=:idParada AND r.activo=TRUE");
 		consulta.setParameter("idParada", idParada);
+		return (List<Recorrido>) consulta.getResultList();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Recorrido> listarCercanosPorParada(String geometria){
+			Query consulta = em.createNativeQuery("SELECT r "
+				+ "FROM ft_recorridos r "
+				+ "WHERE ST_Intersects(r.geom, ST_BUFFER(ST_GeometryFromText(:geometria, 32721), 10))");
+		consulta.setParameter("geometria", geometria);
 		return (List<Recorrido>) consulta.getResultList();
 	}
 	

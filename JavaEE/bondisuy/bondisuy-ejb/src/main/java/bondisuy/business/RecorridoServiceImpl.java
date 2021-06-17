@@ -12,6 +12,7 @@ import bondisuy.dao.IParadaDAO;
 import bondisuy.dao.IRecorridoDAO;
 import bondisuy.dto.RecorridoCrearDTO;
 import bondisuy.dto.RecorridoDTO;
+import bondisuy.dto.RecorridoGeomDTO;
 import bondisuy.entity.Linea;
 import bondisuy.entity.Parada;
 import bondisuy.entity.Recorrido;
@@ -115,7 +116,29 @@ public class RecorridoServiceImpl implements IRecorridoService {
 		}
 	}
 
-
-
-    
+	@Override
+	public void editarGeom(RecorridoGeomDTO recorridoGeom) throws BondisUyException {
+		try {
+			Recorrido recorrido = recorridoDAO.listarPorId(recorridoGeom.getId());
+			if(recorrido ==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			recorridoDAO.editarGeom(recorridoGeom.getId(), recorridoGeom.getGeometria());
+//			List<Parada> paradas=paradaDAO.listarPorRecorrido(recorridoGeom.getId());
+//			for(Parada p: paradas) {
+//				paradaService.actualizarEstado(p);
+//			}
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
+	
+	//desde backend
+	@Override
+	public List<RecorridoDTO> listarCercanosPorParada(String geometria) throws BondisUyException{
+		try {
+			return recorridoConverter.fromEntity(recorridoDAO.listarCercanosPorParada(geometria));
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}	
+	
 }

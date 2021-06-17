@@ -18,5 +18,6 @@ public interface IParadaDAO {
 	public void eliminar(Parada parada);
 	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario);
 	public List<Parada> listarPorRecorrido(Long idRecorrido);
+	public String getGeom(Long id);
 	
 }
