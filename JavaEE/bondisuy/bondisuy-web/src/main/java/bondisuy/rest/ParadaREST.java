@@ -19,6 +19,7 @@ import bondisuy.dto.HorarioCrearDTO;
 import bondisuy.dto.HorarioDTO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
+import bondisuy.dto.ParadaGeomDTO;
 import bondisuy.dto.ProximaLineaDTO;
 import bondisuy.exception.BondisUyException;
 
@@ -147,6 +148,24 @@ public class ParadaREST {
 		}catch (BondisUyException e) {
 			respuesta = new RespuestaREST<HorarioDTO>(false, e.getLocalizedMessage());
 			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO || e.getCodigo() == BondisUyException.EXISTE_REGISTRO){
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}
+	
+	@PUT
+	@Path("/editarGeom")
+	public Response editarGeom(ParadaGeomDTO paradaGeom) {
+		RespuestaREST <ParadaDTO> respuesta = null;
+		try {
+			paradaService.editarGeom(paradaGeom);
+			respuesta = new RespuestaREST<ParadaDTO>(true, "Ubicación modificada con éxito.");
+			return Response.ok(respuesta).build();
+		}catch (BondisUyException e) {
+			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
 				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
 			}else {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();

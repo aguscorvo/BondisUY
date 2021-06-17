@@ -63,6 +63,13 @@ public class ParadaDAOImpl implements IParadaDAO {
 	}
 	
 	@Override
+	public void editarGeom(Long id, String geometria) {
+		Query consulta = em.createNativeQuery("UPDATE ft_paradas SET geom = ST_GeometryFromText(:geometria, 32721)");
+		consulta.setParameter("geometria", geometria);
+		consulta.executeUpdate();
+	}
+	
+	@Override
 	public void eliminar(Parada parada) {
 		em.remove(parada);
 	}
@@ -96,5 +103,5 @@ public class ParadaDAOImpl implements IParadaDAO {
 		consulta.setParameter("idRecorrido", idRecorrido);
 		return (List<Parada>) consulta.getResultList();
 	}
-
+	
 }

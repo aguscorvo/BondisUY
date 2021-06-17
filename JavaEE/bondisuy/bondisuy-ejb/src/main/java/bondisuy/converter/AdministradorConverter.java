@@ -4,7 +4,6 @@ import javax.ejb.Singleton;
 
 import bondisuy.dto.AdministradorCrearDTO;
 import bondisuy.dto.AdministradorDTO;
-import bondisuy.dto.AdministradorLoginDTO;
 import bondisuy.entity.Administrador;
 
 @Singleton

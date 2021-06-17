@@ -11,11 +11,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProximaLineaDTO {
-	
-	private String linea;
-	private String horario;
-	private Long recorrido;
-	private String descripcionRecorrido;
+public class ParadaGeomDTO {
+
+	private Long id;
+	private String geometria;
 
 }

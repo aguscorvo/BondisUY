@@ -8,13 +8,10 @@ import java.util.stream.Collectors;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 
-import bondisuy.business.RecorridoServiceImpl;
-import bondisuy.dto.LineaMinDTO;
 import bondisuy.dto.RecorridoCrearDTO;
 import bondisuy.dto.RecorridoDTO;
 import bondisuy.dto.RecorridoMinDTO;
 import bondisuy.dto.RecorridoSinLineaDTO;
-import bondisuy.entity.Linea;
 import bondisuy.entity.Recorrido;
 
 @Singleton

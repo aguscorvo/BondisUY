@@ -15,6 +15,7 @@ public class AdministradorDAOImpl implements IAdministradorDAO {
 	@PersistenceContext(name = "LaboratorioTSIG")
 	private EntityManager em;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Administrador> listar(){
 		Query consulta = em.createQuery("SELECT a FROM Administrador a");
@@ -26,6 +27,7 @@ public class AdministradorDAOImpl implements IAdministradorDAO {
 		return em.find(Administrador.class, id);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Administrador listarPorUsername(String username) {
 		Query consulta = em.createQuery("SELECT a FROM Administrador a WHERE a.username = :username");

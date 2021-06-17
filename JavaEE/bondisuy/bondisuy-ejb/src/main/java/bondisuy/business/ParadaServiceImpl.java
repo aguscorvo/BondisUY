@@ -15,6 +15,7 @@ import bondisuy.dto.HorarioCrearDTO;
 import bondisuy.dto.HorarioDTO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
+import bondisuy.dto.ParadaGeomDTO;
 import bondisuy.dto.ProximaLineaDTO;
 import bondisuy.dto.RecorridoDTO;
 import bondisuy.entity.Horario;
@@ -88,6 +89,16 @@ public class ParadaServiceImpl implements IParadaService {
 		}
 	}
 	
+	@Override
+	public void editarGeom(ParadaGeomDTO paradaGeom) throws BondisUyException{
+		try {
+			Parada parada = paradaDAO.listarPorId(paradaGeom.getId());
+			if(parada ==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			paradaDAO.editarGeom(paradaGeom.getId(), paradaGeom.getGeometria());
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}		
+	}	
 	
 	@Override
 	public void eliminar(Long id) throws BondisUyException{

@@ -14,6 +14,7 @@ public class CompaniaDAOImpl implements ICompaniaDAO {
 	@PersistenceContext(name = "LaboratorioTSIG")
 	private EntityManager em;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Compania> listar() {
 		Query consulta = em.createQuery("SELECT c FROM Compania c");

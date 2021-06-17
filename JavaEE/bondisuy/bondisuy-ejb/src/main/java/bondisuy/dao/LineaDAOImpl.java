@@ -2,7 +2,6 @@ package bondisuy.dao;
 
 import java.util.List;
 
-import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,6 +15,7 @@ public class LineaDAOImpl implements ILineaDAO {
 	@PersistenceContext(name = "LaboratorioTSIG")
 	private EntityManager em;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Linea> listar(){
 		Query consulta = em.createQuery("SELECT l FROM Linea l");
@@ -27,6 +27,7 @@ public class LineaDAOImpl implements ILineaDAO {
 		return em.find(Linea.class, id);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Linea> listarPorCompania(Long idCompania) {
 		Query consulta = em.createQuery("SELECT l FROM Linea l WHERE l.compania.id = :idCompania");
