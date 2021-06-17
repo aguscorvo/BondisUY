@@ -27,9 +27,6 @@ public class RecorridoServiceImpl implements IRecorridoService {
 	private ILineaDAO lineaDAO;
 	
 	@EJB
-	private ILineaService lineaService;
-	
-	@EJB
 	private IHorarioDAO horarioDAO;
 	
 	@EJB
@@ -37,6 +34,9 @@ public class RecorridoServiceImpl implements IRecorridoService {
 	
 	@EJB
 	private RecorridoConverter recorridoConverter;
+	
+	@EJB
+	private IParadaService paradaService;
 	
 	@Override
 	public List<RecorridoDTO> listar() throws BondisUyException{
@@ -84,25 +84,27 @@ public class RecorridoServiceImpl implements IRecorridoService {
 		}
 	}
 	
-//	@Override
-//	public void eliminar(Long id) throws BondisUyException{
-//		try {
-//			Recorrido recorrido = recorridoDAO.listarPorId(id);
-//			if(recorrido ==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-//			//obtengo las paradas asociadas a los horarios asociados al recorrido
-//			List<Long> paradas = recorridoDAO.listarParadas(id);
-//			//por cada parada ejecuto eliminarHorarios
-//			for (Long parada: paradas) {
-////				paradaService.eliminarHorarios(parada, id);
-//			}
-//			//chequear estado de parada
-//			//eliminar recorrido
-//			recorridoDAO.eliminar(recorrido);
-//		}catch (Exception e) {
-//			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
-//		}
-//	}
+	@Override
+	public void eliminar(Long id) throws BondisUyException{
+		try {
+			Recorrido recorrido = recorridoDAO.listarPorId(id);
+			if(recorrido ==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			//obtengo las paradas asociadas a los horarios asociados al recorrido
+			List<Parada> paradas = paradaDAO.listarPorRecorrido(id);
+			//por cada parada ejecuto eliminarHorarios
+			for (Parada parada: paradas) {
+				paradaService.eliminarHorariosParadaRecorrido(parada.getId(), id);
+				//chequear estado de parada
+				paradaService.actualizarEstado(parada);
+			}			
+			//eliminar recorrido
+			recorridoDAO.eliminar(recorrido);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
 	
+	@Override
 	public List<RecorridoDTO> listarActivosPorParada(Long idParada) throws BondisUyException{
 		try {
 			Parada paradaAux = paradaDAO.listarPorId(idParada);

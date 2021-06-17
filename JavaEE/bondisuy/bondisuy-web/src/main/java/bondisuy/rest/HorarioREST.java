@@ -39,11 +39,11 @@ public class HorarioREST {
 	}
 	
 	@GET
-	@Path("/listarPorRecorridoYParada/{recorrido}/{parada}")
-	public Response listarPorRecorridoYParada(@PathParam("parada") Long parada, @PathParam("recorrido") Long recorrido) {
+	@Path("/listarPorParadaYRecorrido/{parada}/{recorrido}")
+	public Response listarPorParadaYRecorrido(@PathParam("parada") Long parada, @PathParam("recorrido") Long recorrido) {
 		RespuestaREST<List<HorarioDTO>> respuesta = null;
 		try {
-			List<HorarioDTO> horarios = horarioService.listarPorRecorridoYParada(recorrido, parada);
+			List<HorarioDTO> horarios = horarioService.listarPorParadaYRecorrido(recorrido, parada);
 			respuesta = new RespuestaREST<List<HorarioDTO>>(true, "Horarios listados con éxito", horarios);
 			return Response.ok(respuesta).build();
 		}catch(BondisUyException e) {

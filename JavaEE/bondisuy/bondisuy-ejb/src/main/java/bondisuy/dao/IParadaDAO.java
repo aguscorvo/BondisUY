@@ -16,6 +16,6 @@ public interface IParadaDAO {
 	public Parada editar(Parada parada);
 	public void eliminar(Parada parada);
 	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario);
-	public List<Long> listarRecorridos(Long idParada);
+	public List<Parada> listarPorRecorrido(Long idRecorrido);
 	
 }

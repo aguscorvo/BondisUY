@@ -81,23 +81,23 @@ public class ParadaREST {
 		}
 	}
 	
-//	@DELETE
-//	@Path("/{id}")
-//	public Response eliminar(@PathParam("id") Long id) {
-//		RespuestaREST<ParadaDTO> respuesta = null;
-//		try {
-//			paradaService.eliminar(id);
-//			respuesta = new RespuestaREST<ParadaDTO>(true, "La parada fue eliminada con éxito.");
-//			return Response.ok(respuesta).build();
-//		}catch (BondisUyException e) {
-//			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());
-//			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
-//				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
-//			}else {
-//				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
-//			}
-//		}
-//	}
+	@DELETE
+	@Path("/eliminar/{id}")
+	public Response eliminar(@PathParam("id") Long id) {
+		RespuestaREST<ParadaDTO> respuesta = null;
+		try {
+			paradaService.eliminar(id);
+			respuesta = new RespuestaREST<ParadaDTO>(true, "La parada fue eliminada con éxito.");
+			return Response.ok(respuesta).build();
+		}catch (BondisUyException e) {
+			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}
 	
 	@POST
 	@Path("/crearHorario")
@@ -118,11 +118,11 @@ public class ParadaREST {
 	}	
 	
 	@DELETE
-	@Path("/eliminarHorarios/{parada}/{recorrido}")
-	public Response eliminarHorarios(@PathParam("parada") Long parada, @PathParam("recorrido") Long recorrido){
+	@Path("/eliminarHorariosParadaRecorrido/{parada}/{recorrido}")
+	public Response eliminarHorariosParadaRecorrido(@PathParam("parada") Long parada, @PathParam("recorrido") Long recorrido){
 		RespuestaREST <ParadaDTO> respuesta = null;
 		try {
-			paradaService.eliminarHorarios(parada, recorrido);
+			paradaService.eliminarHorariosParadaRecorrido(parada, recorrido);
 			respuesta = new RespuestaREST<ParadaDTO>(true, "Los horarios asociados a la parada y recorrido indicados fueron"
 					+ " eliminados con éxito.");
 			return Response.ok(respuesta).build();

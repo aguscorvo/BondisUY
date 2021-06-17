@@ -84,16 +84,17 @@ public class ParadaDAOImpl implements IParadaDAO {
 		return proximasLineas.getResultList();
 	}
 	
+	
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Long> listarRecorridos(Long idParada){
-		@SuppressWarnings("unchecked")
-		TypedQuery<Long> consulta = (TypedQuery<Long>)
-				em.createNativeQuery("SELECT DISTINCT(rh.recorrido_id) "
-						+ "FROM ft_paradas_horarios AS ph "
-						+ "INNER JOIN ft_recorridos_horarios AS rh ON ph.horarios_id=rh.horarios_id "
-						+ "WHERE ph.parada_id=:idParada");
-		consulta.setParameter("idParada", idParada);
-		return consulta.getResultList();
-	}    
+	public List<Parada> listarPorRecorrido(Long idRecorrido){
+		Query consulta = em.createQuery("SELECT DISTINCT(p) "
+				+ "FROM Parada p "
+				+ "INNER JOIN Horario h ON p.id=h.parada.id "
+				+ "INNER JOIN Recorrido r ON h.recorrido.id=r.id "
+				+ "WHERE r.id=:idRecorrido");
+		consulta.setParameter("idRecorrido", idRecorrido);
+		return (List<Parada>) consulta.getResultList();
+	}
 
 }

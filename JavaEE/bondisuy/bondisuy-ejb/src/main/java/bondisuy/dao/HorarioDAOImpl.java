@@ -37,7 +37,7 @@ public class HorarioDAOImpl implements IHorarioDAO {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Horario> listarPorRecorridoYParada(Long recorridoId, Long paradaId) {
+	public List<Horario> listarPorParadaYRecorrido(Long recorridoId, Long paradaId) {
 		Query consulta = em.createQuery("SELECT h "
 				+ "FROM Horario h "
 				+ "WHERE h.parada.id=:paradaId AND h.recorrido.id=:recorridoId");

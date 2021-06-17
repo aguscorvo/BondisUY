@@ -12,7 +12,6 @@ import bondisuy.dao.IParadaDAO;
 import bondisuy.dao.IRecorridoDAO;
 import bondisuy.dto.HorarioCrearDTO;
 import bondisuy.dto.HorarioDTO;
-import bondisuy.entity.Horario;
 import bondisuy.entity.Parada;
 import bondisuy.entity.Recorrido;
 import bondisuy.exception.BondisUyException;
@@ -28,12 +27,6 @@ public class HorarioServiceImpl implements IHorarioService {
 	
 	@EJB
 	private IParadaDAO paradaDAO;
-	
-	@EJB
-	private IRecorridoService recorridoService;
-	
-	@EJB
-	private IParadaService paradaService;
 	
 	@EJB
 	private HorarioConverter horarioConverter;
@@ -59,13 +52,13 @@ public class HorarioServiceImpl implements IHorarioService {
 	}
 	
 	@Override
-	public List<HorarioDTO> listarPorRecorridoYParada(Long recorridoId, Long paradaId) throws BondisUyException{
+	public List<HorarioDTO> listarPorParadaYRecorrido(Long recorridoId, Long paradaId) throws BondisUyException{
 		try {
 			Parada parada = paradaDAO.listarPorId(paradaId);
 			if(parada==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			Recorrido recorrido = recorridoDAO.listarPorId(recorridoId);
 			if(recorrido==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-			return horarioConverter.fromEntity(horarioDAO.listarPorRecorridoYParada(recorridoId, paradaId));
+			return horarioConverter.fromEntity(horarioDAO.listarPorParadaYRecorrido(recorridoId, paradaId));
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}

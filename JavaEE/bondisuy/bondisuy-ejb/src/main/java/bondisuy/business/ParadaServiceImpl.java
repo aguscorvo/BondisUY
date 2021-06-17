@@ -89,23 +89,17 @@ public class ParadaServiceImpl implements IParadaService {
 	}
 	
 	
-//	@Override
-//	public void eliminar(Long id) throws BondisUyException{
-//		try {
-//			Parada parada = paradaDAO.listarPorId(id);
-//			if(parada ==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-//			//obtengo los recorridos asociados a los horarios asociados a la parada
-//			List<Long> recorridos = paradaDAO.listarRecorridos(id);
-//			//por cada recorrido ejecuto eliminarHorarios
-//			for(Long recorrido: recorridos) {
-////				eliminarHorarios(id, recorrido);
-//			}
-//			//eliminar parada
-//			paradaDAO.eliminar(parada);
-//		}catch (Exception e) {
-//			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
-//		}
-//	}
+	@Override
+	public void eliminar(Long id) throws BondisUyException{
+		try {
+			Parada parada = paradaDAO.listarPorId(id);
+			if(parada ==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			eliminarHorarios(parada);
+			paradaDAO.eliminar(parada);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
 
 	@Override
 	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario) throws BondisUyException{
@@ -134,7 +128,7 @@ public class ParadaServiceImpl implements IParadaService {
 			horario.setParada(parada);			
 			parada.getHorarios().add(horario);
 			paradaDAO.editar(parada);
-			actualizarEstado(parada.getId());
+			actualizarEstado(parada);
 			return horarioConverter.fromEntity(horario);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
@@ -142,16 +136,16 @@ public class ParadaServiceImpl implements IParadaService {
 	}
 	
 	@Override
-	public void eliminarHorarios(Long parada, Long recorrido) throws BondisUyException{
+	public void eliminarHorariosParadaRecorrido(Long parada, Long recorrido) throws BondisUyException{
 		try {
 			Recorrido recorridoAux = recorridoDAO.listarPorId(recorrido);
 			if(recorridoAux==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			Parada paradaAux = paradaDAO.listarPorId(parada);
 			if(paradaAux==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-			List<Horario> horarios = horarioDAO.listarPorRecorridoYParada(recorrido, parada);
+			List<Horario> horarios = horarioDAO.listarPorParadaYRecorrido(recorrido, parada);
 			paradaAux.getHorarios().removeAll(horarios);
 			paradaDAO.editar(paradaAux);
-			actualizarEstado(parada);
+			actualizarEstado(paradaAux);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
@@ -176,16 +170,26 @@ public class ParadaServiceImpl implements IParadaService {
 	
 	//desde backend
 	@Override
-	public ParadaDTO actualizarEstado(Long idParada) throws BondisUyException{
+	public ParadaDTO actualizarEstado(Parada parada) throws BondisUyException{
 		try {
-			Parada parada = paradaDAO.listarPorId(idParada);
-			List<RecorridoDTO> recorridosActivos = recorridoService.listarActivosPorParada(idParada);
+			List<RecorridoDTO> recorridosActivos = recorridoService.listarActivosPorParada(parada.getId());
 			if(recorridosActivos.isEmpty())
 				parada.setHabilitada(false);
 			else
 				parada.setHabilitada(true);
 			paradaDAO.editar(parada);
 			return paradaConverter.fromEntity(parada);			
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
+	
+	//desde backend
+	@Override
+	public void eliminarHorarios(Parada parada)  throws BondisUyException{
+		try {
+			parada.getHorarios().clear();
+			paradaDAO.editar(parada);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
