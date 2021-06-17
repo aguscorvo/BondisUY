@@ -15,6 +15,7 @@ public interface IRecorridoService {
 	public RecorridoDTO listarPorId(Long id) throws BondisUyException;
 	public RecorridoDTO crear(RecorridoCrearDTO recorridoDTO) throws BondisUyException;
 	public RecorridoDTO editar(Long id, RecorridoCrearDTO recorridoDTO) throws BondisUyException;
-	public void eliminar(Long id) throws BondisUyException;
+//	public void eliminar(Long id) throws BondisUyException;
+	public List<RecorridoDTO> listarActivosPorParada(Long idParada) throws BondisUyException;
 	
 }

@@ -22,5 +22,9 @@ public interface IParadaService {
 	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario) throws BondisUyException;
 	public void eliminarHorarios(Long parada, Long recorrido) throws BondisUyException;
 	public HorarioDTO crearHorario(HorarioCrearDTO horarioDTO) throws BondisUyException;
+	public HorarioDTO editarHorario(HorarioCrearDTO horarioDTO, String hora) throws BondisUyException;
+	
+	//desde backend
+	public ParadaDTO actualizarEstado(Long idParada) throws BondisUyException;
 	
 }

@@ -12,6 +12,7 @@ import bondisuy.dao.IParadaDAO;
 import bondisuy.dao.IRecorridoDAO;
 import bondisuy.dto.HorarioCrearDTO;
 import bondisuy.dto.HorarioDTO;
+import bondisuy.entity.Horario;
 import bondisuy.entity.Parada;
 import bondisuy.entity.Recorrido;
 import bondisuy.exception.BondisUyException;
@@ -69,6 +70,6 @@ public class HorarioServiceImpl implements IHorarioService {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
 	}
-
+	
 
 }

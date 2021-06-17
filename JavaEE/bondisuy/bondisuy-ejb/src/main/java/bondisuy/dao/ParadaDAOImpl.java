@@ -1,21 +1,15 @@
 package bondisuy.dao;
 
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 
-import com.sun.jdi.LongType;
-
 import bondisuy.dto.ProximaLineaDTO;
-import bondisuy.entity.Horario;
 import bondisuy.entity.Parada;
 
 @Singleton
@@ -24,6 +18,7 @@ public class ParadaDAOImpl implements IParadaDAO {
 	@PersistenceContext(name = "LaboratorioTSIG")
 	private EntityManager em;
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Parada> listar(){
 		Query consulta = em.createQuery("SELECT p FROM Parada p");
@@ -54,6 +49,7 @@ public class ParadaDAOImpl implements IParadaDAO {
 		busqueda.setParameter("fecha", parada.getFecha());
 		busqueda.setParameter("habilitada", parada.getHabilitada());
 		
+		@SuppressWarnings("unchecked")
 		List<Parada> lp = busqueda.getResultList();
 		
 		//return parada;

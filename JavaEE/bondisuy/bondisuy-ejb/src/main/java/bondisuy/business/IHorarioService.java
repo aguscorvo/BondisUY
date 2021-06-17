@@ -15,5 +15,5 @@ public interface IHorarioService {
 	public List<HorarioDTO> listar() throws BondisUyException;
 	public HorarioDTO listarPorIds(HorarioCrearDTO horarioDTO) throws BondisUyException;
 	public List<HorarioDTO> listarPorRecorridoYParada(Long recorridoId, Long paradaId) throws BondisUyException;
-
+	
 }

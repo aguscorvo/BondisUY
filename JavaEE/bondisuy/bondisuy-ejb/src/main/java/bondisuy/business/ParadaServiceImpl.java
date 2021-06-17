@@ -16,6 +16,7 @@ import bondisuy.dto.HorarioDTO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
 import bondisuy.dto.ProximaLineaDTO;
+import bondisuy.dto.RecorridoDTO;
 import bondisuy.entity.Horario;
 import bondisuy.entity.Parada;
 import bondisuy.entity.Recorrido;
@@ -132,7 +133,8 @@ public class ParadaServiceImpl implements IParadaService {
 			horario.setRecorrido(recorrido);
 			horario.setParada(parada);			
 			parada.getHorarios().add(horario);
-			paradaDAO.editar(parada);			
+			paradaDAO.editar(parada);
+			actualizarEstado(parada.getId());
 			return horarioConverter.fromEntity(horario);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
@@ -148,7 +150,42 @@ public class ParadaServiceImpl implements IParadaService {
 			if(paradaAux==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			List<Horario> horarios = horarioDAO.listarPorRecorridoYParada(recorrido, parada);
 			paradaAux.getHorarios().removeAll(horarios);
-			paradaDAO.editar(paradaAux);		
+			paradaDAO.editar(paradaAux);
+			actualizarEstado(parada);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
+	
+	@Override
+	public HorarioDTO editarHorario(HorarioCrearDTO horarioDTO, String hora) throws BondisUyException{
+		try{
+			Horario horario = horarioDAO.listarPorIds(LocalTime.parse(horarioDTO.getHora()), horarioDTO.getRecorrido(), horarioDTO.getParada());
+			if(horario==null) throw new BondisUyException("El horario indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);		
+			Parada parada = paradaDAO.listarPorId(horarioDTO.getParada());
+			//se elimina el horario viejo
+			parada.getHorarios().remove(horario);
+			paradaDAO.editar(parada);
+			//se crea nuevo horario
+			HorarioCrearDTO horarioNuevo = new HorarioCrearDTO(hora, horarioDTO.getRecorrido(), horarioDTO.getParada());
+			return crearHorario(horarioNuevo);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
+	
+	//desde backend
+	@Override
+	public ParadaDTO actualizarEstado(Long idParada) throws BondisUyException{
+		try {
+			Parada parada = paradaDAO.listarPorId(idParada);
+			List<RecorridoDTO> recorridosActivos = recorridoService.listarActivosPorParada(idParada);
+			if(recorridosActivos.isEmpty())
+				parada.setHabilitada(false);
+			else
+				parada.setHabilitada(true);
+			paradaDAO.editar(parada);
+			return paradaConverter.fromEntity(parada);			
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}

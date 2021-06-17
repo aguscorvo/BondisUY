@@ -72,4 +72,16 @@ public class RecorridoDAOImpl implements IRecorridoDAO {
 		return consulta.getResultList();
 	} 
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Recorrido> listarActivosPorParada(Long idParada){
+		Query consulta = em.createQuery("SELECT r "
+				+ "FROM Parada p "
+				+ "INNER JOIN Horario h ON p.id=h.parada.id "
+				+ "INNER JOIN Recorrido r ON h.recorrido.id=r.id "
+				+ "WHERE p.id=:idParada AND r.activo=TRUE");
+		consulta.setParameter("idParada", idParada);
+		return (List<Recorrido>) consulta.getResultList();
+	}
+	
 }

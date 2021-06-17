@@ -5,7 +5,6 @@ import java.util.List;
 import javax.ejb.Local;
 
 import bondisuy.dto.ProximaLineaDTO;
-import bondisuy.entity.Horario;
 import bondisuy.entity.Parada;
 
 @Local

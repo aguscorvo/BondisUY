@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -133,6 +134,24 @@ public class ParadaREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}		
+	}
+	
+	@PUT
+	@Path("/editarHorario/{hora}")
+	public Response editarHorario(HorarioCrearDTO horarioDTO, @PathParam("hora")String hora) {
+		RespuestaREST <HorarioDTO> respuesta = null;
+		try {
+			HorarioDTO horario = paradaService.editarHorario(horarioDTO, hora);
+			respuesta = new RespuestaREST<HorarioDTO>(true, "Horario modificado con éxito.", horario);
+			return Response.ok(respuesta).build();			
+		}catch (BondisUyException e) {
+			respuesta = new RespuestaREST<HorarioDTO>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO || e.getCodigo() == BondisUyException.EXISTE_REGISTRO){
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
 	}
 
 }

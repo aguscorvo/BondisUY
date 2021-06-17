@@ -15,5 +15,7 @@ public interface IRecorridoDAO {
 	public Recorrido editar(Recorrido recorrido);
 	public void eliminar(Recorrido recorrido);
 	public List<Long> listarParadas(Long idRecorrido);
+	public List<Recorrido> listarActivosPorParada(Long idParada);
+	
 	
 }
