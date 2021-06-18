@@ -21,6 +21,6 @@ public interface IRecorridoService {
 	public List<RecorridoDTO> listarActivosPorParada(Long idParada) throws BondisUyException;
 	
 	//desde backend
-	public List<RecorridoDTO> listarCercanosPorParada(String geometria) throws BondisUyException;	
+	public List<Long> listarCercanosPorParada(Long idParada, String geometria) throws BondisUyException;	
 
 }

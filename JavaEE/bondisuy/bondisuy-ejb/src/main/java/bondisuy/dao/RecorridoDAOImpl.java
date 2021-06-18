@@ -1,6 +1,7 @@
 package bondisuy.dao;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.Singleton;
@@ -83,12 +84,20 @@ public class RecorridoDAOImpl implements IRecorridoDAO {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Recorrido> listarCercanosPorParada(String geometria){
-			Query consulta = em.createNativeQuery("SELECT r "
+	public List<Long> listarCercanosPorParada(Long idParada, String geometria){
+			Query consulta = em.createNativeQuery("SELECT r.id "
 				+ "FROM ft_recorridos r "
-				+ "WHERE ST_Intersects(r.geom, ST_BUFFER(ST_GeometryFromText(:geometria, 32721), 10))");
+				+ "INNER JOIN horarios h ON r.id=h.recorrido_id "
+				+ "INNER JOIN ft_paradas p ON h.parada_id=p.id "					
+				+ "WHERE ST_Intersects(r.geom, ST_BUFFER(ST_GeometryFromText(:geometria, 32721), 10))"
+				+ "AND p.id=:idParada");
 		consulta.setParameter("geometria", geometria);
-		return (List<Recorrido>) consulta.getResultList();
-	}
+		consulta.setParameter("idParada", idParada);
+		List<Long> recorridos = new ArrayList<Long>();
+		for(BigInteger r: (List<BigInteger>) consulta.getResultList()) {
+			recorridos.add(r.longValue());
+		}
+		return recorridos;
+	}	
 	
 }

@@ -184,13 +184,13 @@ public class ParadaServiceImpl implements IParadaService {
 	public ParadaDTO actualizarEstado(Parada parada) throws BondisUyException{
 		try {
 			List<RecorridoDTO> recorridosActivos = recorridoService.listarActivosPorParada(parada.getId());
-//			String geom = paradaDAO.getGeom(parada.getId());
-//			System.out.println("geom: " + geom);
-//			List<RecorridoDTO> recorridosCercanos = recorridoService.listarCercanosPorParada(geom);
+			String geom = paradaDAO.getGeom(parada.getId());
+			System.out.println("geom: " + geom);
+			List<Long> recorridosCercanos = recorridoService.listarCercanosPorParada(parada.getId(), geom);
 			if(recorridosActivos.isEmpty())
 				parada.setHabilitada(false);
-//			else if(recorridosCercanos.isEmpty())
-//				parada.setHabilitada(false);
+			else if(recorridosCercanos.isEmpty())
+				parada.setHabilitada(false);
 			else
 				parada.setHabilitada(true);
 			paradaDAO.editar(parada);

@@ -16,6 +16,6 @@ public interface IRecorridoDAO {
 	public void editarGeom(Long id, String geometria);
 	public void eliminar(Recorrido recorrido);
 	public List<Recorrido> listarActivosPorParada(Long idParada);
-	public List<Recorrido> listarCercanosPorParada(String geometria);	
+	public List<Long> listarCercanosPorParada(Long idParada, String geometria);	
 	
 }

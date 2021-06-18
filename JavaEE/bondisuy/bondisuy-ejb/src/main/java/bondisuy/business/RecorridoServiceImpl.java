@@ -122,10 +122,9 @@ public class RecorridoServiceImpl implements IRecorridoService {
 			Recorrido recorrido = recorridoDAO.listarPorId(recorridoGeom.getId());
 			if(recorrido ==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			recorridoDAO.editarGeom(recorridoGeom.getId(), recorridoGeom.getGeometria());
-//			List<Parada> paradas=paradaDAO.listarPorRecorrido(recorridoGeom.getId());
-//			for(Parada p: paradas) {
-//				paradaService.actualizarEstado(p);
-//			}
+			for(Parada p: paradaDAO.listarPorRecorrido(recorridoGeom.getId())) {
+				paradaService.actualizarEstado(p);
+			}
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
@@ -133,9 +132,9 @@ public class RecorridoServiceImpl implements IRecorridoService {
 	
 	//desde backend
 	@Override
-	public List<RecorridoDTO> listarCercanosPorParada(String geometria) throws BondisUyException{
+	public List<Long> listarCercanosPorParada(Long idParada, String geometria) throws BondisUyException{
 		try {
-			return recorridoConverter.fromEntity(recorridoDAO.listarCercanosPorParada(geometria));
+			return recorridoDAO.listarCercanosPorParada(idParada, geometria);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
