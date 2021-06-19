@@ -9,9 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -44,11 +43,10 @@ public class Linea implements Serializable{
 	@Column(name = "destino", nullable = false, length = 50)
 	private String destino;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "compania_id", referencedColumnName = "id")
+	@ManyToOne
 	private Compania compania;	
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "linea", cascade = CascadeType.ALL, orphanRemoval=true)
 	private List<Recorrido> recorridos;
 	
 }

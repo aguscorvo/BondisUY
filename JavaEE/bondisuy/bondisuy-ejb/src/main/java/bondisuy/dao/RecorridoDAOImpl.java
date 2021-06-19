@@ -38,17 +38,17 @@ public class RecorridoDAOImpl implements IRecorridoDAO {
 		consulta.setParameter(4, recorrido.getLinea().getId());
 		consulta.setParameter(5, geometria);
 		BigInteger id = (BigInteger) consulta.getSingleResult();
-		actualizarRecorrido(id.longValue(), recorrido.getLinea().getId());
+//		actualizarRecorrido(id.longValue(), recorrido.getLinea().getId());
 		recorrido.setId(id.longValue());
 		return recorrido;
 	}
-	
-	public void actualizarRecorrido(Long idRecorrido, Long idLinea) {
-		Query consulta = em.createNativeQuery("INSERT INTO lineas_ft_recorridos (linea_id, recorridos_id) VALUES (?, ?)");
-		consulta.setParameter(1, idLinea);
-		consulta.setParameter(2, idRecorrido);
-		consulta.executeUpdate();
-	}
+//	
+//	public void actualizarRecorrido(Long idRecorrido, Long idLinea) {
+//		Query consulta = em.createNativeQuery("INSERT INTO lineas_ft_recorridos (linea_id, recorridos_id) VALUES (?, ?)");
+//		consulta.setParameter(1, idLinea);
+//		consulta.setParameter(2, idRecorrido);
+//		consulta.executeUpdate();
+//	}
 	
 	@Override
 	public Recorrido editar(Recorrido recorrido) {

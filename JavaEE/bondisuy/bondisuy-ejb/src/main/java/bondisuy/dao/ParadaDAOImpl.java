@@ -82,17 +82,15 @@ public class ParadaDAOImpl implements IParadaDAO {
 		TypedQuery<ProximaLineaDTO> proximasLineas = (TypedQuery<ProximaLineaDTO>)
 				em.createNativeQuery("SELECT l.nombre, to_char(h.hora, 'HH24:MI:ss'), h.recorrido_id, r.descripcion "
 						+ "FROM horarios h "
-						+ "INNER JOIN lineas_ft_recorridos lr ON h.recorrido_id= lr.recorridos_id "
-						+ "INNER JOIN ft_recorridos r ON r.id=lr.recorridos_id "
-						+ "INNER JOIN lineas l ON lr.linea_id = l.id "
+						+ "INNER JOIN ft_recorridos r ON r.id=h.recorrido_id "
+						+ "INNER JOIN lineas l ON r.linea_id = l.id "
 						+ "WHERE h.hora > :hora AND parada_id=:idParada "
 						+ "ORDER BY h.hora ASC "
 						+ "LIMIT 15");
 		proximasLineas.setParameter("hora", LocalTime.parse(horario));
 		proximasLineas.setParameter("idParada", idParada);
 		return proximasLineas.getResultList();
-	}
-	
+	}	
 	
 	@SuppressWarnings("unchecked")
 	@Override

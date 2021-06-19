@@ -99,7 +99,9 @@ public class RecorridoServiceImpl implements IRecorridoService {
 				paradaService.actualizarEstado(parada);
 			}			
 			//eliminar recorrido
-			recorridoDAO.eliminar(recorrido);
+			Linea linea = recorrido.getLinea();
+			linea.getRecorridos().remove(recorrido);
+			lineaDAO.editar(linea);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
