@@ -156,12 +156,12 @@ public class ParadaREST {
 	}
 	
 	@PUT
-	@Path("/editarGeom")
-	public Response editarGeom(ParadaGeomDTO paradaGeom) {
+	@Path("/editar/{id}")
+	public Response editarGeom(@PathParam("id") Long id, ParadaCrearDTO request) {
 		RespuestaREST <ParadaDTO> respuesta = null;
 		try {
-			paradaService.editarGeom(paradaGeom);
-			respuesta = new RespuestaREST<ParadaDTO>(true, "Ubicación modificada con éxito.");
+			paradaService.editar(id, request);
+			respuesta = new RespuestaREST<ParadaDTO>(true, "Parada editada con éxito.");
 			return Response.ok(respuesta).build();
 		}catch (BondisUyException e) {
 			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());

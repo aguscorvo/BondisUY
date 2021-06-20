@@ -1,5 +1,6 @@
 package bondisuy.business;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -25,6 +26,9 @@ public class LineaServiceImpl implements ILineaService {
 	
 	@EJB
 	private ICompaniaDAO companiaDAO;
+	
+	@EJB
+	private IRecorridoService recorridoService;
 	
 	@EJB
 	private IRecorridoDAO recorridoDAO;
@@ -98,8 +102,14 @@ public class LineaServiceImpl implements ILineaService {
 		try {
 			Linea linea = lineaDAO.listarPorId(id);
 			if(linea == null) throw new BondisUyException("La linea indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			List<Recorrido> recorridos = new ArrayList<Recorrido>();
+			recorridos.addAll(linea.getRecorridos());
+			for(Recorrido r : recorridos) {
+				recorridoService.eliminar(r.getId());
+			}
 			lineaDAO.eliminar(linea);
 		}catch (Exception e) {
+			e.printStackTrace();
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
 	}

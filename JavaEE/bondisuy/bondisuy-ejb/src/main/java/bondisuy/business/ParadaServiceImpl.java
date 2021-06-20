@@ -1,6 +1,8 @@
 package bondisuy.business;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -80,10 +82,19 @@ public class ParadaServiceImpl implements IParadaService {
 	@Override
 	public ParadaDTO editar(Long id, ParadaCrearDTO paradaDTO) throws BondisUyException{
 		try {
+			DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 			Parada parada = paradaDAO.listarPorId(id);
 			if(parada ==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			parada.setCodVia1(paradaDTO.getCodVia1());
+			parada.setCodVia2(paradaDTO.getCodVia2());
+			parada.setFecha(LocalDateTime.parse(paradaDTO.getFecha(), formato));
+			parada.setDescripcion(paradaDTO.getDescripcion());
 			parada.setHabilitada(paradaDTO.getHabilitada());
-			return paradaConverter.fromEntity(paradaDAO.editar(parada));
+			if(paradaDTO.getGeometria() != null) {
+				return paradaConverter.fromEntity(paradaDAO.editarConGeometria(parada, paradaDTO.getGeometria()));
+			} else {
+				return paradaConverter.fromEntity(paradaDAO.editar(parada));
+			}
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
@@ -196,6 +207,7 @@ public class ParadaServiceImpl implements IParadaService {
 			paradaDAO.editar(parada);
 			return paradaConverter.fromEntity(parada);			
 		}catch (Exception e) {
+			System.out.println(e.getLocalizedMessage());
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
 	}

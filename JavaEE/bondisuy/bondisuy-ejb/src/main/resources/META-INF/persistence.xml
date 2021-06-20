@@ -33,7 +33,7 @@
       <properties>
         <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 		<!--<property name="hibernate.hbm2ddl.auto" value="create-drop"/>-->
-		<property name="hibernate.hbm2ddl.auto" value="create"/>
+		<property name="hibernate.hbm2ddl.auto" value="none"/>
 		<!-- <property name="hibernate.hbm2ddl.auto" value="none"/>  -->
 		<property name="javax.persistence.sql-load-script-source" value="META-INF/sql/datos.sql"/>
 		 

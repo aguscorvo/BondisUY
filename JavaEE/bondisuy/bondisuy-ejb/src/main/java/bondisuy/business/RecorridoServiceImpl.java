@@ -89,7 +89,7 @@ public class RecorridoServiceImpl implements IRecorridoService {
 	public void eliminar(Long id) throws BondisUyException{
 		try {
 			Recorrido recorrido = recorridoDAO.listarPorId(id);
-			if(recorrido ==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+			if(recorrido == null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			//obtengo las paradas asociadas a los horarios asociados al recorrido
 			List<Parada> paradas = paradaDAO.listarPorRecorrido(id);
 			//por cada parada ejecuto eliminarHorarios
@@ -103,6 +103,7 @@ public class RecorridoServiceImpl implements IRecorridoService {
 			linea.getRecorridos().remove(recorrido);
 			lineaDAO.editar(linea);
 		}catch (Exception e) {
+			System.out.println(e.getLocalizedMessage());
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
 	}
