@@ -88,6 +88,8 @@
 							<li class="nav-item"><a class="nav-link"
 								href="javascript:searchOptions(14);">Ver &uacuteltimos
 									cambios</a></li>
+							<li class="nav-item"><a class="nav-link"
+						href="javascript:searchOptions(15);">Ver mapa de calor</a></li>
 						</ul>
 					</div></li>
 				<c:if test="${(sessionScope.USER!=null)}">

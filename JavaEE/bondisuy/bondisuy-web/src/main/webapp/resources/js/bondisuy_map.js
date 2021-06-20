@@ -795,7 +795,21 @@ function addUPDRecorrido(list, typeSource) {
 
 }
 
+/* Mapa de calor de paradas */
+function agregarMapaDeCalorDeParadas(){
 
+	var capaCalor = new ol.layer.Heatmap({
+	  source: new ol.source.Vector({
+	    format: new ol.format.GeoJSON(),
+	    url: function(extent) {
+	      return '/geoserver/bondisuy/ows?service=WFS&version=1.0.0&srsName=epsg:4326&request=GetFeature&typeName=bondisuy:ft_paradas&outputFormat=application/json';
+	    }
+	  })
+	});
+	
+	map.addLayer(capaCalor);
+
+}
 
 function cleanInteraction() {
 	//	map.removeInteraction(drawNuevaParada);

@@ -809,6 +809,13 @@ function searchOptions(id) {
 		//Ver ultimos cambios
 	} else if (id == 14) {
 		cleanInteraction()
+		
+	// Ver mapa de calor
+	} else if(id == 15) {
+		cleanInteraction();
+		removeAllLayers();
+		/* Llama al método agregarMapaDeCalorDeParadas del archivo bondisuy_map.js */
+		agregarMapaDeCalorDeParadas();
 	}
 
 
