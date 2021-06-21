@@ -77,9 +77,9 @@ function filtrarLineaByCompany(companyId) {
 function filtrarCalleByName(calleName) {
 	var txttable = '<thead><tr><th>nombre</th><th>tipo</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
-	
-		if (!(calleName.replace('/\r?\n|\r/g', '') == '' || calleName == 'ALL' )) {
-		
+
+	if (!(calleName.replace('/\r?\n|\r/g', '') == '' || calleName == 'ALL')) {
+
 		var url = "/bondisuy-web/bondisuyrest/servicios/srchservicio/calle/" + calleName;
 
 		$ds.ajaxSetup({
@@ -140,9 +140,9 @@ function getEsquinaCalle(calle1, calle2, texto) {
 
 			borrarCapaPorNombre(L_ESQUINA);
 			borrarCapaPorNombre(L_NUEVAPARADA);
-			
+
 			addMarcadores(puntos, L_ESQUINA);
-			
+
 			centerMap([point4326['x'], point4326['y']]);
 
 
@@ -357,6 +357,8 @@ function getParadaLineaHorario(paradaID) {
 
 		url = url.replace("{PARADA}", paradaID).replace("{HORA}", hora);
 
+		console.log(url);
+
 		$ds.ajaxSetup({
 			scriptCharset: "utf-8",
 			contentType: "application/json; charset=utf-8",
@@ -370,32 +372,47 @@ function getParadaLineaHorario(paradaID) {
 
 				if (!$ds.isEmptyObject(data)) {
 					var lineas = {};
+					var cuerpo = data["cuerpo"];
 
-					for (var lin in data["cuerpo"]) {
+					if (!$ds.isEmptyObject(cuerpo)) {
+						var horarios = cuerpo['horarios'];
+						for (var lin in horarios) {
 
-						var recorrido = data["cuerpo"][lin];
-						var linea = {};
+							var recorrido = horarios[lin]['recorrido'];
+							var nombrelinea = recorrido['linea']['nombre'];
+							var linea = {};
 
-						if (lineas[recorrido[2]] == undefined) {
-							linea['linea'] = recorrido[0];
-							linea['recorrido'] = recorrido[2];
-							linea['detalle'] = recorrido[3];
-							linea['horarios'] = [];
+							if (lineas[nombrelinea] == undefined) {
+								linea['linea'] = recorrido['linea']['nombre'];
+								linea['recorrido'] = recorrido['id'];
+								linea['detalle'] = recorrido['descripcion'];
+								linea['horarios'] = [];
 
-							linea['horarios'].push(recorrido[1]);
-						} else {
-							linea = lineas[recorrido[2]];
+								linea['horarios'].push(horarios[lin]['hora']);
+							} else {
+								linea = lineas[nombrelinea];
 
-							linea['horarios'].push(recorrido[1]);
+								linea['horarios'].push(horarios[lin]['hora']);
+
+							}
+
+							lineas[nombrelinea] = linea;
 
 						}
 
-						lineas[recorrido[2]] = linea;
-
 					}
+
+
+
 				}
 
-				txttable += htmlParadaHorarioLinea(lineas);
+
+				if (lineas.length > 0) {
+					txttable += htmlParadaHorarioLinea(lineas);
+				} else {
+					txttable += 'Sin l\u00EDneas pr\u00F3ximas'
+				}
+
 
 				txttable += '</td></tbody>';
 
@@ -414,6 +431,88 @@ function getParadaLineaHorario(paradaID) {
 	}
 
 }
+
+//filtrar linea por Nombre
+function getParadaLineaTodas(paradaID) {
+	var txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
+	var table = $ds("#selectTableLineas").children("table").get(0);
+
+	if (paradaID != '') {
+		var url = "/bondisuy-web/bondisuyrest/paradas/{PARADA}";
+
+		url = url.replace("{PARADA}", paradaID);
+
+		console.log(url);
+
+		$ds.ajaxSetup({
+			scriptCharset: "utf-8",
+			contentType: "application/json; charset=utf-8",
+			mimeType: "text/plain",
+			headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+		});
+
+
+		$ds.getJSON(url)
+			.done(function(data) {
+
+				if (!$ds.isEmptyObject(data)) {
+					var lineas = {};
+					var cuerpo = data["cuerpo"];
+
+
+					if (!$ds.isEmptyObject(cuerpo)) {
+						var horarios = cuerpo['horarios'];
+						for (var lin in horarios) {
+
+							var recorrido = horarios[lin]['recorrido'];
+							var nombrelinea = recorrido['linea']['nombre'];
+							var linea = {};
+
+							if (lineas[nombrelinea] == undefined) {
+								linea['linea'] = recorrido['linea']['nombre'];
+								linea['recorrido'] = recorrido['id'];
+								linea['detalle'] = recorrido['descripcion'];
+								linea['horarios'] = [];
+
+								linea['horarios'].push(horarios[lin]['hora']);
+							} else {
+								linea = lineas[nombrelinea];
+
+								linea['horarios'].push(horarios[lin]['hora']);
+
+							}
+
+							lineas[nombrelinea] = linea;
+						}
+					}
+				}
+
+				var arrVac = Object.keys(lineas);
+
+				for (id in arrVac) {
+					var lin = arrVac[id];
+
+					txttable += '<tr data-counter_id=' + lineas[lin].recorrido + '><td>' + lineas[lin].linea + '</td><td>' + lineas[lin].detalle + '</td></tr>'
+				}
+
+				txttable += '</tbody>';
+
+				$ds(table).html(txttable);
+
+				bondisuy_LoadHide();
+			})
+			.fail(function(jqxhr, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err + "file: " + url);
+			});
+	} else {
+		txttable += '</td></tbody>';
+		$ds(table).html(txttable);
+
+	}
+
+}
+
 
 
 //Mostrar icono de  espera

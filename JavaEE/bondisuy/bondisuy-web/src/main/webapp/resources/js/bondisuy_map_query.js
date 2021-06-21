@@ -34,7 +34,12 @@ function getParadasCercanas(coord, distancia) {
 					var text = 'Identificador: ' +  prop["id"] +
 						'<br>Descripci\u00F3n: ' + prop["descripcion"] +
 						'<br>Estado: ' + (prop["habilitada"] ? 'Habilitada' : 'Deshabilitada') +
-						"<div id='ver_Lineas_Paradas'><div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>";
+						"<div id='ver_Lineas_Paradas'>" +
+						"<div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>" +
+						"</div>"+
+						"<div id='ver_Todas_Lineas_Paradas'>" +
+						"<div id='ver_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-bus'></i> Ver Todas las l\u00EDneas </a></div>" +
+						"</div>";
 
 					//Transformo del sistema EPSG:32721 a EPSG:4326
 					var point = new Proj4js.Point(geom["coordinates"]);   //any object will do as long as it has 'x' and 'y' properties
@@ -163,7 +168,12 @@ function getAllParadasEstado(habilitado) {
 					var text = 'Identificador: ' + prop["id"] +
 						'<br>Descripci\u00F3n: ' + prop["descripcion"] +
 						'<br>Estado: ' + (prop["habilitada"] ? 'Habilitada' : 'Deshabilitada') +
-						"<div id='ver_Lineas_Paradas'><div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>";
+						"<div id='ver_Lineas_Paradas'>" +
+						"<div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>" +
+						"</div>"+
+						"<div id='ver_Todas_Lineas_Paradas'>" +
+						"<div id='ver_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-bus'></i> Ver Todas las l\u00EDneas </a></div>" +
+						"</div>";
 
 					//Transformo del sistema EPSG:32721 a EPSG:4326
 					var point = new Proj4js.Point(geom["coordinates"]);   //any object will do as long as it has 'x' and 'y' properties
@@ -519,7 +529,12 @@ function getParadasByID(paradaID) {
 					var text = 'Identificador: ' +  prop["id"] +
 						'<br>Descripci\u00F3n: ' + prop["descripcion"] +
 						'<br>Estado: ' + (prop["habilitada"] ? 'Habilitada' : 'Deshabilitada') +
-						"<div id='ver_Lineas_Paradas'><div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>";
+						"<div id='ver_Lineas_Paradas'>" +
+						"<div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>" +
+						"</div>"+
+						"<div id='ver_Todas_Lineas_Paradas'>" +
+						"<div id='ver_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-bus'></i> Ver Todas las l\u00EDneas </a></div>" +
+						"</div>";
 
 					//Transformo del sistema EPSG:32721 a EPSG:4326
 					var point = new Proj4js.Point(geom["coordinates"]);   //any object will do as long as it has 'x' and 'y' properties

@@ -16,6 +16,15 @@ JOIN companias c ON c.id = l.compania_id
 WHERE r.id = %recorrido%
 
 MARCAR id como clave primaria
+Geometria: 
+  Tipo: LineString
+  SRID: 32721
+Encuadres:
+  MinX: 573.086,25283571
+  MinY: 6.134.560,116218
+  MaxX: 576.867,78112
+  MaxY: 6.137.567,836154
+
 
 --------------------------------
 Recorridos con linea cercanos:
@@ -39,6 +48,16 @@ ST_Intersects(r.geom, ST_BUFFER(ST_GeometryFromText('POINT(%X% %Y%)', 32721), %d
 
 MARCAR id como clave primaria
 Validar Expresión: ^[.\w\d\s]+$
+Geometria: 
+  Tipo: LineString
+  SRID: 32721
+Encuadres:
+  MinX: 573.086,25283571
+  MinY: 6.134.560,116218
+  MaxX: 576.867,78112
+  MaxY: 6.137.567,836154
+
+
 ----------------------------------
 Recorridos Paradas
 

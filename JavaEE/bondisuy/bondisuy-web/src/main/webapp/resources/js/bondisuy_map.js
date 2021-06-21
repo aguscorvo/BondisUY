@@ -440,7 +440,66 @@ map.on('click', function(evt) {
 			$ds(databody).off("click");
 
 			getParadaLineaHorario(paradaID);
+
+			$ds(databody).off("click");
+
+			$ds(databody).on('click', 'tr', function() {
+				if ($ds(this).hasClass('selected')) {
+					$ds(this).removeClass('selected');
+				}
+				else {
+					recorrido = $ds(this).attr('data-counter_id');
+
+					$ds('#selectTableLineas tr.selected').removeClass('selected');
+					$ds(this).addClass('selected');
+
+					bondisuy_LoadShow();
+					getRecorrido(recorrido);
+				}
+			});
+
 		});
+
+		$ds("#ver_Todas_Lineas_Paradas").on("click", function() {
+			var divID = $ds(this).find("div[id*='ver_todas_id_lineas:_:']").attr('id');
+			var auxID = divID.split(":_:");
+			var paradaID = auxID[1];
+
+			var card = $ds("#to_do_some");
+			var card_title = $ds(card).find("h6.card-title");
+			var card_subtitle = $ds(card).find("h7.card-title");
+			var form_group = $ds(card).find(".form-group");
+
+			$ds(card_title).html("Parada " + paradaID);
+			$ds(card_subtitle).html("L&iacute;nea");
+
+			var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
+			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+			var databody = $ds("#selectTableLineas").children("table").get(0);
+			$ds(databody).off("click");
+
+			getParadaLineaTodas(paradaID);
+
+			$ds(databody).off("click");
+
+			$ds(databody).on('click', 'tr', function() {
+				if ($ds(this).hasClass('selected')) {
+					$ds(this).removeClass('selected');
+				}
+				else {
+					recorrido = $ds(this).attr('data-counter_id');
+
+					$ds('#selectTableLineas tr.selected').removeClass('selected');
+					$ds(this).addClass('selected');
+
+					bondisuy_LoadShow();
+					getRecorrido(recorrido);
+				}
+			});
+
+		});
+
 
 
 		feature = undefined;
@@ -740,7 +799,7 @@ function addUPDRecorrido(list, typeSource) {
 	}
 
 	sourceUPDLinea.addFeatures(recorridos);
-	
+
 	//Vector de Nueva Parada
 	var vectorUPDLinea = new ol.layer.Vector({
 		name: typeSource,
@@ -748,35 +807,35 @@ function addUPDRecorrido(list, typeSource) {
 		//style: StrokeZonaLineaStyle,
 	});
 
-		/*	var recorridosSource = new ol.source.Vector({
-				options: {
-					projection: projectionSRS,
-				},
-				features: recorridos, // Ponemos los recorridos en la capa
-			});
-		
-			var capa = new ol.layer.Vector({
-				name: typeSource,
-				source: recorridosSource,
-				zIndex: 4,
-			});
-		
-			// Agregamos la capa al mapa
-			map.addLayer(capa);
-			bondisuy_LoadHide();
-		*/
-
-		sourceUPDLinea.on('addfeature', function(evt) {
-			//removeLastNuevaParada();
-			lastFeatureUPDLinea = evt.feature;
-
-			var feature = evt.feature;
-			coordUPDLinea = feature.getGeometry().getCoordinates();
-
-			map.removeInteraction(drawUPDLinea);
-			map.removeInteraction(snapUPDLinea);
-
+	/*	var recorridosSource = new ol.source.Vector({
+			options: {
+				projection: projectionSRS,
+			},
+			features: recorridos, // Ponemos los recorridos en la capa
 		});
+	
+		var capa = new ol.layer.Vector({
+			name: typeSource,
+			source: recorridosSource,
+			zIndex: 4,
+		});
+	
+		// Agregamos la capa al mapa
+		map.addLayer(capa);
+		bondisuy_LoadHide();
+	*/
+
+	sourceUPDLinea.on('addfeature', function(evt) {
+		//removeLastNuevaParada();
+		lastFeatureUPDLinea = evt.feature;
+
+		var feature = evt.feature;
+		coordUPDLinea = feature.getGeometry().getCoordinates();
+
+		map.removeInteraction(drawUPDLinea);
+		map.removeInteraction(snapUPDLinea);
+
+	});
 
 	modifyUPDLinea.on('modifyend', function(evt) {
 		var features = evt.features.getArray();
@@ -790,23 +849,23 @@ function addUPDRecorrido(list, typeSource) {
 	map.addLayer(vectorUPDLinea);
 
 	map.addInteraction(modifyUPDLinea);
-//	map.addInteraction(drawUPDLinea);
+	//	map.addInteraction(drawUPDLinea);
 	map.addInteraction(snapUPDLinea);
 
 }
 
 /* Mapa de calor de paradas */
-function agregarMapaDeCalorDeParadas(){
+function agregarMapaDeCalorDeParadas() {
 
 	var capaCalor = new ol.layer.Heatmap({
-	  source: new ol.source.Vector({
-	    format: new ol.format.GeoJSON(),
-	    url: function(extent) {
-	      return '/geoserver/bondisuy/ows?service=WFS&version=1.0.0&srsName=epsg:4326&request=GetFeature&typeName=bondisuy:ft_paradas&outputFormat=application/json';
-	    }
-	  })
+		source: new ol.source.Vector({
+			format: new ol.format.GeoJSON(),
+			url: function(extent) {
+				return '/geoserver/bondisuy/ows?service=WFS&version=1.0.0&srsName=epsg:4326&request=GetFeature&typeName=bondisuy:ft_paradas&outputFormat=application/json';
+			}
+		})
 	});
-	
+
 	map.addLayer(capaCalor);
 
 }

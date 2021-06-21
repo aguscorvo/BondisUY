@@ -810,6 +810,9 @@ function searchOptions(id) {
 	} else if (id == 14) {
 		cleanInteraction()
 		
+		$ds('#lastCahange').modal('show');
+		
+		
 	// Ver mapa de calor
 	} else if(id == 15) {
 		cleanInteraction();

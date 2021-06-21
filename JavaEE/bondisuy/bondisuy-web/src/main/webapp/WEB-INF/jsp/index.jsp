@@ -89,7 +89,7 @@
 								href="javascript:searchOptions(14);">Ver &uacuteltimos
 									cambios</a></li>
 							<li class="nav-item"><a class="nav-link"
-						href="javascript:searchOptions(15);">Ver mapa de calor</a></li>
+								href="javascript:searchOptions(15);">Ver mapa de calor</a></li>
 						</ul>
 					</div></li>
 				<c:if test="${(sessionScope.USER!=null)}">
@@ -321,6 +321,54 @@
 		</div>
 	</div>
 
+	<!-- Modal ULTIMOS CAMBIOS-->
+	<div class="modal" tabindex="-1" role="dialog" id="lastCahange">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">&Uacute;ltimos cambios</h3>
+					<button type="button" class="close text-light" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="changeParadaLinea">Tipo</label>
+							</div>
+							<div class="col-9  mb-3">
+								<select class="form-control form-control-sm text-secondary"
+									id="changeParadaLinea">
+									<option value="1">Par&aacute;das</option>
+									<option value="2">L&iacute;neas</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="changeTiempoHoras">Tiempo en horas</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="number" class="form-control mb-3"
+									id="changeTiempoHoras" name="changeTiempoHoras"
+									min="0" max="24"
+									>
+							</div>
+						</div>
+						
+					</div>
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row">
+							<button type="button" onclick='changeLineaVER()'
+								id="buttonChangeParadaLineaREST" class="btn btn-primary">Ver</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
 	<!-- jquery -->
