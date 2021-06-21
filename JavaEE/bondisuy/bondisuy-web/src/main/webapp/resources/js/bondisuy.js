@@ -608,7 +608,7 @@ function searchOptions(id) {
 	} else if (id == 8) {
 		cleanInteraction();
 		removeAllLayers();
-		
+
 		var card = $ds("#to_do_some");
 		var button = '<button class="btn btn-secondary btn-fw" id="confNuevaParada">Confirmar Ubicaci\u00F3n</select>';
 
@@ -757,7 +757,7 @@ function searchOptions(id) {
 	} else if (id == 12) {
 		cleanInteraction();
 		removeAllLayers();
-		
+
 		$ds("a[href='#ui-basic']").click();
 		var form_group = $ds(card).find(".form-group");
 		var table = $ds("#selectTableLineas").children("table").get(0);
@@ -777,7 +777,7 @@ function searchOptions(id) {
 	} else if (id == 13) {
 		cleanInteraction();
 		removeAllLayers();
-		
+
 		var card = $ds("#to_do_some");
 		var button = '<button class="btn btn-secondary btn-fw" id="confZonaLinea">Confirmar zona</select>';
 
@@ -800,21 +800,52 @@ function searchOptions(id) {
 
 
 		$ds(buttonConf).on('click', function() {
-			
+
 			map.removeInteraction(snapZonaLinea);
 			getZonaLinea();
-			
+
 		});
 
 		//Ver ultimos cambios
 	} else if (id == 14) {
 		cleanInteraction()
+		$ds("a[href='#ui-basic']").click();
+
+		var card = $ds("#to_do_some");
+		var form_group = $ds(card).find(".form-group");
+		$ds(card_title).html("Modificaciones en las \u00FAltimas horas");
+		$ds(card_subtitle).html("");
 		
+		var databody = $ds("#selectTableLineas").children("table").get(0);
+
+		$ds(form_group).html('');
+		$ds(databody).html('');
+		
+
 		$ds('#lastCahange').modal('show');
-		
-		
-	// Ver mapa de calor
-	} else if(id == 15) {
+
+		var recorrido = '';
+
+		$ds(databody).off("click");
+
+		$ds(databody).on('click', 'tr', function() {
+			if ($ds(this).hasClass('selected')) {
+				$ds(this).removeClass('selected');
+			}
+			else {
+				recorrido = $ds(this).attr('data-counter_id');
+
+				$ds('#selectTableLineas tr.selected').removeClass('selected');
+				$ds(this).addClass('selected');
+
+				//bondisuy_LoadShow();
+				getRecorrido(recorrido);
+			}
+		});
+
+
+		// Ver mapa de calor
+	} else if (id == 15) {
 		cleanInteraction();
 		removeAllLayers();
 		/* Llama al método agregarMapaDeCalorDeParadas del archivo bondisuy_map.js */

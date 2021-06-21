@@ -659,7 +659,7 @@ function addParadaPOSTREST() {
 }
 
 function addHorarioParada(idParada, lineas) {
-	var url = "/bondisuy-web/bondisuyrest/horarios";
+	var url = "/bondisuy-web/bondisuyrest/bondisuyrest/paradas/crearHorario";
 
 	for (var p = 0; p < lineas.length; p++) {
 		var horario = { hora: "00:00", recorrido: lineas[p], parada: idParada };
@@ -893,4 +893,17 @@ function getZonaLinea() {
 
 	getRecorridoZona(geom);
 
+}
+
+function changeLineaVER(){
+	var tipo = $ds('#changeParadaLinea').val();
+	var hora = $ds('#changeTiempoHoras').val();
+	
+	if(tipo == 'PAR'){
+		getParadasHorario(hora)
+	}else if(tipo == 'LIN'){
+		getRecorridoHorario(hora);
+	}
+	
+	$ds('#lastCahange').modal('hide');
 }

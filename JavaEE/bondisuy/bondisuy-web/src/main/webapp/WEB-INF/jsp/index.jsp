@@ -341,8 +341,8 @@
 							<div class="col-9  mb-3">
 								<select class="form-control form-control-sm text-secondary"
 									id="changeParadaLinea">
-									<option value="1">Par&aacute;das</option>
-									<option value="2">L&iacute;neas</option>
+									<option value="PAR">Paradas</option>
+									<option value="LIN">L&iacute;neas</option>
 								</select>
 							</div>
 						</div>

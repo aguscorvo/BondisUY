@@ -1,7 +1,10 @@
 /**
  * 
  */
-
+Date.prototype.addHours= function(h){
+    this.setTime(this.getTime() + (h*60*60*1000));
+    return this;
+}
 
 //Funcion que retorna todas las paradas habilitadas cercanas 
 //Parámetros: coord: [x,y]
@@ -570,6 +573,196 @@ function getParadasByID(paradaID) {
 		});
 
 }
+
+function getParadasHorario(Hora) {
+	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.paradas + '&outputformat=json' +
+		'&cql_filter=fecha>={HORA}';
+	var paradas = [];
+
+	//2021-06-14T00:30:00Z
+	
+	
+	var date = new Date().addHours(-1*Hora);
+	console.log(date);
+	
+	
+			var dd = date.getDate();
+			var mm = date.getMonth() + 1;
+			var hh = date.getHours();
+			var mi = date.getMinutes();
+
+			var ahora = date.getFullYear() + '-' +
+				(mm > 9 ? '' : '0') + mm + '-' +
+				(dd > 9 ? '' : '0') + dd + 'T' +
+				(hh > 9 ? '' : '0') + hh + ':' +
+				(mi > 9 ? '' : '0') + mi + ':00Z';
+
+	
+	console.log(ahora);
+
+	url = url.replace('{HORA}', ahora);
+
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+	});
+
+	$ds.getJSON(url)
+		.done(function(data) {
+			var features = data["features"];
+			for (var lin in features) {
+				var auxlinea = features[lin];
+				var geom = auxlinea["geometry"];
+				var prop = auxlinea["properties"];
+
+				try {
+
+					//descripcion: TEXT, coordenadas: [lat, long], img: SRC
+					var text = 'Identificador: ' +  prop["id"] +
+						'<br>Descripci\u00F3n: ' + prop["descripcion"] +
+						'<br>Estado: ' + (prop["habilitada"] ? 'Habilitada' : 'Deshabilitada') +
+						"<div id='ver_Lineas_Paradas'>" +
+						"<div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>" +
+						"</div>"+
+						"<div id='ver_Todas_Lineas_Paradas'>" +
+						"<div id='ver_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-bus'></i> Ver Todas las l\u00EDneas </a></div>" +
+						"</div>";
+
+					//Transformo del sistema EPSG:32721 a EPSG:4326
+					var point = new Proj4js.Point(geom["coordinates"]);   //any object will do as long as it has 'x' and 'y' properties
+					var point4326 = Proj4js.transform(proj32721, proj4326, point);      //do the transformation.  x and y are modified in place
+
+					if (prop["habilitada"]) {
+						var newParada = {
+							"descripcion": text,
+							"coordenadas": [point4326['x'], point4326['y']],
+							"img": (prop["habilitada"] ? IMAGENES.parada : IMAGENES.paradadeshabilitada),
+						};
+
+						paradas.push(newParada);
+					}
+
+				} catch (e) {
+					console.log(prop["cod_parada"]);
+					console.log(auxlinea);
+				}
+			}
+
+			geolocation.setTracking(false);
+			borrarCapaPorNombre(L_PARADAS);
+			borrarCapaPorNombre(L_NUEVAPARADA);
+			addMarcadores(paradas, L_PARADAS);
+
+			$ds('#mappopup').popover('dispose');
+
+		})
+		.fail(function(jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
+
+}
+
+function getRecorridoHorario(Hora) {
+	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.lineas + '&outputformat=json' +
+		'&cql_filter=fecha>={HORA}';
+	var recorridos = [];
+
+	//2021-06-14T00:30:00Z
+	
+	
+	var date = new Date().addHours(-1*Hora);
+	console.log(date);
+	
+	
+			var dd = date.getDate();
+			var mm = date.getMonth() + 1;
+			var hh = date.getHours();
+			var mi = date.getMinutes();
+
+			var ahora = date.getFullYear() + '-' +
+				(mm > 9 ? '' : '0') + mm + '-' +
+				(dd > 9 ? '' : '0') + dd + 'T' +
+				(hh > 9 ? '' : '0') + hh + ':' +
+				(mi > 9 ? '' : '0') + mi + ':00Z';
+
+	
+	console.log(ahora);
+
+	url = url.replace('{HORA}', ahora);
+
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+	});
+
+	$ds.getJSON(url)
+		.done(function(data) {
+
+			var features = data["features"];
+			for (var lin in features) {
+				var auxlinea = features[lin];
+				var geom = auxlinea["geometry"];
+				var prop = auxlinea["properties"];
+				var coord = [];
+
+				try {
+
+					//descripcion: TEXT, coordenadas: [lat, long], img: SRC
+
+					var text = 'L\u00EDnea: ' + prop["linea_nombre"] +
+						'<br>Compa\u00F1\u00EDa: ' + prop["com_nombre"] +
+						'<br>Ruta: ' + prop["ruta"];
+
+
+
+
+					for (var co in geom["coordinates"]) {
+						//Transformo del sistema EPSG:32721 a EPSG:4326
+						var point = new Proj4js.Point(geom["coordinates"][co]);   //any object will do as long as it has 'x' and 'y' properties
+						var point4326 = Proj4js.transform(proj32721, proj4326, point);      //do the transformation.  x and y are modified in place
+
+						coord.push([point4326['x'], point4326['y']]);
+					}
+
+					var newParada = {
+						"descripcion": text,
+						"coordenadas": coord,
+						"color": COMPANY[prop["com_nombre"].toLowerCase()]
+					};
+
+					recorridos.push(newParada);
+
+				} catch (e) {
+					console.log(prop["id"]);
+					console.log(auxlinea);
+				}
+			}
+
+			geolocation.setTracking(false);
+			borrarCapaPorNombre(L_RECORRIDOS);
+			borrarCapaPorNombre(L_NUEVAPARADA);
+			borrarCapaPorNombre(L_PARADA);
+			borrarCapaPorNombre(L_NUEVALINEA);
+			addRecorrido(recorridos, L_RECORRIDOS)
+			
+			$ds('#mappopup').popover('dispose');
+
+						
+			//centro en mi ubicacio
+			centerMapLinea(coordinates);
+
+		})
+		.fail(function(jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
+}
+
 
 //Funcion que retorna un recorrido cercano
 //Parámetros: id: numerico

@@ -25,7 +25,7 @@ var L_UPDLINEA = 'UPDLINEA';
 var CAPAS = {
 	'calles': 'bondisuy:ft_ejes',
 	'paradas': 'bondisuy:ft_paradas',
-	'lineas': 'bondisuy:ft_lineas',
+	'lineas': 'bondisuy:ft_linearecorrido',
 	'terminales': 'bondisuy:ft_terminales',
 	'recorridos': 'bondisuy:ft_recorridolinea',
 	'recorridoscercanos': 'bondisuy:ft_lineaubicacion',
