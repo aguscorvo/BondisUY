@@ -78,6 +78,7 @@ body *::-webkit-scrollbar-thumb {
 .table th, .table td {
 	padding: 0.5rem !important;
 	font-size: 0.8rem !important;
+	white-space: normal !important;
 }
 
 tbody tr.selected {

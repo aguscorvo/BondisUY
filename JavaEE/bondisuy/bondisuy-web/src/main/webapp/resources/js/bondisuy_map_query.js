@@ -216,7 +216,8 @@ function getAllParadasEstado(habilitado) {
 //Parámetros: id: numerico
 function getRecorrido(id) {
 	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.recorridos + "&outputformat=json" +
-		'&viewparams=recorrido:{id}';
+		'&cql_filter=id={id}';
+		//'&viewparams=recorrido:{id}';
 	var recorridos = [];
 
 	url = url.replace('{id}', id);
@@ -666,7 +667,7 @@ function getParadasHorario(Hora) {
 }
 
 function getRecorridoHorario(Hora) {
-	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.lineas + '&outputformat=json' +
+	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.recorridos + '&outputformat=json' +
 		'&cql_filter=fecha>={HORA}';
 	var recorridos = [];
 
@@ -674,8 +675,6 @@ function getRecorridoHorario(Hora) {
 	
 	
 	var date = new Date().addHours(-1*Hora);
-	console.log(date);
-	
 	
 			var dd = date.getDate();
 			var mm = date.getMonth() + 1;
@@ -689,8 +688,6 @@ function getRecorridoHorario(Hora) {
 				(mi > 9 ? '' : '0') + mi + ':00Z';
 
 	
-	console.log(ahora);
-
 	url = url.replace('{HORA}', ahora);
 
 	$ds.ajaxSetup({
@@ -746,7 +743,7 @@ function getRecorridoHorario(Hora) {
 			geolocation.setTracking(false);
 			borrarCapaPorNombre(L_RECORRIDOS);
 			borrarCapaPorNombre(L_NUEVAPARADA);
-			borrarCapaPorNombre(L_PARADA);
+			borrarCapaPorNombre(L_PARADAS);
 			borrarCapaPorNombre(L_NUEVALINEA);
 			addRecorrido(recorridos, L_RECORRIDOS)
 			
@@ -825,7 +822,8 @@ function getRecorridoZona(zona) {
 //Parámetros: id: numerico
 function getUPDRecorrido(id) {
 	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.recorridos + "&outputformat=json" +
-		'&viewparams=recorrido:{id}';
+	'&cql_filter=id={id}';
+	//	'&viewparams=recorrido:{id}';
 	var recorridos = [];
 
 	url = url.replace('{id}', id);
@@ -878,17 +876,18 @@ function getUPDRecorrido(id) {
 			}
 
 			geolocation.setTracking(false);
-			addUPDRecorrido(recorridos, L_UPDLINEA)
+			borrarCapaPorNombre(L_UPDLINEA);
+			addUPDRecorrido(recorridos, L_UPDLINEA);
 			getRecorridoParada(id, L_PARADAS);
 
 			$ds('#mappopup').popover('dispose');
 
 			//centra en el medio de la linea
-			//var center = parseInt(recorridos[0]['coordenadas'].length / 2);
-			//centerMapLinea(recorridos[0]['coordenadas'][center]);
+			var center = parseInt(recorridos[0]['coordenadas'].length / 2);
+			centerMapLinea(recorridos[0]['coordenadas'][center]);
 			
 			//centro en mi ubicacio
-			centerMapLinea(coordinates);
+			//centerMapLinea(coordinates);
 
 		})
 		.fail(function(jqxhr, textStatus, error) {

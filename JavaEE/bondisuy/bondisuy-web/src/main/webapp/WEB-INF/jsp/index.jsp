@@ -321,6 +321,62 @@
 		</div>
 	</div>
 
+	<!-- Modal UPD LINEA-->
+	<div class="modal" tabindex="-1" role="dialog" id="updLinea">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Editar L&iacute;nea</h3>
+					<button type="button" class="close text-light" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="col-12">
+						<input type="hidden" id="updIdRecorrido"/>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="updLineaName">Nombre L&iacute;nea</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text" class="form-control mb-3 text-dark bg-secondary" 
+									id="updLineaName" name="updLineaName" readonly/>
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="updLineaDescripcion">Descripci&oacute;n</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text" class="form-control mb-3 text-dark bg-secondary"
+									id="updLineaDescripcion" name="addLineaDescripcion"
+									readonly/>
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="updLineaEmpresa">Compa&ntilde;&iacute;a</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text" class="form-control mb-3 text-dark bg-secondary"
+									id="updLineaEmpresa" name="updLineaEmpresa"
+									readonly/>
+							</div>
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row">
+							<button type="button" onclick='updLineaPUTREST()'
+								id="buttonUPDLineaREST" class="btn btn-primary">ACTUALIZAR</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
 	<!-- Modal ULTIMOS CAMBIOS-->
 	<div class="modal" tabindex="-1" role="dialog" id="lastCahange">
 		<div class="modal-dialog" role="document">

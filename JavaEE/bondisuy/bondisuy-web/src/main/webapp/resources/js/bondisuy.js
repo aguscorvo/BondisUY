@@ -751,6 +751,17 @@ function searchOptions(id) {
 				getUPDRecorrido(recorrido);
 			}
 		});
+		
+		var buttonConf = $ds("#confUpdLinea");
+
+		$ds(buttonConf).off("click");
+
+		$ds(buttonConf).on('click', function() {
+
+			getRecorridoUPDLinea(recorrido);
+
+		});
+
 
 
 		//ver paradas cercanas

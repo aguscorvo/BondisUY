@@ -659,7 +659,7 @@ function addParadaPOSTREST() {
 }
 
 function addHorarioParada(idParada, lineas) {
-	var url = "/bondisuy-web/bondisuyrest/bondisuyrest/paradas/crearHorario";
+	var url = "/bondisuy-web/bondisuyrest/paradas/crearHorario";
 
 	for (var p = 0; p < lineas.length; p++) {
 		var horario = { hora: "00:00", recorrido: lineas[p], parada: idParada };
@@ -729,7 +729,36 @@ function getCompanyNuevaLinea() {
 		});
 }
 
+function getRecorridoUPDLinea(idRecorrido) {
+	var url = "/bondisuy-web/bondisuyrest/recorridos/{id}";
 
+	url = url.replace('{id}', idRecorrido);
+
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+	});
+
+
+	$ds.getJSON(url)
+		.done(function(data) {
+			console.log(data);
+			var cuerpo = data['cuerpo'];
+
+			$ds("#updIdRecorrido").val(idRecorrido);
+			$ds("#updLineaName").val(cuerpo['linea']['nombre']);
+			$ds("#updLineaDescripcion").val(cuerpo['descripcion']);
+			$ds("#updLineaEmpresa").val(cuerpo['linea']['compania']['nombre']);
+			$ds('#updLinea').modal('show');
+
+		})
+		.fail(function(jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
+}
 
 function addLineaPOSTREST() {
 	var url = "/bondisuy-web/bondisuyrest/lineas";
@@ -817,7 +846,6 @@ function addRecorridoLinea(idLinea, descrip) {
 		(mi > 9 ? '' : '0') + mi;
 
 
-	console.log(coordNuevaLinea);
 	var geom = 'LINESTRING(';
 	for (var p = 0; p < coordNuevaLinea.length; p++) {
 		var point = new Proj4js.Point(coordNuevaLinea[p]);   //any object will do as long as it has 'x' and 'y' properties
@@ -875,6 +903,78 @@ function addRecorridoLinea(idLinea, descrip) {
 	}); // ajax call closing
 }
 
+function updLineaPUTREST() {
+	var url = "/bondisuy-web/bondisuyrest/recorridos/editarGeom";
+	var idRecorrido = $ds('#updIdRecorrido').val();
+
+	//coordUPDLinea
+	if (coordUPDLinea.length == 0) {
+		$ds('#errorModalLabel').html('Error');
+		$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+		$ds('#general_error_msj').html('No se realizaron modificaciones');
+		$ds('#updLinea').modal('hide');
+		$ds('#general_error').modal('show');
+	} else {
+		$ds('#updLinea').modal('hide');
+		
+		var geom = 'LINESTRING(';
+		for (var p = 0; p < coordUPDLinea.length; p++) {
+			var point = new Proj4js.Point(coordUPDLinea[p]);   //any object will do as long as it has 'x' and 'y' properties
+			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
+
+			geom += point32721['x'] + ' ' + point32721['y'];
+			if (p < coordUPDLinea.length - 1)
+				geom += ', ';
+		}
+		geom += ')'
+
+		var recorrido = { id: idRecorrido, geometria: geom };
+		const jsRecorrido = JSON.stringify(recorrido);
+
+		$ds.ajax({
+			url: url,
+			type: "PUT",
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			data: jsRecorrido,
+			success: function(result) {
+				// when call is sucessfull
+				console.log(result)
+
+				for (var f in sourceUPDLinea.getFeatures()) {
+					sourceUPDLinea.removeFeature(sourceUPDLinea.getFeatures()[f]);
+				}
+
+				map.removeInteraction(snapUPDLinea);
+
+				var card = $ds("#to_do_some");
+
+				var form_group = $ds(card).find(".form-group");
+				var table = $ds("#selectTableLineas").children("table").get(0);
+				$ds(form_group).html('');
+				$ds(table).html('');
+
+
+				getRecorrido(idRecorrido);
+				bondisuy_LoadHide();
+
+				$ds('#errorModalLabel').html('Informaci\u00F3n');
+				$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-information-outline display-3 text-info" ></i></h1>');
+				$ds('#general_error_msj').html('Linea modificada con \u00E9xito.');
+				$ds('#general_error').modal('show');
+			},
+			error: function(err) {
+				// check the err for error details
+				$ds('#errorModalLabel').html('Error');
+				$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+				$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
+				$ds('#general_error').modal('show');
+			}
+		}); // ajax call closing	
+
+	}
+
+}
 
 function getZonaLinea() {
 	var polygon = coordZonaLinea[0];
@@ -895,15 +995,15 @@ function getZonaLinea() {
 
 }
 
-function changeLineaVER(){
+function changeLineaVER() {
 	var tipo = $ds('#changeParadaLinea').val();
 	var hora = $ds('#changeTiempoHoras').val();
-	
-	if(tipo == 'PAR'){
+
+	if (tipo == 'PAR') {
 		getParadasHorario(hora)
-	}else if(tipo == 'LIN'){
+	} else if (tipo == 'LIN') {
 		getRecorridoHorario(hora);
 	}
-	
+
 	$ds('#lastCahange').modal('hide');
 }

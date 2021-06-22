@@ -6,8 +6,8 @@ var view = new ol.View({
 	//projection: projection32721,
 	center: ol.proj.fromLonLat([-56.17938, -34.86157]),
 	zoom: ZOOMDEFECTO,
-	minZoom: 12,
-	maxZoom: 16,
+	minZoom: ZOOMDEFECTOMIN,
+	maxZoom: ZOOMDEFECTOMAX,
 });
 //Fin Capa de Vista
 
@@ -780,10 +780,13 @@ var modifyUPDLinea = new ol.interaction.Modify({
 function addUPDRecorrido(list, typeSource) {
 	var recorridos = [];
 
+	console.log(list.length);
+	
 	for (var lst in list) {
 		let recorrido = new ol.Feature({
 			geometry: new ol.geom.LineString(list[lst]['coordenadas']),// Como va a ser
-			name: list[lst]['descripcion']
+			name: list[lst]['descripcion'],
+			id: typeSource,
 		});
 
 		// Agregamos estilo
@@ -797,7 +800,11 @@ function addUPDRecorrido(list, typeSource) {
 
 		recorridos.push(recorrido);// Agregamos el recorrido  al arreglo
 	}
-
+	
+	for(var f in sourceUPDLinea.getFeatures()){
+		sourceUPDLinea.removeFeature(sourceUPDLinea.getFeatures()[f]);
+	}
+	
 	sourceUPDLinea.addFeatures(recorridos);
 
 	//Vector de Nueva Parada
@@ -807,24 +814,6 @@ function addUPDRecorrido(list, typeSource) {
 		//style: StrokeZonaLineaStyle,
 	});
 
-	/*	var recorridosSource = new ol.source.Vector({
-			options: {
-				projection: projectionSRS,
-			},
-			features: recorridos, // Ponemos los recorridos en la capa
-		});
-	
-		var capa = new ol.layer.Vector({
-			name: typeSource,
-			source: recorridosSource,
-			zIndex: 4,
-		});
-	
-		// Agregamos la capa al mapa
-		map.addLayer(capa);
-		bondisuy_LoadHide();
-	*/
-
 	sourceUPDLinea.on('addfeature', function(evt) {
 		//removeLastNuevaParada();
 		lastFeatureUPDLinea = evt.feature;
@@ -832,7 +821,6 @@ function addUPDRecorrido(list, typeSource) {
 		var feature = evt.feature;
 		coordUPDLinea = feature.getGeometry().getCoordinates();
 
-		map.removeInteraction(drawUPDLinea);
 		map.removeInteraction(snapUPDLinea);
 
 	});
@@ -869,6 +857,7 @@ function agregarMapaDeCalorDeParadas() {
 	map.addLayer(capaCalor);
 
 }
+
 
 function cleanInteraction() {
 	//	map.removeInteraction(drawNuevaParada);

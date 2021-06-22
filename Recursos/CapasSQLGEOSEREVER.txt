@@ -9,11 +9,11 @@ SELECT
 	r.id AS id,
 	r.activo AS activo,
 	r.descripcion AS ruta,
+	r.fecha AS fecha,
 	geom
 FROM lineas l
 JOIN ft_recorridos r ON r.linea_id =l.id
 JOIN companias c ON c.id = l.compania_id
-WHERE r.id = %recorrido%
 
 MARCAR id como clave primaria
 Geometria: 
@@ -123,31 +123,3 @@ Encuadres:
   MaxY: 6.137.567,836154
 
 ----------------------------------
-Recorridos por Linea
-
-Nombre de vista: 	bondisuy:ft_linearecorrido
-
-
-SELECT 
-	l.id AS linea_id,
-	l.nombre AS linea_nombre,
-	c.id AS com_id,
-	c.nombre AS com_nombre,
-	r.id AS id,
-	r.activo AS activo,
-	r.descripcion AS ruta,
-	r.fecha AS fecha,
-	geom
-FROM lineas l
-JOIN ft_recorridos r ON r.linea_id =l.id
-JOIN companias c ON c.id = l.compania_id
-
-MARCAR id como clave primaria
-Geometria: 
-  Tipo: LineString
-  SRID: 32721
-Encuadres:
-  MinX: 573.086,25283571
-  MinY: 6.134.560,116218
-  MaxX: 576.867,78112
-  MaxY: 6.137.567,836154
