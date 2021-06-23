@@ -1,0 +1,50 @@
+version: '3.5'
+services:
+  postgis:
+    image: andordevops/postgis:1.0
+    environment:
+      - POSTGRES_USER=postgis
+      - POSTGRES_PASSWORD=postgis
+      - POSTGRES_DB=tsig
+    ports:
+      - 5432:5432
+    restart: on-failure
+
+  cargador:
+    build: ./cargador/
+    volumes:
+      - ./cargador/scripts:/scripts:ro
+    command: tail -F xxx
+    depends_on:
+      - postgis
+
+  geoserver:
+    image: kartoza/geoserver:2.18.0
+    environment:
+      - DB_BACKEND=TSIG
+      - HOST=contenedor-postgis
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=tsig
+      - POSTGRES_USER=postgis
+      - POSTGRES_PASS=postgis
+      - GEOSERVER_ADMIN_USER=admin
+      - GEOSERVER_ADMIN_PASSWORD=admin
+    ports:
+      - 8600:8080
+    volumes:
+      - ./geoserver/data:/opt/geoserver/data_dir
+    depends_on:
+      - cargador
+    restart: on-failure
+
+  wildfly:
+    build: ./wildfly/
+    ports:
+      - 8080:8080
+      - 9990:9990
+    volumes:
+      - ./wildfly/binarios/bondisuy.ear:/opt/jboss/wildfly/standalone/deployments/bondisuy.ear:ro
+    depends_on:
+      - geoserver
+
+

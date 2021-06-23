@@ -1,0 +1,41 @@
+<featureType>
+  <id>FeatureTypeInfoImpl--7f4174aa:17a35facab0:-7ff3</id>
+  <name>horarios</name>
+  <nativeName>horarios</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl--7f4174aa:17a35facab0:-7ffb</id>
+  </namespace>
+  <title>horarios</title>
+  <keywords>
+    <string>features</string>
+    <string>horarios</string>
+  </keywords>
+  <srs>EPSG:32721</srs>
+  <nativeBoundingBox>
+    <minx>-1.0</minx>
+    <maxx>0.0</maxx>
+    <miny>-1.0</miny>
+    <maxy>0.0</maxy>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-57.00000000000001</minx>
+    <maxx>-57.00000000000001</maxx>
+    <miny>-90.0</miny>
+    <maxy>-90.0</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl--7f4174aa:17a35facab0:-7ffa</id>
+  </store>
+  <serviceConfiguration>false</serviceConfiguration>
+  <simpleConversionEnabled>false</simpleConversionEnabled>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <padWithZeros>false</padWithZeros>
+  <forcedDecimal>false</forcedDecimal>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>
