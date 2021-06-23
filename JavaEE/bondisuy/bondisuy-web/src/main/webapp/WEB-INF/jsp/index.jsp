@@ -334,14 +334,15 @@
 				</div>
 				<div class="modal-body">
 					<div class="col-12">
-						<input type="hidden" id="updIdRecorrido"/>
+						<input type="hidden" id="updIdRecorrido" />
 						<div class="col-12 d-flex flex-row validate-input">
 							<div class="col-3  mb-3">
 								<label for="updLineaName">Nombre L&iacute;nea</label>
 							</div>
 							<div class="col-9  mb-3">
-								<input type="text" class="form-control mb-3 text-dark bg-secondary" 
-									id="updLineaName" name="updLineaName" readonly/>
+								<input type="text"
+									class="form-control mb-3 text-dark bg-secondary"
+									id="updLineaName" name="updLineaName" readonly />
 							</div>
 						</div>
 						<div class="col-12 d-flex flex-row validate-input">
@@ -349,9 +350,9 @@
 								<label for="updLineaDescripcion">Descripci&oacute;n</label>
 							</div>
 							<div class="col-9  mb-3">
-								<input type="text" class="form-control mb-3 text-dark bg-secondary"
-									id="updLineaDescripcion" name="addLineaDescripcion"
-									readonly/>
+								<input type="text"
+									class="form-control mb-3 text-dark bg-secondary"
+									id="updLineaDescripcion" name="addLineaDescripcion" readonly />
 							</div>
 						</div>
 						<div class="col-12 d-flex flex-row validate-input">
@@ -359,9 +360,9 @@
 								<label for="updLineaEmpresa">Compa&ntilde;&iacute;a</label>
 							</div>
 							<div class="col-9  mb-3">
-								<input type="text" class="form-control mb-3 text-dark bg-secondary"
-									id="updLineaEmpresa" name="updLineaEmpresa"
-									readonly/>
+								<input type="text"
+									class="form-control mb-3 text-dark bg-secondary"
+									id="updLineaEmpresa" name="updLineaEmpresa" readonly />
 							</div>
 						</div>
 					</div>
@@ -369,6 +370,90 @@
 						<div class="col-12 d-flex flex-row">
 							<button type="button" onclick='updLineaPUTREST()'
 								id="buttonUPDLineaREST" class="btn btn-primary">ACTUALIZAR</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal UPD PARADA-->
+	<div class="modal" tabindex="-1" role="dialog" id="updParada">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Editar Parada</h3>
+					<button type="button" class="close text-light" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="updIdParada">Identificador</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text"
+									class="form-control mb-3 text-dark bg-secondary"
+									id="updIdParada" name="updIdParada" readonly />
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="updParadaDescripcion">Descripci&oacute;n</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text"
+									class="form-control mb-3 text-dark bg-secondary"
+									id="updParadaDescripcion" name="updParadaDescripcion" readonly />
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="updParadaEstado">Estado</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text"
+									class="form-control mb-3 text-dark bg-secondary"
+									id="updParadaEstado" name="updParadaEstado" readonly />
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<label>L&iacute;neas</label>
+						</div>
+
+						<div class="col-12 d-flex flex-row validate-input">
+							<ul class="nav nav-tabs">
+								<li class="nav-item"><a class="nav-link active" href="#">Active</a>
+								</li>
+								<li class="nav-item dropdown"><a
+									class="nav-link dropdown-toggle" data-toggle="dropdown"
+									href="#" role="button" aria-haspopup="true"
+									aria-expanded="false">Dropdown</a>
+									<div class="dropdown-menu">
+										<a class="dropdown-item" href="#">Action</a> <a
+											class="dropdown-item" href="#">Another action</a> <a
+											class="dropdown-item" href="#">Something else here</a>
+										<div class="dropdown-divider"></div>
+										<a class="dropdown-item" href="#">Separated link</a>
+									</div></li>
+								<li class="nav-item"><a class="nav-link" href="#">Link</a>
+								</li>
+								<li class="nav-item"><a class="nav-link disabled" href="#">Disabled</a>
+								</li>
+							</ul>
+
+						</div>
+
+
+
+					</div>
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row">
+							<button type="button" onclick='updParadaPUTREST()'
+								id="buttonUPDParadaREST" class="btn btn-primary">ACTUALIZAR</button>
 						</div>
 					</div>
 				</div>
@@ -404,16 +489,16 @@
 						</div>
 						<div class="col-12 d-flex flex-row validate-input">
 							<div class="col-3  mb-3">
-								<label for="changeTiempoHoras">Tiempo en horas</label>
+								<label for="changeTiempoHoras">Tiempo en horas
+									(m&aacute;ximo 72hs)</label>
 							</div>
 							<div class="col-9  mb-3">
 								<input type="number" class="form-control mb-3"
-									id="changeTiempoHoras" name="changeTiempoHoras"
-									min="0" max="24"
-									>
+									id="changeTiempoHoras" name="changeTiempoHoras" min="0"
+									max="72">
 							</div>
 						</div>
-						
+
 					</div>
 					<div class="col-12">
 						<div class="col-12 d-flex flex-row">
@@ -485,6 +570,13 @@
 		<c:remove var="MENSAJE_ERROR_LOGIN" scope="session" />
 	</c:if>
 
+
+	<script type="text/javascript">
+var usrLogged = false; 
+<c:if test="${(sessionScope.USER!=null)}">
+usrLogged = true;
+</c:if>
+</script>
 
 </body>
 

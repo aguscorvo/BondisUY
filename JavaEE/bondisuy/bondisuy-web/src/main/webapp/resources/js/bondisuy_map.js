@@ -500,6 +500,15 @@ map.on('click', function(evt) {
 
 		});
 
+		$ds("#editar_Todas_Lineas_Paradas").on("click", function() {
+			var divID = $ds(this).find("div[id*='editar_todas_id_lineas:_:']").attr('id');
+			var auxID = divID.split(":_:");
+			var paradaID = auxID[1];
+
+			
+
+		});
+
 
 
 		feature = undefined;
@@ -781,7 +790,7 @@ function addUPDRecorrido(list, typeSource) {
 	var recorridos = [];
 
 	console.log(list.length);
-	
+
 	for (var lst in list) {
 		let recorrido = new ol.Feature({
 			geometry: new ol.geom.LineString(list[lst]['coordenadas']),// Como va a ser
@@ -800,11 +809,11 @@ function addUPDRecorrido(list, typeSource) {
 
 		recorridos.push(recorrido);// Agregamos el recorrido  al arreglo
 	}
-	
-	for(var f in sourceUPDLinea.getFeatures()){
+
+	for (var f in sourceUPDLinea.getFeatures()) {
 		sourceUPDLinea.removeFeature(sourceUPDLinea.getFeatures()[f]);
 	}
-	
+
 	sourceUPDLinea.addFeatures(recorridos);
 
 	//Vector de Nueva Parada

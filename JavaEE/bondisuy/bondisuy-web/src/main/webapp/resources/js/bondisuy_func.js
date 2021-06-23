@@ -257,6 +257,51 @@ function filtrarLineaByName(lineaName) {
 
 }
 
+//filtrar Parada por ID
+function filtrarParadaById(paradaID) {
+	var txttable = '<thead><tr><th>Parada</th><th>Detalle</th></tr></thead><tbody>';
+	var table = $ds("#selectTableLineas").children("table").get(0);
+
+	if (paradaID != '') {
+		var url = "/bondisuy-web/bondisuyrest/paradas/{PARADA}";
+
+		url = url.replace("{PARADA}", paradaID);
+
+
+		$ds.ajaxSetup({
+			scriptCharset: "utf-8",
+			contentType: "application/json; charset=utf-8",
+			mimeType: "text/plain",
+			headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+		});
+
+
+		$ds.getJSON(url)
+			.done(function(data) {
+
+				if (!$ds.isEmptyObject(data)) {
+					var cuerpo = data['cuerpo'];
+					txttable += '<tr data-counter_id=' + cuerpo.id + '><td>' + cuerpo.id + '</td><td>' + cuerpo.descripcion + '</td></tr>'
+				}
+
+				txttable += '</tbody>';
+
+				$ds(table).html(txttable);
+
+				bondisuy_LoadHide();
+			})
+			.fail(function(jqxhr, textStatus, error) {
+				var err = textStatus + ", " + error;
+				console.log("Request Failed: " + err + "file: " + url);
+			});
+	} else {
+		txttable += '</tbody>';
+		$ds(table).html(txttable);
+	}
+
+}
+
+
 //filtrar calle Esquina por Nombre
 function filtrarEsquinaCalle(idCalle, calleName) {
 	var txttable = '<thead><tr><th>nombre</th><th>tipo</th></tr></thead><tbody>';
@@ -346,12 +391,6 @@ function getParadaLineaHorario(paradaID) {
 		var url = "/bondisuy-web/bondisuyrest/paradas/{PARADA}/{HORA}";
 
 		var dia = new Date();
-		//var hh = dia.getHours();
-		//var mmm = dia.getMinutes();
-
-		//date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-
-		//var hora = (hh<10?"0":"") + hh + (mm<10?"0":"") + mm;
 		var hora = dia.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 
 
@@ -916,7 +955,7 @@ function updLineaPUTREST() {
 		$ds('#general_error').modal('show');
 	} else {
 		$ds('#updLinea').modal('hide');
-		
+
 		var geom = 'LINESTRING(';
 		for (var p = 0; p < coordUPDLinea.length; p++) {
 			var point = new Proj4js.Point(coordUPDLinea[p]);   //any object will do as long as it has 'x' and 'y' properties

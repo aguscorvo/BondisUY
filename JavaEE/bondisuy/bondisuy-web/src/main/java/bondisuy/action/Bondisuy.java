@@ -116,7 +116,7 @@ public class Bondisuy extends HttpServlet {
 
 	private void crearAdmin() {
 		try {
-			administrador.crear(new AdministradorCrearDTO("Marcos", "Pulido", "marcos.pulido", "1234" ));
+			administrador.crear(new AdministradorCrearDTO("Administrador", "", "admin", "1234" ));
 		} catch (BondisUyException e) {
 			logger.info(e.getMessage().trim());
 		}

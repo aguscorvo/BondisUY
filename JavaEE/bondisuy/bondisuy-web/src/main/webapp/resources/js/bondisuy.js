@@ -643,13 +643,82 @@ function searchOptions(id) {
 		removeAllLayers();
 
 		$ds("a[href='#ui-busstop']").click();
-		select = '<select class="form-control form-control-sm text-secondary" id="selectEmpresas"></select>';
+		select = '<input type="text" class="form-control form-control-sm" id="inputEditParada"><br>';
+		var button = '<button class="btn btn-secondary btn-fw" id="confUpdLinea">Modificar</select>';
+		$ds(card_title).html("Modificar Parada");
+		$ds(card_subtitle).html("Parada");
+		$ds(form_group).html(select + button);
 
-		$ds(card_title).html("Buscar l&iacute;neas por empresa");
-		$ds(card_subtitle).html("L&iacute;nea");
-		$ds(form_group).html(select);
+		filtrarParadaById('');
 
-		listarCompany();
+		var nombre;
+		//Input Linea
+		$ds("#inputEditParada").on("keypress", function(ev) {
+			switch (ev.which) {
+				case 8: // Backspace
+					nombre = $ds(this).val();
+					break;
+				case 9: // Tab
+				case 13: // Enter
+				case 37: // Left
+				case 38: // Up
+				case 39: // Right
+				case 40: // Down
+				default:
+					nombre = $ds(this).val() + String.fromCharCode(ev.which);
+			}
+			filtrarParadaById(nombre);
+		});
+
+		$ds("#inputEditParada").on("keydown", function(ev) {
+			switch (ev.which) {
+				case 8: // Backspace
+					nombre = $ds(this).val();
+					break;
+				case 9: // Tab
+				case 13: // Enter
+				case 37: // Left
+				case 38: // Up
+				case 39: // Right
+				case 40: // Down
+				default:
+					nombre = $ds(this).val() + String.fromCharCode(ev.which);
+			}
+			filtrarParadaById(nombre);
+		});
+
+		var updparada = '';
+		var databody = $ds("#selectTableLineas").children("table").get(0);
+
+		$ds(databody).off("click");
+
+		$ds(databody).on('click', 'tr', function() {
+			if ($ds(this).hasClass('selected')) {
+				$ds(this).removeClass('selected');
+			}
+			else {
+				updparada = $ds(this).attr('data-counter_id');
+
+				$ds('#selectTableLineas tr.selected').removeClass('selected');
+				$ds(this).addClass('selected');
+
+				//bondisuy_LoadShow();
+				getParadasByID(updparada);
+			}
+		});
+
+		var buttonConf = $ds("#confUpdLinea");
+
+		$ds(buttonConf).off("click");
+
+		$ds(buttonConf).on('click', function() {
+
+			getRecorridoUPDLinea(recorrido);
+
+		});
+
+
+
 
 		//nueva linea
 	} else if (id == 10) {
@@ -705,6 +774,8 @@ function searchOptions(id) {
 		$ds("#inputLinea").on("keypress", function(ev) {
 			switch (ev.which) {
 				case 8: // Backspace
+					nombre = $ds(this).val();
+					break;
 				case 9: // Tab
 				case 13: // Enter
 				case 37: // Left
@@ -720,6 +791,8 @@ function searchOptions(id) {
 		$ds("#inputLinea").on("keydown", function(ev) {
 			switch (ev.which) {
 				case 8: // Backspace
+					nombre = $ds(this).val();
+					break;
 				case 9: // Tab
 				case 13: // Enter
 				case 37: // Left
@@ -751,7 +824,7 @@ function searchOptions(id) {
 				getUPDRecorrido(recorrido);
 			}
 		});
-		
+
 		var buttonConf = $ds("#confUpdLinea");
 
 		$ds(buttonConf).off("click");
@@ -826,12 +899,12 @@ function searchOptions(id) {
 		var form_group = $ds(card).find(".form-group");
 		$ds(card_title).html("Modificaciones en las \u00FAltimas horas");
 		$ds(card_subtitle).html("");
-		
+
 		var databody = $ds("#selectTableLineas").children("table").get(0);
 
 		$ds(form_group).html('');
 		$ds(databody).html('');
-		
+
 
 		$ds('#lastCahange').modal('show');
 
