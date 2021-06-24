@@ -22,7 +22,7 @@ var L_NUEVALINEA = 'NUEVALINEA';
 var L_ZONA = 'ZONA';
 var L_ESQUINA = 'ESQUINA';
 var L_UPDLINEA = 'UPDLINEA';
-
+var L_UPDPARADA = 'UPDPARADA';
 
 var CAPAS = {
 	'calles': 'bondisuy:ft_ejes',

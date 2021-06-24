@@ -644,7 +644,7 @@ function searchOptions(id) {
 
 		$ds("a[href='#ui-busstop']").click();
 		select = '<input type="text" class="form-control form-control-sm" id="inputEditParada"><br>';
-		var button = '<button class="btn btn-secondary btn-fw" id="confUpdLinea">Modificar</select>';
+		var button = '<button class="btn btn-secondary btn-fw" id="confUpdParada">Modificar</select>';
 		$ds(card_title).html("Modificar Parada");
 		$ds(card_subtitle).html("Parada");
 		$ds(form_group).html(select + button);
@@ -703,17 +703,17 @@ function searchOptions(id) {
 				$ds(this).addClass('selected');
 
 				//bondisuy_LoadShow();
-				getParadasByID(updparada);
+				getUPDParada(updparada);
 			}
 		});
 
-		var buttonConf = $ds("#confUpdLinea");
+		var buttonConf = $ds("#confUpdParada");
 
 		$ds(buttonConf).off("click");
 
 		$ds(buttonConf).on('click', function() {
 
-			getRecorridoUPDLinea(recorrido);
+			getRecorridoUPDParada(updparada);
 
 		});
 

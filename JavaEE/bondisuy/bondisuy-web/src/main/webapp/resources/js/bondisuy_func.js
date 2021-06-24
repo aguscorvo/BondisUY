@@ -1015,6 +1015,39 @@ function updLineaPUTREST() {
 
 }
 
+function getRecorridoUPDParada(idParada) {
+	var url = "/bondisuy-web/bondisuyrest/paradas/{id}";
+
+	url = url.replace('{id}', idParada);
+
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+	});
+
+
+	$ds.getJSON(url)
+		.done(function(data) {
+			console.log(data);
+			var cuerpo = data['cuerpo'];
+
+			$ds("#updIdParada").val(idParada);
+			$ds("#updParadaDescripcion").val(cuerpo['descripcion']);
+			var estado = (cuerpo["habilitada"] ? 'Habilitada' : 'Deshabilitada');
+			$ds("#updParadaEstado").val(estado);
+			$ds('#updParada').modal('show');
+
+		})
+		.fail(function(jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
+}
+
+
+
 function getZonaLinea() {
 	var polygon = coordZonaLinea[0];
 

@@ -505,7 +505,16 @@ map.on('click', function(evt) {
 			var auxID = divID.split(":_:");
 			var paradaID = auxID[1];
 
+			searchOptions(9);
 			
+			$ds("#inputEditParada").val(paradaID);
+			$ds("#inputEditParada").keypress();
+			
+			var databody = $ds("#selectTableLineas").children("table").get(0);
+			$ds(databody).find('tr[data-counter_id="' + paradaID + '"]').keypress();
+			
+			
+			//var divID = $ds(this).find("div[id*='editar_todas_id_lineas:_:']").attr('id');
 
 		});
 
@@ -848,6 +857,90 @@ function addUPDRecorrido(list, typeSource) {
 	map.addInteraction(modifyUPDLinea);
 	//	map.addInteraction(drawUPDLinea);
 	map.addInteraction(snapUPDLinea);
+
+}
+
+
+//Source de Nueva Parada
+var sourceUPDParada = new ol.source.Vector({
+	wrapX: false,
+});
+
+var snapUPDParada = new ol.interaction.Snap({
+	source: sourceUPDParada
+});
+
+var modifyUPDParada = new ol.interaction.Modify({
+	source: sourceUPDParada
+});
+
+
+//Modificacion de Paradas 
+//List de objetos: {descripcion: TEXT, coordenadas: [[lat, long],[lat, long]], color: HEX }
+function addUPDParada(list, typeSource) {
+	var paradas = [];
+
+	for (var lst in list) {
+		let parada = new ol.Feature({
+			geometry: new ol.geom.Point(list[lst]['coordenadas']),// En dónde se va a ubicar
+			name: list[lst]['descripcion'],
+			id: typeSource,
+		});
+
+
+		/* Agregamos estilo
+		let routeStyle = new ol.style.Style({
+			stroke: new ol.style.Stroke({
+				width: 4,
+				color: list[lst]['color'],
+			}),
+		});
+		recorrido.setStyle(routeStyle);
+		*/
+
+		paradas.push(parada);// Agregamos el recorrido  al arreglo
+	}
+
+	for (var f in sourceUPDParada.getFeatures()) {
+		sourceUPDParada.removeFeature(sourceUPDParada.getFeatures()[f]);
+	}
+
+	sourceUPDParada.addFeatures(paradas);
+
+	//Vector de Nueva Parada
+	var vectorUPDParada = new ol.layer.Vector({
+		name: typeSource,
+		source: sourceUPDParada,
+		style: IconNuevaParadaStyle,
+		//style: StrokeZonaLineaStyle,
+	});
+
+	sourceUPDLinea.on('addfeature', function(evt) {
+		//removeLastNuevaParada();
+		lastFeatureUPDParada = evt.feature;
+
+		var feature = evt.feature;
+		coordUPDParada = feature.getGeometry().getCoordinates();
+
+		map.removeInteraction(snapUPDParada);
+
+	});
+
+	modifyUPDLinea.on('modifyend', function(evt) {
+		var features = evt.features.getArray();
+
+		for (var i = 0; i < features.length; i++) {
+			coordUPDParada = features[i].getGeometry().getCoordinates();
+		}
+
+	});
+
+	// Agregamos la capa al parada
+	map.addLayer(vectorUPDParada);
+
+	map.addInteraction(modifyUPDParada);
+	//	map.addInteraction(drawUPDLinea);
+	map.addInteraction(snapUPDParada);
 
 }
 

@@ -894,6 +894,84 @@ function getUPDRecorrido(id) {
 }
 
 
+function getUPDParada(paradaID) {
+	var url = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.paradas + '&outputformat=json' +
+		'&cql_filter=id={ID}';
+	var paradas = [];
+
+	url = url.replace('{ID}', paradaID);
+	
+	$ds.ajaxSetup({
+		scriptCharset: "utf-8",
+		contentType: "application/json; charset=utf-8",
+		mimeType: "text/plain",
+		headers: { 'Access-Control-Allow-Origin': GEOSERVER }
+	});
+
+	$ds.getJSON(url)
+		.done(function(data) {
+			var features = data["features"];
+			for (var lin in features) {
+				var auxlinea = features[lin];
+				var geom = auxlinea["geometry"];
+				var prop = auxlinea["properties"];
+
+				try {
+
+					//descripcion: TEXT, coordenadas: [lat, long], img: SRC
+					var text = 'Identificador: ' + prop["id"] +
+						'<br>Descripci\u00F3n: ' + prop["descripcion"] +
+						'<br>Estado: ' + (prop["habilitada"] ? 'Habilitada' : 'Deshabilitada') +
+						"<div id='ver_Lineas_Paradas'>" +
+						"<div id='id_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-eye'></i> Ver pr\u00F3ximas l\u00EDneas </a></div>" +
+						"</div>" +
+						"<div id='ver_Todas_Lineas_Paradas'>" +
+						"<div id='ver_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-bus'></i> Ver Todas las l\u00EDneas </a></div>" +
+						"</div>";
+					if (usrLogged) {
+						text += "<div id='editar_Todas_Lineas_Paradas'>" +
+							"<div id='editar_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-pen'></i> Editar l\u00EDneas </a></div>" +
+							"</div>";
+					}
+					//Transformo del sistema EPSG:32721 a EPSG:4326
+					var point = new Proj4js.Point(geom["coordinates"]);   //any object will do as long as it has 'x' and 'y' properties
+					var point4326 = Proj4js.transform(proj32721, proj4326, point);      //do the transformation.  x and y are modified in place
+
+					//if (prop["habilitada"]) {
+						var newParada = {
+							"descripcion": text,
+							"coordenadas": [point4326['x'], point4326['y']],
+							"img": (prop["habilitada"] ? IMAGENES.parada : IMAGENES.paradadeshabilitada),
+						};
+
+						paradas.push(newParada);
+					//}
+
+				} catch (e) {
+					console.log(prop["cod_parada"]);
+					console.log(auxlinea);
+				}
+			}
+
+			geolocation.setTracking(false);
+			borrarCapaPorNombre(L_PARADAS);
+			borrarCapaPorNombre(L_NUEVAPARADA);
+			addUPDParada(paradas, L_UPDPARADA);
+			
+			centerMap([point4326['x'], point4326['y']]);
+			
+
+			$ds('#mappopup').popover('dispose');
+
+		})
+		.fail(function(jqxhr, textStatus, error) {
+			var err = textStatus + ", " + error;
+			console.log("Request Failed: " + err + "file: " + url);
+		});
+
+}
+
+
 
 function htmlParadaHorario(objParada) {
 	var str = '';
