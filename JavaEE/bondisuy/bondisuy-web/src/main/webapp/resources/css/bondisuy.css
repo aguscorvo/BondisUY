@@ -131,3 +131,8 @@ tbody tr.selected {
     background-color: #2A3038;
  	color:  #ffa068 !important;
 }
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link{
+	background-color: #2A3038 !important;
+ 	color:  #ffa068 !important;
+}

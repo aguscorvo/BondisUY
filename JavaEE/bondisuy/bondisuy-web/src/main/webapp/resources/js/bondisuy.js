@@ -206,7 +206,7 @@ function searchOptions(id) {
 		//Buscar Esquina
 	} else if (id == 3) {
 		cleanInteraction();
-		//removeAllLayers();
+		removeAllLayers();
 
 
 		$ds("a[href='#ui-basic']").click();
@@ -712,9 +712,53 @@ function searchOptions(id) {
 		$ds(buttonConf).off("click");
 
 		$ds(buttonConf).on('click', function() {
+			var point = new Proj4js.Point(coordUPDParada);   //any object will do as long as it has 'x' and 'y' properties
+			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
-			getRecorridoUPDParada(updparada);
+			getRecorridoUPDParada(updparada, [point32721['x'], point32721['y']], DISTANCIA_LINEAPARADA);
 
+		});
+
+		var updparadaasociada = '';
+		var databodyasociada = $ds("#selectTableAsociadaLineas").children("table").get(0);
+
+		//$ds(databodyasociada).off("click");
+
+		$ds(databodyasociada).on('click', 'tr', function() {
+			if ($ds(this).hasClass('selected')) {
+				$ds(this).removeClass('selected');
+			}
+			else {
+				updparadaasociada = $ds(this).attr('data-counter_id');
+
+				$ds('#selectTableAsociadaLineas tr.selected').removeClass('selected');
+				$ds(this).addClass('selected');
+
+				//bondisuy_LoadShow();
+				//getUPDParada(updparada);
+			}
+		});
+		
+		var updparadacercana = '';
+		var databodycercana = $ds("#selectTableCercanaLineas").children("table").get(0);
+
+		$ds(databodycercana).off("click");
+
+		console.log(databodycercana);
+
+		$ds(databodycercana).on('click', 'tr', function() {
+			if ($ds(this).hasClass('selected')) {
+				$ds(this).removeClass('selected');
+			}
+			else {
+				updparadacercana = $ds(this).attr('data-counter_id');
+
+				$ds('#selectTableCercanaLineas tr.selected').removeClass('selected');
+				$ds(this).addClass('selected');
+
+				//bondisuy_LoadShow();
+				//getUPDParada(updparada);
+			}
 		});
 
 

@@ -165,6 +165,7 @@ var SetUbicacion = (function(Control) {
 
 //Usar la locaclizacion actual
 var geolocation = new ol.Geolocation({
+	
 	// enableHighAccuracy must be set to true to have the heading value.
 	trackingOptions: {
 		enableHighAccuracy: true,
@@ -172,10 +173,15 @@ var geolocation = new ol.Geolocation({
 	projection: view.getProjection(),
 });
 
-// handle geolocation error.
+//handle geolocation error.
 geolocation.on('error', function(error) {
 	bondisuy_msgError("Error al obtener la localizaci\u00F3n del dispositivo\n [" + error.message + "]");
+
+	cleanInteraction();
+	removeAllLayers();
 });
+
+
 
 var accuracyFeature = new ol.Feature();
 
@@ -216,10 +222,6 @@ geolocation.on('change:position', function() {
 	var form_group = $ds(card).find(".form-group");
 
 	$ds(card_title).html("L&iacute;neas cercanas");
-	//$ds(card_subtitle).html("L&iacute;nea");
-
-	//var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
-	//var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
 	getRecorridoCercanos([point32721['x'], point32721['y']], DISTANCIA);
 
@@ -238,16 +240,7 @@ var layers = [
 		source: new ol.source.OSM(),
 	}),
 	vectorNuevaLocalizacion,
-	/*
-		new ol.layer.Tile({
-			source: new ol.source.TileWMS({
-				url: GEOSERVER,
-				params: { 'LAYERS': CAPAS.paradas, 'TILED': true },
-				serverType: 'geoserver',
-				transition: 0,
-				crossOrigin: 'anonymous',
-			})
-		}),*/
+
 ];
 //Creacion de mapa
 var map = new ol.Map({
@@ -506,19 +499,14 @@ map.on('click', function(evt) {
 			var paradaID = auxID[1];
 
 			searchOptions(9);
-			
+
 			$ds("#inputEditParada").val(paradaID);
 			$ds("#inputEditParada").keypress();
-			
+
 			var databody = $ds("#selectTableLineas").children("table").get(0);
 			$ds(databody).find('tr[data-counter_id="' + paradaID + '"]').keypress();
-			
-			
-			//var divID = $ds(this).find("div[id*='editar_todas_id_lineas:_:']").attr('id');
 
 		});
-
-
 
 		feature = undefined;
 	} else {
@@ -887,17 +875,7 @@ function addUPDParada(list, typeSource) {
 			id: typeSource,
 		});
 
-
-		/* Agregamos estilo
-		let routeStyle = new ol.style.Style({
-			stroke: new ol.style.Stroke({
-				width: 4,
-				color: list[lst]['color'],
-			}),
-		});
-		recorrido.setStyle(routeStyle);
-		*/
-
+		coordUPDParada = list[lst]['coordenadas'];
 		paradas.push(parada);// Agregamos el recorrido  al arreglo
 	}
 
@@ -939,7 +917,6 @@ function addUPDParada(list, typeSource) {
 	map.addLayer(vectorUPDParada);
 
 	map.addInteraction(modifyUPDParada);
-	//	map.addInteraction(drawUPDLinea);
 	map.addInteraction(snapUPDParada);
 
 }
@@ -970,3 +947,10 @@ function cleanInteraction() {
 	map.removeInteraction(snapNuevaLinea);
 
 }
+
+
+
+
+
+
+

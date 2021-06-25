@@ -77,3 +77,5 @@ var lastFeatureNuevaLinea;
 var lastFeatureZonaLinea
 var lastMarkFeature;
 var lineasParadasHorario={};
+var updLineasParadasHorario={};
+

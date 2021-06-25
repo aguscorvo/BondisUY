@@ -1015,12 +1015,29 @@ function updLineaPUTREST() {
 
 }
 
-function getRecorridoUPDParada(idParada) {
+function getRecorridoUPDParada(idParada, coord, distancia) {
 	var url = "/bondisuy-web/bondisuyrest/paradas/{id}";
+	var urlcer = GEOSERVER + '?request=getfeature&version=1.0.0&service=wfs&typename=' + CAPAS.recorridoscercanos + "&outputformat=json" +
+		'&viewparams=X:{X};Y:{Y};distancia:{DISTANCIA}';
 
 	url = url.replace('{id}', idParada);
 
-	lineasParadasHorario = {}; 
+	urlcer = urlcer.replace('{X}', coord[0]).replace('{Y}', coord[1]).replace('{DISTANCIA}', distancia);
+
+
+	var recorridos = [];
+	var lineas = {};
+	lineasParadasHorario = {};
+	updLineasParadasHorario={};
+	
+	var table = $ds("#selectTableAsociadaLineas").children("table").get(0);
+	var txttable = '<thead><tr><th>Sin l\u00EDneas asociadas</th></tr></thead><tbody>'
+
+	var tablec = $ds("#selectTableCercanaLineas").children("table").get(0);
+	var txttablec = '<thead><tr><th>Sin l\u00EDneas cerecanas</th></tr></thead><tbody>'
+
+
+
 
 	$ds.ajaxSetup({
 		scriptCharset: "utf-8",
@@ -1033,7 +1050,7 @@ function getRecorridoUPDParada(idParada) {
 	$ds.getJSON(url)
 		.done(function(data) {
 			if (!$ds.isEmptyObject(data)) {
-				var lineas = {};
+
 				var cuerpo = data["cuerpo"];
 
 				if (!$ds.isEmptyObject(cuerpo)) {
@@ -1041,7 +1058,7 @@ function getRecorridoUPDParada(idParada) {
 					for (var lin in horarios) {
 
 						var recorrido = horarios[lin]['recorrido'];
-						var nombrelinea = recorrido['linea']['nombre'];
+						var nombrelinea = recorrido['id'];
 						var linea = {};
 
 						if (lineas[nombrelinea] == undefined) {
@@ -1065,34 +1082,81 @@ function getRecorridoUPDParada(idParada) {
 			}
 
 			lineasParadasHorario = lineas;
-			var table = $ds("#selectTableAsociadaLineas").children("table").get(0);
-			
-			var arrVac = Object.keys(lineas);
-			var txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
 
-			for (id in arrVac) {
-				var lin = arrVac[id];
-				txttable += '<tr data-counter_id=' + lineas[lin].recorrido + '><td>' + lineas[lin].linea + '</td><td>' + lineas[lin].detalle + '</td></tr>'
+			var arrVac = Object.keys(lineas);
+			if (arrVac.length > 0) {
+
+				txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
+				for (id in arrVac) {
+					var lin = arrVac[id];
+					txttable += '<tr data-counter_id=' + lineas[lin].recorrido + '><td>' + lineas[lin].linea + '</td><td>' + lineas[lin].detalle + '</td></tr>'
+
+				}
 
 			}
-
-
 			txttable += '</tbody>';
 
+			$ds.getJSON(urlcer)
+				.done(function(data) {
+					if (!$ds.isEmptyObject(data)) {
+						var featuresc = data["features"];
+						for (var linc in featuresc) {
+							var auxlineac = featuresc[linc];
+							var geomc = auxlineac["geometry"];
+							var propc = auxlineac["properties"];
+							var coordc = [];
+
+							try {
+								var newRecorridoc = {
+									"descripcion": propc["ruta"],
+									"id": propc["id"],
+									"nombre": propc["linea_nombre"]
+								};
+
+								recorridos.push(newRecorridoc);
+
+							} catch (e) {
+								console.log(propc["id"]);
+								console.log(auxlineac);
+							}
+						}
+
+						geolocation.setTracking(false);
+
+
+						if (recorridos.length > 0) {
+
+							txttablec = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
+							for (rec in recorridos) {
+								if (!lineas.hasOwnProperty(recorridos[rec].id))
+									txttablec += '<tr data-counter_id=' + recorridos[rec].id + '><td>' + recorridos[rec].nombre + '</td><td>' + recorridos[rec].descripcion + '</td></tr>'
+							}
+						}
+						txttablec += '</tbody>';
+
+						$ds(tablec).html(txttablec);
+					}
+
+				})
+				.fail(function(jqxhr, textStatus, error) {
+					var err = textStatus + ", " + error;
+					console.log("Request Failed: " + err + "file: " + url);
+				});
+
+
 			$ds(table).html(txttable);
-			
 			$ds("#updIdParada").val(idParada);
 			$ds("#updParadaDescripcion").val(cuerpo['descripcion']);
 			var estado = (cuerpo["habilitada"] ? 'Habilitada' : 'Deshabilitada');
 			$ds("#updParadaEstado").val(estado);
 			$ds('#updParada').modal('show');
 
-
 		})
 		.fail(function(jqxhr, textStatus, error) {
 			var err = textStatus + ", " + error;
 			console.log("Request Failed: " + err + "file: " + url);
 		});
+
 }
 
 

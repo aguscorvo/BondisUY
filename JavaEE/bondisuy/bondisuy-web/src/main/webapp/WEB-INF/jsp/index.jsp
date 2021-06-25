@@ -389,7 +389,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="col-12">
+					<div class="col-12 mb-3">
 						<div class="col-12 d-flex flex-row validate-input">
 							<div class="col-3  mb-3">
 								<label for="updIdParada">Identificador</label>
@@ -424,9 +424,7 @@
 							<label>L&iacute;neas</label>
 						</div>
 
-						<div class="col-12">
-
-
+						<div class="col-12" style="background-color: #191c24;">
 							<nav>
 								<div class="nav nav-tabs" id="nav-tab" role="tablist">
 									<a class="nav-item nav-link active" id="nav-asociada-tab"
@@ -450,7 +448,13 @@
 								</div>
 
 								<div class="tab-pane fade" id="nav-cercana" role="tabpanel"
-									aria-labelledby="nav-cercana-tab">...</div>
+									aria-labelledby="nav-cercana-tab">
+									<div class="table-responsive" id="selectTableCercanaLineas">
+										<table class="table">
+
+										</table>
+									</div>
+									</div>
 							</div>
 
 						</div>
@@ -460,8 +464,15 @@
 					</div>
 					<div class="col-12">
 						<div class="col-12 d-flex flex-row">
-							<button type="button" onclick='updParadaPUTREST()'
-								id="buttonUPDParadaREST" class="btn btn-primary">ACTUALIZAR</button>
+							<div class="col-6  mb-3">
+								<button type="button" onclick='updParadaPUTREST()'
+									id="buttonUPDParadaREST" class="btn btn-primary">ACTUALIZAR</button>
+							</div>
+
+							<div class="col-9  mb-3">
+								<button type="button" onclick='updParadaHorario()'
+									id="buttonUPDParadaREST" class="btn btn-primary">HORARIO</button>
+							</div>
 						</div>
 					</div>
 				</div>
