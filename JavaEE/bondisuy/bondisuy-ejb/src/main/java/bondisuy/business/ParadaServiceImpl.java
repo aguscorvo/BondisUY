@@ -106,6 +106,7 @@ public class ParadaServiceImpl implements IParadaService {
 			Parada parada = paradaDAO.listarPorId(paradaGeom.getId());
 			if(parada ==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			paradaDAO.editarGeom(paradaGeom.getId(), paradaGeom.getGeometria());
+			actualizarFecha(parada);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}		
@@ -151,6 +152,8 @@ public class ParadaServiceImpl implements IParadaService {
 			parada.getHorarios().add(horario);
 			paradaDAO.editar(parada);
 			actualizarEstado(parada);
+			actualizarFecha(parada);
+			recorridoService.actualizarFecha(recorrido);
 			return horarioConverter.fromEntity(horario);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
@@ -168,6 +171,8 @@ public class ParadaServiceImpl implements IParadaService {
 			paradaAux.getHorarios().removeAll(horarios);
 			paradaDAO.editar(paradaAux);
 			actualizarEstado(paradaAux);
+			actualizarFecha(paradaAux);
+			recorridoService.actualizarFecha(recorridoAux);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
@@ -194,6 +199,7 @@ public class ParadaServiceImpl implements IParadaService {
 	@Override
 	public ParadaDTO actualizarEstado(Parada parada) throws BondisUyException{
 		try {
+			Boolean estadoOriginal = parada.getHabilitada();
 			List<RecorridoDTO> recorridosActivos = recorridoService.listarActivosPorParada(parada.getId());
 			String geom = paradaDAO.getGeom(parada.getId());
 			System.out.println("geom: " + geom);
@@ -204,6 +210,9 @@ public class ParadaServiceImpl implements IParadaService {
 				parada.setHabilitada(false);
 			else
 				parada.setHabilitada(true);
+			// si cambió el estado de la parada se actualiza la fecha
+			if(estadoOriginal!=parada.getHabilitada())
+				actualizarFecha(parada);
 			paradaDAO.editar(parada);
 			return paradaConverter.fromEntity(parada);			
 		}catch (Exception e) {
@@ -217,6 +226,16 @@ public class ParadaServiceImpl implements IParadaService {
 	public void eliminarHorarios(Parada parada)  throws BondisUyException{
 		try {
 			parada.getHorarios().clear();
+			paradaDAO.editar(parada);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
+	
+	public void actualizarFecha(Parada parada) throws BondisUyException{
+		try {
+			LocalDateTime hoy = LocalDateTime.now();
+			parada.setFecha(hoy);
 			paradaDAO.editar(parada);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);

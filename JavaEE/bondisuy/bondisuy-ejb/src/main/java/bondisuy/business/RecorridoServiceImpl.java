@@ -1,5 +1,6 @@
 package bondisuy.business;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -128,6 +129,7 @@ public class RecorridoServiceImpl implements IRecorridoService {
 			for(Parada p: paradaDAO.listarPorRecorrido(recorridoGeom.getId())) {
 				paradaService.actualizarEstado(p);
 			}
+			actualizarFecha(recorrido);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
@@ -143,4 +145,15 @@ public class RecorridoServiceImpl implements IRecorridoService {
 		}
 	}	
 	
+	//desde backend
+	@Override
+	public void actualizarFecha(Recorrido recorrido) throws BondisUyException{
+		try {
+			LocalDateTime hoy = LocalDateTime.now();
+			recorrido.setFecha(hoy);
+			recorridoDAO.editar(recorrido);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
 }

@@ -7,6 +7,7 @@ import javax.ejb.Local;
 import bondisuy.dto.RecorridoCrearDTO;
 import bondisuy.dto.RecorridoDTO;
 import bondisuy.dto.RecorridoGeomDTO;
+import bondisuy.entity.Recorrido;
 import bondisuy.exception.BondisUyException;
 
 @Local
@@ -21,6 +22,7 @@ public interface IRecorridoService {
 	public List<RecorridoDTO> listarActivosPorParada(Long idParada) throws BondisUyException;
 	
 	//desde backend
-	public List<Long> listarCercanosPorParada(Long idParada, String geometria) throws BondisUyException;	
+	public List<Long> listarCercanosPorParada(Long idParada, String geometria) throws BondisUyException;
+	public void actualizarFecha(Recorrido recorrido) throws BondisUyException;
 
 }
