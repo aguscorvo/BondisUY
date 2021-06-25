@@ -1020,6 +1020,8 @@ function getRecorridoUPDParada(idParada) {
 
 	url = url.replace('{id}', idParada);
 
+	lineasParadasHorario = {}; 
+
 	$ds.ajaxSetup({
 		scriptCharset: "utf-8",
 		contentType: "application/json; charset=utf-8",
@@ -1030,14 +1032,61 @@ function getRecorridoUPDParada(idParada) {
 
 	$ds.getJSON(url)
 		.done(function(data) {
-			console.log(data);
-			var cuerpo = data['cuerpo'];
+			if (!$ds.isEmptyObject(data)) {
+				var lineas = {};
+				var cuerpo = data["cuerpo"];
 
+				if (!$ds.isEmptyObject(cuerpo)) {
+					var horarios = cuerpo['horarios'];
+					for (var lin in horarios) {
+
+						var recorrido = horarios[lin]['recorrido'];
+						var nombrelinea = recorrido['linea']['nombre'];
+						var linea = {};
+
+						if (lineas[nombrelinea] == undefined) {
+							linea['linea'] = recorrido['linea']['nombre'];
+							linea['recorrido'] = recorrido['id'];
+							linea['detalle'] = recorrido['descripcion'];
+							linea['horarios'] = [];
+							linea['parada'] = idParada;
+
+							linea['horarios'].push(horarios[lin]['hora']);
+						} else {
+							linea = lineas[nombrelinea];
+
+							linea['horarios'].push(horarios[lin]['hora']);
+
+						}
+
+						lineas[nombrelinea] = linea;
+					}
+				}
+			}
+
+			lineasParadasHorario = lineas;
+			var table = $ds("#selectTableAsociadaLineas").children("table").get(0);
+			
+			var arrVac = Object.keys(lineas);
+			var txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
+
+			for (id in arrVac) {
+				var lin = arrVac[id];
+				txttable += '<tr data-counter_id=' + lineas[lin].recorrido + '><td>' + lineas[lin].linea + '</td><td>' + lineas[lin].detalle + '</td></tr>'
+
+			}
+
+
+			txttable += '</tbody>';
+
+			$ds(table).html(txttable);
+			
 			$ds("#updIdParada").val(idParada);
 			$ds("#updParadaDescripcion").val(cuerpo['descripcion']);
 			var estado = (cuerpo["habilitada"] ? 'Habilitada' : 'Deshabilitada');
 			$ds("#updParadaEstado").val(estado);
 			$ds('#updParada').modal('show');
+
 
 		})
 		.fail(function(jqxhr, textStatus, error) {

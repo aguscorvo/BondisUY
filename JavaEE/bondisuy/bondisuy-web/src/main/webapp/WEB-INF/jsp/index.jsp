@@ -432,7 +432,7 @@
 									<a class="nav-item nav-link active" id="nav-asociada-tab"
 										data-toggle="tab" href="#nav-asociada" role="tab"
 										aria-controls="nav-asociada" aria-selected="true">Asociadas</a>
-									
+
 									<a class="nav-item nav-link" id="nav-cercana-tab"
 										data-toggle="tab" href="#nav-cercana" role="tab"
 										aria-controls="nav-cercana" aria-selected="false">Cercanas</a>
@@ -440,8 +440,15 @@
 							</nav>
 							<div class="tab-content" id="nav-tabContent">
 								<div class="tab-pane fade show active" id="nav-asociada"
-									role="tabpanel" aria-labelledby="nav-asociada-tab">...</div>
-								
+									role="tabpanel" aria-labelledby="nav-asociada-tab">
+									<div class="table-responsive" id="selectTableAsociadaLineas">
+										<table class="table">
+
+										</table>
+									</div>
+
+								</div>
+
 								<div class="tab-pane fade" id="nav-cercana" role="tabpanel"
 									aria-labelledby="nav-cercana-tab">...</div>
 							</div>
