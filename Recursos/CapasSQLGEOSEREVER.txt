@@ -48,6 +48,10 @@ ST_Intersects(r.geom, ST_BUFFER(ST_GeometryFromText('POINT(%X% %Y%)', 32721), %d
 
 MARCAR id como clave primaria
 Validar Expresión: ^[.\w\d\s]+$
+Ingresar en los parámetros:
+Distancia: 500
+X: 575065.97121632 
+Y: 6141925.46184307
 Geometria: 
   Tipo: LineString
   SRID: 32721
@@ -83,6 +87,7 @@ JOIN companias c ON c.id = l.compania_id
 WHERE r.id = %recorrido%
 ORDER BY p.id, h.hora DESC
 
+Marcar como valor por defecto 2778
 MARCAR id como clave primaria
 Geometria: 
   Tipo: LineString
