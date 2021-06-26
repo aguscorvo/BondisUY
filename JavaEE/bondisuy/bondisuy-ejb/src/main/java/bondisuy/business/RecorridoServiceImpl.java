@@ -1,6 +1,7 @@
 package bondisuy.business;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -86,23 +87,27 @@ public class RecorridoServiceImpl implements IRecorridoService {
 		}
 	}
 	
+	// devuelve lista de id de paradas que quedan huérfanas
 	@Override
-	public void eliminar(Long id) throws BondisUyException{
+	public List<Long> eliminar(Long id) throws BondisUyException{
 		try {
 			Recorrido recorrido = recorridoDAO.listarPorId(id);
 			if(recorrido == null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			//obtengo las paradas asociadas a los horarios asociados al recorrido
 			List<Parada> paradas = paradaDAO.listarPorRecorrido(id);
 			//por cada parada ejecuto eliminarHorarios
+			List<Long> paradasHuerfanas = new ArrayList<Long>();
 			for (Parada parada: paradas) {
 				paradaService.eliminarHorariosParadaRecorrido(parada.getId(), id);
 				//chequear estado de parada
-				paradaService.actualizarEstado(parada);
+				if(paradaService.actualizarEstado(parada))
+					paradasHuerfanas.add(parada.getId());	
 			}			
 			//eliminar recorrido
 			Linea linea = recorrido.getLinea();
 			linea.getRecorridos().remove(recorrido);
 			lineaDAO.editar(linea);
+			return paradasHuerfanas;
 		}catch (Exception e) {
 			System.out.println(e.getLocalizedMessage());
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
@@ -120,16 +125,20 @@ public class RecorridoServiceImpl implements IRecorridoService {
 		}
 	}
 
+	// devuelve lista de id de paradas que quedan huérfanas
 	@Override
-	public void editarGeom(RecorridoGeomDTO recorridoGeom) throws BondisUyException {
+	public List<Long> editarGeom(RecorridoGeomDTO recorridoGeom) throws BondisUyException {
 		try {
 			Recorrido recorrido = recorridoDAO.listarPorId(recorridoGeom.getId());
 			if(recorrido ==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
 			recorridoDAO.editarGeom(recorridoGeom.getId(), recorridoGeom.getGeometria());
+			List<Long> paradasHuerfanas = new ArrayList<Long>();
 			for(Parada p: paradaDAO.listarPorRecorrido(recorridoGeom.getId())) {
-				paradaService.actualizarEstado(p);
+				if(paradaService.actualizarEstado(p))
+					paradasHuerfanas.add(p.getId());				
 			}
 			actualizarFecha(recorrido);
+			return paradasHuerfanas;
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}

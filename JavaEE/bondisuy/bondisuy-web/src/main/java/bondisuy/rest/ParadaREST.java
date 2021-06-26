@@ -19,7 +19,6 @@ import bondisuy.dto.HorarioCrearDTO;
 import bondisuy.dto.HorarioDTO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
-import bondisuy.dto.ParadaGeomDTO;
 import bondisuy.dto.ProximaLineaDTO;
 import bondisuy.exception.BondisUyException;
 
@@ -121,14 +120,14 @@ public class ParadaREST {
 	@DELETE
 	@Path("/eliminarHorariosParadaRecorrido/{parada}/{recorrido}")
 	public Response eliminarHorariosParadaRecorrido(@PathParam("parada") Long parada, @PathParam("recorrido") Long recorrido){
-		RespuestaREST <ParadaDTO> respuesta = null;
+		RespuestaREST <Long> respuesta = null;
 		try {
-			paradaService.eliminarHorariosParadaRecorrido(parada, recorrido);
-			respuesta = new RespuestaREST<ParadaDTO>(true, "Los horarios asociados a la parada y recorrido indicados fueron"
-					+ " eliminados con éxito.");
+			Long paradaHuerfana= paradaService.eliminarHorariosParadaRecorrido(parada, recorrido);
+			respuesta = new RespuestaREST<Long>(true, "Los horarios asociados a la parada y recorrido indicados fueron"
+					+ " eliminados con éxito.", paradaHuerfana);
 			return Response.ok(respuesta).build();
 		}catch (BondisUyException e) {
-			respuesta = new RespuestaREST<ParadaDTO>(false, e.getLocalizedMessage());
+			respuesta = new RespuestaREST<Long>(false, e.getLocalizedMessage());
 			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
 				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
 			}else {

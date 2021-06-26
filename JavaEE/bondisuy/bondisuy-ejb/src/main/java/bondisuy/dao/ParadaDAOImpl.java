@@ -75,14 +75,14 @@ public class ParadaDAOImpl implements IParadaDAO {
 		return parada;
 	}
 	
-	@Override
-	public void editarGeom(Long id, String geometria) {
-		Query consulta = em.createNativeQuery("UPDATE ft_paradas p SET geom = ST_GeometryFromText(:geometria, 32721)"
-				+ " WHERE p.id=:id");
-		consulta.setParameter("id", id);
-		consulta.setParameter("geometria", geometria);
-		consulta.executeUpdate();
-	}
+//	@Override
+//	public void editarGeom(Long id, String geometria) {
+//		Query consulta = em.createNativeQuery("UPDATE ft_paradas p SET geom = ST_GeometryFromText(:geometria, 32721)"
+//				+ " WHERE p.id=:id");
+//		consulta.setParameter("id", id);
+//		consulta.setParameter("geometria", geometria);
+//		consulta.executeUpdate();
+//	}
 	
 	@Override
 	public void eliminar(Parada parada) {

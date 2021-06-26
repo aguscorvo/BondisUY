@@ -15,7 +15,7 @@ public interface IParadaDAO {
 	public Parada crear(Parada parada, String geometria);
 	public Parada editar(Parada parada);
 	public Parada editarConGeometria(Parada parada, String geometria);
-	public void editarGeom(Long id, String geometria);
+//	public void editarGeom(Long id, String geometria);
 	public void eliminar(Parada parada);
 	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario);
 	public List<Parada> listarPorRecorrido(Long idRecorrido);

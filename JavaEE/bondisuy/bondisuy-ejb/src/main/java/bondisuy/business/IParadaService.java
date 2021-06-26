@@ -8,7 +8,6 @@ import bondisuy.dto.HorarioCrearDTO;
 import bondisuy.dto.HorarioDTO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
-import bondisuy.dto.ParadaGeomDTO;
 import bondisuy.dto.ProximaLineaDTO;
 import bondisuy.entity.Parada;
 import bondisuy.exception.BondisUyException;
@@ -20,15 +19,15 @@ public interface IParadaService {
 	public ParadaDTO listarPorId(Long id) throws BondisUyException;
 	public ParadaDTO crear(ParadaCrearDTO paradaDTO) throws BondisUyException;
 	public ParadaDTO editar(Long id, ParadaCrearDTO paradaDTO) throws BondisUyException;
-	public void editarGeom(ParadaGeomDTO paradaGeom) throws BondisUyException;
+//	public Long editarGeom(ParadaGeomDTO paradaGeom) throws BondisUyException;
 	public void eliminar(Long id) throws BondisUyException;
 	public List<ProximaLineaDTO> proximasLineas(Long idParada, String horario) throws BondisUyException;
-	public void eliminarHorariosParadaRecorrido(Long parada, Long recorrido) throws BondisUyException;
+	public Long eliminarHorariosParadaRecorrido(Long parada, Long recorrido) throws BondisUyException;
 	public HorarioDTO crearHorario(HorarioCrearDTO horarioDTO) throws BondisUyException;
 	public HorarioDTO editarHorario(HorarioCrearDTO horarioDTO, String hora) throws BondisUyException;
 	
 	//desde backend
-	public ParadaDTO actualizarEstado(Parada parada) throws BondisUyException;
+	public Boolean actualizarEstado(Parada parada) throws BondisUyException;
 	public void eliminarHorarios(Parada parada) throws BondisUyException;
 	
 }

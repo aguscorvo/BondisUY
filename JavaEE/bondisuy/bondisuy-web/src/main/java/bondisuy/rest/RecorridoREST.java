@@ -1,5 +1,7 @@
 package bondisuy.rest;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.Consumes;
@@ -66,13 +68,13 @@ public class RecorridoREST {
 	@DELETE
 	@Path("/eliminar/{id}")
 	public Response eliminar(@PathParam("id") Long id) {
-		RespuestaREST<RecorridoDTO> respuesta = null;
+		RespuestaREST<List<Long>> respuesta = null;
 		try {
-			recorridoService.eliminar(id);
-			respuesta = new RespuestaREST<RecorridoDTO>(true, "El recorrido fue eliminado con éxito.");
+			List<Long> paradasHuerfanas = recorridoService.eliminar(id);
+			respuesta = new RespuestaREST<List<Long>>(true, "El recorrido fue eliminado con éxito.", paradasHuerfanas);
 			return Response.ok(respuesta).build();
 		}catch (BondisUyException e) {
-			respuesta = new RespuestaREST<RecorridoDTO>(false, e.getLocalizedMessage());
+			respuesta = new RespuestaREST<List<Long>>(false, e.getLocalizedMessage());
 			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
 				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
 			}else {
@@ -84,13 +86,13 @@ public class RecorridoREST {
 	@PUT
 	@Path("/editarGeom")
 	public Response editarGeom(RecorridoGeomDTO recorridoGeom) {
-		RespuestaREST <RecorridoDTO> respuesta = null;
+		RespuestaREST <List<Long>> respuesta = null;
 		try {
-			recorridoService.editarGeom(recorridoGeom);
-			respuesta = new RespuestaREST<RecorridoDTO>(true, "Recorrido modificado con éxito.");
+			List<Long> paradasHuerfanas = recorridoService.editarGeom(recorridoGeom);
+			respuesta = new RespuestaREST<List<Long>>(true, "Recorrido modificado con éxito.", paradasHuerfanas);
 			return Response.ok(respuesta).build();
 		}catch (BondisUyException e) {
-			respuesta = new RespuestaREST<RecorridoDTO>(false, e.getLocalizedMessage());
+			respuesta = new RespuestaREST<List<Long>>(false, e.getLocalizedMessage());
 			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
 				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
 			}else {

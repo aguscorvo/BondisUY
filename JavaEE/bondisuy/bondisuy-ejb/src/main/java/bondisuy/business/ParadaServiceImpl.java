@@ -17,7 +17,6 @@ import bondisuy.dto.HorarioCrearDTO;
 import bondisuy.dto.HorarioDTO;
 import bondisuy.dto.ParadaCrearDTO;
 import bondisuy.dto.ParadaDTO;
-import bondisuy.dto.ParadaGeomDTO;
 import bondisuy.dto.ProximaLineaDTO;
 import bondisuy.dto.RecorridoDTO;
 import bondisuy.entity.Horario;
@@ -99,18 +98,23 @@ public class ParadaServiceImpl implements IParadaService {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
 	}
-	
-	@Override
-	public void editarGeom(ParadaGeomDTO paradaGeom) throws BondisUyException{
-		try {
-			Parada parada = paradaDAO.listarPorId(paradaGeom.getId());
-			if(parada ==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-			paradaDAO.editarGeom(paradaGeom.getId(), paradaGeom.getGeometria());
-			actualizarFecha(parada);
-		}catch (Exception e) {
-			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
-		}		
-	}	
+//	
+//	// devuelve id de parada huérfana
+//	@Override
+//	public Long editarGeom(ParadaGeomDTO paradaGeom) throws BondisUyException{
+//		try {
+//			Parada parada = paradaDAO.listarPorId(paradaGeom.getId());
+//			if(parada ==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
+//			paradaDAO.editarGeom(paradaGeom.getId(), paradaGeom.getGeometria());
+//			Long paradaHuerfana = null;
+//			if(actualizarEstado(parada))
+//				paradaHuerfana=parada.getId();
+//			actualizarFecha(parada);
+//			return paradaHuerfana;
+//		}catch (Exception e) {
+//			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+//		}		
+//	}	
 	
 	@Override
 	public void eliminar(Long id) throws BondisUyException{
@@ -160,8 +164,9 @@ public class ParadaServiceImpl implements IParadaService {
 		}
 	}
 	
+	// devuelve id de parada que cambia a huérfana
 	@Override
-	public void eliminarHorariosParadaRecorrido(Long parada, Long recorrido) throws BondisUyException{
+	public Long eliminarHorariosParadaRecorrido(Long parada, Long recorrido) throws BondisUyException{
 		try {
 			Recorrido recorridoAux = recorridoDAO.listarPorId(recorrido);
 			if(recorridoAux==null) throw new BondisUyException("El recorrido indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);
@@ -170,9 +175,12 @@ public class ParadaServiceImpl implements IParadaService {
 			List<Horario> horarios = horarioDAO.listarPorParadaYRecorrido(recorrido, parada);
 			paradaAux.getHorarios().removeAll(horarios);
 			paradaDAO.editar(paradaAux);
-			actualizarEstado(paradaAux);
+			Long paradaHuerfana = null;
+			if(actualizarEstado(paradaAux))
+				paradaHuerfana=parada;
 			actualizarFecha(paradaAux);
 			recorridoService.actualizarFecha(recorridoAux);
+			return paradaHuerfana;
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
@@ -195,11 +203,13 @@ public class ParadaServiceImpl implements IParadaService {
 		}
 	}
 	
+	// devuelve true si la parada cambia a huérfana
 	//desde backend
 	@Override
-	public ParadaDTO actualizarEstado(Parada parada) throws BondisUyException{
+	public Boolean actualizarEstado(Parada parada) throws BondisUyException{
 		try {
 			Boolean estadoOriginal = parada.getHabilitada();
+			Boolean cambiaAHuerfana = false;
 			List<RecorridoDTO> recorridosActivos = recorridoService.listarActivosPorParada(parada.getId());
 			String geom = paradaDAO.getGeom(parada.getId());
 			System.out.println("geom: " + geom);
@@ -211,10 +221,13 @@ public class ParadaServiceImpl implements IParadaService {
 			else
 				parada.setHabilitada(true);
 			// si cambió el estado de la parada se actualiza la fecha
-			if(estadoOriginal!=parada.getHabilitada())
+			if(estadoOriginal!=parada.getHabilitada()) {
 				actualizarFecha(parada);
+				if(estadoOriginal)
+					cambiaAHuerfana=true;					
+			}	
 			paradaDAO.editar(parada);
-			return paradaConverter.fromEntity(parada);			
+			return cambiaAHuerfana;
 		}catch (Exception e) {
 			System.out.println(e.getLocalizedMessage());
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
