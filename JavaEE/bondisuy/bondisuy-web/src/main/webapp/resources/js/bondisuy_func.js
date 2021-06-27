@@ -680,7 +680,7 @@ function addParadaPOSTREST() {
 					console.log(result)
 
 					var idParada = result['cuerpo']['id'];
-					addHorarioParada(idParada, lineas);
+					addHorarioParada(idParada, lineas, '00:00');
 
 				},
 				error: function(err) {
@@ -697,11 +697,97 @@ function addParadaPOSTREST() {
 
 }
 
-function addHorarioParada(idParada, lineas) {
+function delHorarioParadaRecorrido(idParada, idRecorrido) {
+	var url = "/bondisuy-web/bondisuyrest/paradas/eliminarHorariosParadaRecorrido/{parada}/{recorrido}";
+
+	url = url.replace('{parada}', idParada).replace('{recorrido}', idRecorrido);
+
+	//	var horario = { hora: horario, recorrido: lineas[p], parada: idParada };
+	//const jsHorario = JSON.stringify(horario);
+
+	$ds.ajax({
+		url: url,
+		type: "DELETE",
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		//data: jsHorario,
+		success: function(result) {
+			console.log(result);
+		},
+		error: function(err) {
+			$ds('#errorModalLabel').html('Error');
+			$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+			$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
+			$ds('#general_error').modal('show');
+		}
+	}); // ajax call closing
+
+/*
+	var card = $ds("#to_do_some");
+	var form_group = $ds(card).find(".form-group");
+	var table = $ds("#selectTableLineas").children("table").get(0);
+	$ds(form_group).html('');
+	$ds(table).html('');
+
+
+	getParadasByID(idParada)
+	bondisuy_LoadHide();
+
+	$ds('#errorModalLabel').html('Informaci\u00F3n');
+	$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-information-outline display-3 text-info" ></i></h1>');
+	$ds('#general_error_msj').html('Parada creada con \u00E9xito.');
+	$ds('#general_error').modal('show');
+*/
+}
+
+function addHorarioLineaRecorrido(idParada, idRecorrido, horario) {
+	var url = "/bondisuy-web/bondisuyrest/paradas/crearHorario";
+
+
+	var horario = { hora: horario, recorrido: idRecorrido, parada: idParada };
+	const jsHorario = JSON.stringify(horario);
+
+	$ds.ajax({
+		url: url,
+		type: "POST",
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		data: jsHorario,
+		success: function(result) {
+			//console.log(result);
+		},
+		error: function(err) {
+			$ds('#errorModalLabel').html('Error');
+			$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+			$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
+			$ds('#general_error').modal('show');
+		}
+	}); // ajax call closing
+
+	var card = $ds("#to_do_some");
+	var form_group = $ds(card).find(".form-group");
+	var table = $ds("#selectTableLineas").children("table").get(0);
+	$ds(form_group).html('');
+	$ds(table).html('');
+
+
+	getParadasByID(idParada)
+	bondisuy_LoadHide();
+
+	$ds('#errorModalLabel').html('Informaci\u00F3n');
+	$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-information-outline display-3 text-info" ></i></h1>');
+	$ds('#general_error_msj').html('Parada creada con \u00E9xito.');
+	$ds('#general_error').modal('show');
+
+}
+
+
+
+function addHorarioParada(idParada, lineas, horario) {
 	var url = "/bondisuy-web/bondisuyrest/paradas/crearHorario";
 
 	for (var p = 0; p < lineas.length; p++) {
-		var horario = { hora: "00:00", recorrido: lineas[p], parada: idParada };
+		var horario = { hora: horario, recorrido: lineas[p], parada: idParada };
 		const jsHorario = JSON.stringify(horario);
 
 		$ds.ajax({
@@ -1028,8 +1114,8 @@ function getRecorridoUPDParada(idParada, coord, distancia) {
 	var recorridos = [];
 	var lineas = {};
 	lineasParadasHorario = {};
-	updLineasParadasHorario={};
-	
+	updLineasParadasHorario = {};
+
 	var table = $ds("#selectTableAsociadaLineas").children("table").get(0);
 	var txttable = '<thead><tr><th>Sin l\u00EDneas asociadas</th></tr></thead><tbody>'
 

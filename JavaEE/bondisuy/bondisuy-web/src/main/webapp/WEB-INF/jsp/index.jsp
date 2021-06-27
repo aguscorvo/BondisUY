@@ -454,30 +454,100 @@
 
 										</table>
 									</div>
-									</div>
+								</div>
 							</div>
-
 						</div>
-
-
-
 					</div>
 					<div class="col-12">
 						<div class="col-12 d-flex flex-row">
 							<div class="col-6  mb-3">
-								<button type="button" onclick='updParadaPUTREST()'
+								<button type="button"
 									id="buttonUPDParadaREST" class="btn btn-primary">ACTUALIZAR</button>
 							</div>
 
 							<div class="col-9  mb-3">
-								<button type="button" onclick='updParadaHorario()'
-									id="buttonUPDParadaREST" class="btn btn-primary">HORARIO</button>
+								<button type="button" id="updParadaHorarioButton"
+									class="btn btn-primary">HORARIO</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
+
+	<!-- Modal UPD PARADA HORARIO-->
+	<div class="modal" tabindex="-1" role="dialog" id="updParadaHorario">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<input type="hidden" id="updIdParadaLineaHora"
+						name="updIdParadaLineaHora" />
+					<h3 class="modal-title">Editar Parada</h3>
+					<button type="button" class="close text-light" data-dismiss="modal"
+						aria-label="Close" id="closeModalUPDParadaHora">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="col-12 mb-3">
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="updIdParadaHora">Identificador</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text"
+									class="form-control mb-3 text-dark bg-secondary"
+									id="updIdParadaHora" name="updIdParadaHora" readonly />
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="updParadaLineaDescripcion">L&iacute;nea</label>
+							</div>
+							<div class="col-9  mb-3">
+								<input type="text"
+									class="form-control mb-3 text-dark bg-secondary"
+									id="updParadaLineaDescripcion" name="updParadaLineaDescripcion"
+									readonly />
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row validate-input">
+							<div class="col-3  mb-3">
+								<label for="updParadaHora">Hora</label>
+							</div>
+							<div class="col-3  mb-3">
+								<input type="time" id="updParadaHora" name="updParadaHora"
+									value="00:00" required>
+							</div>
+							<div class="col-3  mb-3">
+								<button type="button" id="updParadaHoraADD"
+									class="btn btn-primary">AGREGAR</button>
+							</div>
+							<div class="col-3  mb-3">
+								<button type="button" id="updParadaHoraDEL"
+									class="btn btn-primary">ELIMINAR</button>
+							</div>
+						</div>
+						<div class="col-12 d-flex flex-row">
+							<label>Horas</label>
+						</div>
+
+						<div class="col-12 d-flex flex-row"  style="background-color: #191c24;">
+							<div class="table-responsive col-12  mb-3"
+								id="UPDParadasHorasLista" style="height: 200px !important">
+								<table class="table">
+								<thead><tr><th>parada</th><th>l&iacute;nea</th><th>hora</th></tr></thead><tbody></tbody>
+
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
 	</div>
 
 

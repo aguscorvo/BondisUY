@@ -242,6 +242,8 @@ var layers = [
 	vectorNuevaLocalizacion,
 
 ];
+
+
 //Creacion de mapa
 var map = new ol.Map({
 	layers: layers,
@@ -249,7 +251,6 @@ var map = new ol.Map({
 	target: 'map',
 	view: view,
 });
-
 //Fin de creacion de mapa
 
 //Modificacion de mapa con ubicación actual
