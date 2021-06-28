@@ -722,8 +722,6 @@ function searchOptions(id) {
 			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
 			getRecorridoUPDParada(updparada, [point32721['x'], point32721['y']], DISTANCIA_LINEAPARADA);
-
-			console.log(tablaBody.get(0));
 			$ds(tablaBody).empty();
 
 		});
@@ -788,33 +786,35 @@ function searchOptions(id) {
 			if (lineasParadasHorario.hasOwnProperty(updparadaLinea)) {
 				var lineaUPDHorarios = lineasParadasHorario[updparadaLinea]['horarios'];
 
-				for (var h in lineaUPDHorarios) {
-					txttablec = '<tr data-counter_id="' + updparadaLinea + '" data-counter_exist= "T" data-counter_eliminar="F"><td>' + updparada + '</td><td>' + updparadaLineaNombre + '</td><td>' + lineaUPDHorarios[h] + '</td></tr>';
-					tablaBody.append(txttablec);
+				var existeLineaenTabla = $ds(tablaBody).find('[data-counter_id="' + updparadaLinea + '"]');
+
+				console.log(existeLineaenTabla.length);
+
+				if (existeLineaenTabla.length == 0) {
+					for (var h in lineaUPDHorarios) {
+						txttablec = '<tr data-counter_id="' + updparadaLinea + '" data-counter_exist= "T" data-counter_eliminar="F" data-counter_hora="' + lineaUPDHorarios[h] + '"><td>' + updparada + '</td><td>' + updparadaLineaNombre + '</td><td>' + lineaUPDHorarios[h] + '</td></tr>';
+						tablaBody.append(txttablec);
+					}
 				}
 
 			}
 
 			$ds('#updParada').modal('hide');
 			$ds('#updParadaHorario').modal('show');
-
 		});
 
 		$ds('#closeModalUPDParadaHora').on('click', function() {
-
 			$ds('#updParada').modal('show');
-
 		});
-
 
 		$ds("#updParadaHoraADD").on('click', function() {
-			txttablec = '<tr data-counter_id="' + updparadaLinea + '" data-counter_exist= "F"  data-counter_eliminar="F" data-counter_hora="' + $ds('#updParadaHora').val() + '"><td>' + updparada + '</td><td>' + updparadaLineaNombre + '</td><td>' + $ds('#updParadaHora').val() + '</td></tr>';
-			tablaBody.append(txttablec);
+			if ($ds('#updParadaHora').val().trim() != '') {
+				txttablec = '<tr data-counter_id="' + updparadaLinea + '" data-counter_exist= "F"  data-counter_eliminar="F" data-counter_hora="' + $ds('#updParadaHora').val() + '"><td>' + updparada + '</td><td>' + updparadaLineaNombre + '</td><td>' + $ds('#updParadaHora').val() + '</td></tr>';
+				tablaBody.append(txttablec);
+			}
 		});
 
-
 		$ds(tablaUPDParadasHorasLista).off("click");
-
 		var objRowHora;
 
 		$ds(tablaUPDParadasHorasLista).on('click', 'tr', function() {
@@ -842,30 +842,66 @@ function searchOptions(id) {
 			var listaInsertarHorario = [];
 
 			$ds('#UPDParadasHorasLista tr').each(function() {
-				
-				if($ds(this).attr("data-counter_exist")=='F' && $ds(this).attr("data-counter_eliminar") == 'F'){
+
+				if ($ds(this).attr("data-counter_exist") == 'F' && $ds(this).attr("data-counter_eliminar") == 'F') {
 					var horario = {};
 					horario['linea'] = $ds(this).attr("data-counter_id");
 					horario['parada'] = updparada;
 					horario['horario'] = $ds(this).attr("data-counter_hora");
-					
+
 					listaInsertarHorario.push(horario);
-				} else if($ds(this).attr("data-counter_exist")=='T' && $ds(this).attr("data-counter_eliminar") == 'F'){
+				} else if ($ds(this).attr("data-counter_exist") == 'T' && $ds(this).attr("data-counter_eliminar") == 'F') {
 					var horario = {};
 					horario['linea'] = $ds(this).attr("data-counter_id");
 					horario['parada'] = updparada;
 					horario['horario'] = $ds(this).attr("data-counter_hora");
-					
+
 					listaInsertarHorario.push(horario);
-					
-					if(listaEliminarHorario.indexOf($ds(this).attr("data-counter_id"))==-1)
-						listaInsertarHorario.push($ds(this).attr("data-counter_id"));
-				} 
+
+					if (listaEliminarHorario.indexOf($ds(this).attr("data-counter_id")) == -1)
+						listaEliminarHorario.push($ds(this).attr("data-counter_id"));
+				}
 			});
 
 
 			console.log(listaEliminarHorario);
 			console.log(listaInsertarHorario);
+
+			if (updParadaGeo)
+				addHorarioLineaRecorridoGEOM(updparada);
+
+			updParadaREST(listaEliminarHorario, listaInsertarHorario, updparada);
+
+
+			if (!updParadaERROR) {
+				lineasParadasHorario = {};
+				updLineasParadasHorario = {};
+				updParadaGeo = false;
+				updParadaERROR = false;
+				updParadaERRORtxt = '';
+
+				$ds(tablaBody).empty();
+
+				$ds('#updParada').modal('hide');
+				$ds('#errorModalLabel').html('Informaci\u00F3n');
+				$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-information-outline display-3 text-info" ></i></h1>');
+				$ds('#general_error_msj').html('Parada modificada con \u00E9xito.');
+				$ds('#general_error').modal('show');
+			} else {
+				lineasParadasHorario = {};
+				updLineasParadasHorario = {};
+				updParadaGeo = false;
+				updParadaERROR = false;
+				updParadaERRORtxt = '';
+				$ds(tablaBody).empty();
+
+				$ds('#errorModalLabel').html('Error');
+				$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+				$ds('#general_error_msj').html(updParadaERRORtxt);
+				$ds('#general_error').modal('show');
+
+			}
+
 
 		});
 

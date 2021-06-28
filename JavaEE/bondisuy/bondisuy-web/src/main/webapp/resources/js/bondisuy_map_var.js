@@ -78,4 +78,6 @@ var lastFeatureZonaLinea
 var lastMarkFeature;
 var lineasParadasHorario={};
 var updLineasParadasHorario={};
-
+var updParadaGeo=false;
+var updParadaERROR=false;
+var updParadaERRORtxt = ''; 
