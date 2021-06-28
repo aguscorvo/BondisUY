@@ -47,6 +47,9 @@ function getParadasCercanas(coord, distancia) {
 					if (usrLogged) {
 						text += "<div id='editar_Todas_Lineas_Paradas'>" +
 							"<div id='editar_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-pen'></i> Editar l\u00EDneas </a></div>" +
+							"</div>" +
+							"<div id='eliminar_parada'>" +
+							"<div id='eliminar_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-delete'></i> Eliminar parada</a></div>" +
 							"</div>";
 					}
 
@@ -258,8 +261,11 @@ function getRecorrido(id) {
 						'<br>Compa\u00F1\u00EDa: ' + prop["com_nombre"] +
 						'<br>Ruta: ' + prop["ruta"];
 
-
-
+					if (usrLogged) {
+						text += "<div id='eliminar_recorrido'>" +
+							"<div id='eliminar_recorrido:_:" + prop["id"] + "'/><a><i class='mdi mdi-delete'></i> Eliminar recorrido</a></div>" +
+							"</div>";
+					}
 
 					for (var co in geom["coordinates"]) {
 						//Transformo del sistema EPSG:32721 a EPSG:4326

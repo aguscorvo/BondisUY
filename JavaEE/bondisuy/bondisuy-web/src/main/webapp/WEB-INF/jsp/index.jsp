@@ -119,7 +119,7 @@
 								<li class="nav-item"><a class="nav-link"
 									href="javascript:searchOptions(10);">Alta</a></li>
 								<li class="nav-item"><a class="nav-link"
-									href="javascript:searchOptions(11);">Modificaci&oacute;n</a></li>
+									href="javascript:searchOptions(11);">Modificaci&oacute;n</a></li>	
 							</ul>
 						</div></li>
 				</c:if>
@@ -261,6 +261,63 @@
 						<div class="col-12 d-flex flex-row">
 							<button type="button" onclick='addParadaPOSTREST()'
 								id="buttonAddParadaREST" class="btn btn-primary">CREAR</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- Modal Eliminar parada -->
+	<div class="modal" tabindex="-1" role="dialog" id="deleteParada">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Eliminar parada</h3>
+					<button type="button" class="close text-light" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="col-12 mb-3">
+						<div class="col-12 d-flex flex-row validate-input">
+							¿Seguro que desea eliminar la parada con ID &nbsp; <span id="idEliminarParada"></span>?
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row">
+							<button type="button" onclick='deleteParadaREST()'
+								id="buttonDeleteParadaREST" class="btn btn-danger">Eliminar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal Eliminar recorrido -->
+	<div class="modal" tabindex="-1" role="dialog" id="deleteRecorrido">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h3 class="modal-title">Eliminar recorrido</h3>
+					<button type="button" class="close text-light" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="col-12 mb-3">
+						<div class="col-12 d-flex flex-row validate-input">
+							¿Seguro que desea eliminar el recorrido con ID &nbsp; <span id="idEliminarRecorrido"></span>?
+						</div>
+					</div>
+					<div class="col-12">
+						<div class="col-12 d-flex flex-row">
+							<button type="button" onclick='deleteRecorridoREST()'
+								id="buttonDeleteParadaREST" class="btn btn-danger">Eliminar</button>
 						</div>
 					</div>
 				</div>

@@ -508,6 +508,28 @@ map.on('click', function(evt) {
 			$ds(databody).find('tr[data-counter_id="' + paradaID + '"]').keypress();
 
 		});
+		
+		// Doble click en eliminar una parada
+		$ds("#eliminar_parada").on("click", function() {
+			var divID = $ds(this).find("div[id*='eliminar_parada:_:']").attr('id');
+			var auxID = divID.split(":_:");
+			var paradaID = auxID[1];
+
+			console.log("Eliminar parada: " + paradaID);
+			$ds('#idEliminarParada').text(paradaID);
+			$ds('#deleteParada').modal('show');
+		});
+		
+		// Doble click en eliminar una parada
+		$ds("#eliminar_recorrido").on("click", function() {
+			var divID = $ds(this).find("div[id*='eliminar_recorrido:_:']").attr('id');
+			var auxID = divID.split(":_:");
+			var recorridoID = auxID[1];
+
+			console.log("Eliminar recorrido: " + recorridoID);
+			$ds('#idEliminarRecorrido').text(recorridoID);
+			$ds('#deleteRecorrido').modal('show');
+		});
 
 		feature = undefined;
 	} else {
