@@ -65,7 +65,7 @@ public class ParadaDAOImpl implements IParadaDAO {
 	@Override
 	public Parada editarConGeometria(Parada parada, String geometria) {
 		Query consulta = em.createNativeQuery("UPDATE ft_paradas SET descripcion = :descripcion, fecha = :fecha, habilitada = :habilitada, geom = ST_GeometryFromText(:geometria, 32721)"
-				+ " WHERE p.id=:id");
+				+ " WHERE id=:id");
 		consulta.setParameter("id", parada.getId());
 		consulta.setParameter("descripcion", parada.getDescripcion());
 		consulta.setParameter("fecha", parada.getFecha());
