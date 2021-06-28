@@ -1114,14 +1114,11 @@ function searchOptions(id) {
 		});
 
 
-		// Ver mapa de calor
+	// Ver mapa de calor
 	} else if (id == 15) {
 		cleanInteraction();
 		removeAllLayers();
 		/* Llama al método agregarMapaDeCalorDeParadas del archivo bondisuy_map.js */
 		agregarMapaDeCalorDeParadas();
 	}
-
-
-
 }
