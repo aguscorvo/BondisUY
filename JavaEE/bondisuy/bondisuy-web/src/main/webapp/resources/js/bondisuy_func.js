@@ -713,8 +713,34 @@ function deleteParadaREST() {
 		success: function(result) {
 			console.log(result);
 			searchOptions(12);
-			$ds('#deleteParada').modal('hide');
-			
+			$ds('#deleteParada').modal('hide');	
+		},
+		error: function(err) {
+			$ds('#errorModalLabel').html('Error');
+			$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
+			$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
+			$ds('#general_error').modal('show');
+		}
+	});
+}
+
+// Eliminar un recorrido
+function deleteRecorridoREST() {
+	var url = "/bondisuy-web/bondisuyrest/recorridos/eliminar/{recorrido}";
+
+	idRecorrido = $ds('#idEliminarRecorrido').text();
+	url = url.replace('{recorrido}', idRecorrido);
+	console.log("El recorrido a eliminar finalmente es: " + idRecorrido);
+
+	$ds.ajax({
+		url: url,
+		type: "DELETE",
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		success: function(result) {
+			console.log(result);
+			searchOptions(12);
+			$ds('#deleteRecorrido').modal('hide');
 		},
 		error: function(err) {
 			$ds('#errorModalLabel').html('Error');

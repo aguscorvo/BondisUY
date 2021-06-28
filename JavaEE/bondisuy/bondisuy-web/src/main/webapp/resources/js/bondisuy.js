@@ -132,7 +132,6 @@ function searchOptions(id) {
 			}
 		});
 
-
 		//Buscar por linea
 	} else if (id == 2) {
 		cleanInteraction();

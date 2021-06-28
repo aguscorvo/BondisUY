@@ -519,6 +519,17 @@ map.on('click', function(evt) {
 			$ds('#idEliminarParada').text(paradaID);
 			$ds('#deleteParada').modal('show');
 		});
+		
+		// Doble click en eliminar una parada
+		$ds("#eliminar_recorrido").on("click", function() {
+			var divID = $ds(this).find("div[id*='eliminar_recorrido:_:']").attr('id');
+			var auxID = divID.split(":_:");
+			var recorridoID = auxID[1];
+
+			console.log("Eliminar recorrido: " + recorridoID);
+			$ds('#idEliminarRecorrido').text(recorridoID);
+			$ds('#deleteRecorrido').modal('show');
+		});
 
 		feature = undefined;
 	} else {
