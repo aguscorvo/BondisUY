@@ -188,6 +188,24 @@ public class ParadaREST {
 				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
 			}
 		}
-	}	
+	}
+	
+	@DELETE
+	@Path("/eliminarHorarios")
+	public Response eliminarHorarios(List<HorarioCrearDTO> horariosDTO) {
+		RespuestaREST<List<Long>> respuesta = null;
+		try {
+			List<Long> paradasHuerfanas = paradaService.eliminarHorarios(horariosDTO);
+			respuesta = new RespuestaREST<List<Long>>(true, "Horarios eliminados con éxito", paradasHuerfanas);
+			return Response.ok(respuesta).build();
+		}catch (BondisUyException e) {
+			respuesta = new RespuestaREST<List<Long>>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}
 
 }

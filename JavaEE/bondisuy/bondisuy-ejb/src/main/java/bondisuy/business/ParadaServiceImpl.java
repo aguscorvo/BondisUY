@@ -122,7 +122,7 @@ public class ParadaServiceImpl implements IParadaService {
 		try {
 			Parada parada = paradaDAO.listarPorId(id);
 			if(parada ==null) throw new BondisUyException("La parada indicada no existe.", BondisUyException.NO_EXISTE_REGISTRO);
-			eliminarHorarios(parada);
+			eliminarHorariosParada(parada);
 			paradaDAO.eliminar(parada);
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
@@ -250,7 +250,7 @@ public class ParadaServiceImpl implements IParadaService {
 	
 	//desde backend
 	@Override
-	public void eliminarHorarios(Parada parada)  throws BondisUyException{
+	public void eliminarHorariosParada(Parada parada)  throws BondisUyException{
 		try {
 			parada.getHorarios().clear();
 			paradaDAO.editar(parada);
@@ -264,6 +264,44 @@ public class ParadaServiceImpl implements IParadaService {
 			LocalDateTime hoy = LocalDateTime.now();
 			parada.setFecha(hoy);
 			paradaDAO.editar(parada);
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}
+	
+	// devuelve id de parada que queda huérfana
+	public Long eliminarHorario(HorarioCrearDTO horarioDTO) throws BondisUyException {
+		try {
+			Horario horario = horarioDAO.listarPorIds(LocalTime.parse(horarioDTO.getHora()), horarioDTO.getRecorrido(), horarioDTO.getParada());
+			if(horario==null) throw new BondisUyException("El horario indicado no existe.", BondisUyException.NO_EXISTE_REGISTRO);		
+			Recorrido recorrido = recorridoDAO.listarPorId(horarioDTO.getRecorrido());
+			Parada parada = paradaDAO.listarPorId(horarioDTO.getParada());
+			parada.getHorarios().remove(horario);
+			paradaDAO.editar(parada);
+			
+			Long paradaHuerfana = null;
+			if(actualizarEstado(parada))
+				paradaHuerfana=parada.getId();
+			actualizarFecha(parada);
+			recorridoService.actualizarFecha(recorrido);
+			return paradaHuerfana;
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}	
+
+	// devuelve id de paradas que quedan huérfanas
+	@Override
+	public List<Long> eliminarHorarios(List<HorarioCrearDTO> horariosDTO) throws BondisUyException {
+		try {
+			List<Long> paradasHuerfanas = new ArrayList<Long>();
+			Long paradaHuerfana;
+			for(HorarioCrearDTO h: horariosDTO) {
+				paradaHuerfana = eliminarHorario(h);
+				if(paradaHuerfana!=null)
+					paradasHuerfanas.add(paradaHuerfana);
+			}
+			return paradasHuerfanas;
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}

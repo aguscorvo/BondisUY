@@ -26,9 +26,11 @@ public interface IParadaService {
 	public HorarioDTO crearHorario(HorarioCrearDTO horarioDTO) throws BondisUyException;
 	public HorarioDTO editarHorario(HorarioCrearDTO horarioDTO, String hora) throws BondisUyException;
 	public List<HorarioDTO> crearHorarios(List<HorarioCrearDTO> horariosDTO) throws BondisUyException;
+	public List<Long> eliminarHorarios(List<HorarioCrearDTO> horariosDTO) throws BondisUyException;
 	
 	//desde backend
 	public Boolean actualizarEstado(Parada parada) throws BondisUyException;
-	public void eliminarHorarios(Parada parada) throws BondisUyException;
+	public void eliminarHorariosParada(Parada parada) throws BondisUyException;
+
 	
 }
