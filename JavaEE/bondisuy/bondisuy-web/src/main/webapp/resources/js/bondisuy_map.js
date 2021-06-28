@@ -165,7 +165,7 @@ var SetUbicacion = (function(Control) {
 
 //Usar la locaclizacion actual
 var geolocation = new ol.Geolocation({
-	
+
 	// enableHighAccuracy must be set to true to have the heading value.
 	trackingOptions: {
 		enableHighAccuracy: true,
@@ -878,6 +878,7 @@ function addUPDParada(list, typeSource) {
 
 		coordUPDParada = list[lst]['coordenadas'];
 		paradas.push(parada);// Agregamos el recorrido  al arreglo
+
 	}
 
 	for (var f in sourceUPDParada.getFeatures()) {
@@ -905,12 +906,14 @@ function addUPDParada(list, typeSource) {
 
 	});
 
-	modifyUPDLinea.on('modifyend', function(evt) {
+	modifyUPDParada.on('modifyend', function(evt) {
 		var features = evt.features.getArray();
 
 		for (var i = 0; i < features.length; i++) {
 			coordUPDParada = features[i].getGeometry().getCoordinates();
 			updParadaGeo = true;
+
+			console.log(updParadaGeo);
 		}
 
 	});
@@ -947,6 +950,10 @@ function cleanInteraction() {
 	map.removeInteraction(snapZonaLinea);
 	//	map.removeInteraction(drawNuevaLinea);
 	map.removeInteraction(snapNuevaLinea);
+
+	for (var f in sourceUPDParada.getFeatures()) {
+		sourceUPDParada.removeFeature(sourceUPDParada.getFeatures()[f]);
+	}
 
 }
 

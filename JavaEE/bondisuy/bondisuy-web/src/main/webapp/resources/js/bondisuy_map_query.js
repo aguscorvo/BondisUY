@@ -293,11 +293,11 @@ function getRecorrido(id) {
 			$ds('#mappopup').popover('dispose');
 
 			//centra en el medio de la linea
-			//var center = parseInt(recorridos[0]['coordenadas'].length / 2);
-			//centerMapLinea(recorridos[0]['coordenadas'][center]);
+			var center = parseInt(recorridos[0]['coordenadas'].length / 2);
+			centerMapLinea(recorridos[0]['coordenadas'][center]);
 
 			//centro en mi ubicacio
-			centerMapLinea(coordinates);
+			//centerMapLinea(coordinates);
 
 		})
 		.fail(function(jqxhr, textStatus, error) {
@@ -374,6 +374,8 @@ function getRecorridoParada(id, distancia) {
 
 	url = url.replace('{RECORRIDO}', id);
 
+	console.log(url);
+
 	$ds.ajaxSetup({
 		scriptCharset: "utf-8",
 		contentType: "application/json; charset=utf-8",
@@ -394,7 +396,8 @@ function getRecorridoParada(id, distancia) {
 
 				if (paradas[prop['parada_id']] == undefined) {
 					parada['id'] = prop['parada_id'];
-					parada['descrip'] = prop['parada_desc'].replace("y", "y<br>").replace("-", "y<br>");
+					//parada['descrip'] = prop['parada_desc'].replace("y", "y<br>").replace("-", "y<br>");
+					parada['descrip'] = prop['parada_desc'];
 
 					//Transformo del sistema EPSG:32721 a EPSG:4326
 					var point = new Proj4js.Point(geom['coordinates']);   //any object will do as long as it has 'x' and 'y' properties
@@ -522,8 +525,6 @@ function getParadasByID(paradaID) {
 	var paradas = [];
 
 	url = url.replace('{ID}', paradaID);
-	
-	console.log(url);
 
 	$ds.ajaxSetup({
 		scriptCharset: "utf-8",
@@ -562,13 +563,13 @@ function getParadasByID(paradaID) {
 					var point4326 = Proj4js.transform(proj32721, proj4326, point);      //do the transformation.  x and y are modified in place
 
 					//if (prop["habilitada"]) {
-						var newParada = {
-							"descripcion": text,
-							"coordenadas": [point4326['x'], point4326['y']],
-							"img": (prop["habilitada"] ? IMAGENES.parada : IMAGENES.paradadeshabilitada),
-						};
+					var newParada = {
+						"descripcion": text,
+						"coordenadas": [point4326['x'], point4326['y']],
+						"img": (prop["habilitada"] ? IMAGENES.parada : IMAGENES.paradadeshabilitada),
+					};
 
-						paradas.push(newParada);
+					paradas.push(newParada);
 					//}
 
 				} catch (e) {
@@ -581,9 +582,9 @@ function getParadasByID(paradaID) {
 			borrarCapaPorNombre(L_PARADAS);
 			borrarCapaPorNombre(L_NUEVAPARADA);
 			addMarcadores(paradas, L_PARADAS);
-			
+
 			centerMap([point4326['x'], point4326['y']]);
-			
+
 
 			$ds('#mappopup').popover('dispose');
 
@@ -748,8 +749,13 @@ function getRecorridoHorario(Hora) {
 			$ds('#mappopup').popover('dispose');
 
 
+			//centra en el medio de la linea
+			var center = parseInt(recorridos[0]['coordenadas'].length / 2);
+			centerMapLinea(recorridos[0]['coordenadas'][center]);
+
+
 			//centro en mi ubicacio
-			centerMapLinea(coordinates);
+			//centerMapLinea(coordinates);
 
 		})
 		.fail(function(jqxhr, textStatus, error) {
@@ -900,7 +906,7 @@ function getUPDParada(paradaID) {
 	var paradas = [];
 
 	url = url.replace('{ID}', paradaID);
-	
+
 	$ds.ajaxSetup({
 		scriptCharset: "utf-8",
 		contentType: "application/json; charset=utf-8",
@@ -938,13 +944,13 @@ function getUPDParada(paradaID) {
 					var point4326 = Proj4js.transform(proj32721, proj4326, point);      //do the transformation.  x and y are modified in place
 
 					//if (prop["habilitada"]) {
-						var newParada = {
-							"descripcion": text,
-							"coordenadas": [point4326['x'], point4326['y']],
-							"img": (prop["habilitada"] ? IMAGENES.parada : IMAGENES.paradadeshabilitada),
-						};
+					var newParada = {
+						"descripcion": text,
+						"coordenadas": [point4326['x'], point4326['y']],
+						"img": (prop["habilitada"] ? IMAGENES.parada : IMAGENES.paradadeshabilitada),
+					};
 
-						paradas.push(newParada);
+					paradas.push(newParada);
 					//}
 
 				} catch (e) {
@@ -957,9 +963,9 @@ function getUPDParada(paradaID) {
 			borrarCapaPorNombre(L_PARADAS);
 			borrarCapaPorNombre(L_NUEVAPARADA);
 			addUPDParada(paradas, L_UPDPARADA);
-			
+
 			centerMap([point4326['x'], point4326['y']]);
-			
+
 
 			$ds('#mappopup').popover('dispose');
 
@@ -980,7 +986,8 @@ function htmlParadaHorario(objParada) {
 	var objlineas = objParada['lineas'];
 
 	str += '<div>';
-	str += '<p>Identificador: ' + objParada['id'] + '<br>' + objParada['descrip'] + '</p>';
+	str += '<p>Identificador: ' + objParada['id'] +
+	'<br>Descripci\u00F3n: ' + objParada['descrip'] + '</p>';
 	str += '<div>';
 
 

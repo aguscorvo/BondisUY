@@ -642,6 +642,12 @@ function searchOptions(id) {
 		cleanInteraction();
 		removeAllLayers();
 
+		lineasParadasHorario = {};
+		updLineasParadasHorario = {};
+		updParadaGeo = false;
+		updParadaERROR = false;
+		updParadaERRORtxt = '';
+
 		$ds("a[href='#ui-busstop']").click();
 		select = '<input type="text" class="form-control form-control-sm" id="inputEditParada"><br>';
 		var button = '<button class="btn btn-secondary btn-fw" id="confUpdParada">Modificar</select>';
@@ -707,6 +713,8 @@ function searchOptions(id) {
 
 				$ds('#selectTableLineas tr.selected').removeClass('selected');
 				$ds(this).addClass('selected');
+
+				updOBJParadaName = $ds(this).find("td").eq(1).html();
 
 				//bondisuy_LoadShow();
 				getUPDParada(updparada);
@@ -864,22 +872,17 @@ function searchOptions(id) {
 			});
 
 
-			console.log(listaEliminarHorario);
-			console.log(listaInsertarHorario);
+//			console.log(listaEliminarHorario);
+//			console.log(listaInsertarHorario);
+//			console.log(updParadaGeo);
 
 			if (updParadaGeo)
 				addHorarioLineaRecorridoGEOM(updparada);
 
 			updParadaREST(listaEliminarHorario, listaInsertarHorario, updparada);
 
-
+			console.log(updParadaERROR);
 			if (!updParadaERROR) {
-				lineasParadasHorario = {};
-				updLineasParadasHorario = {};
-				updParadaGeo = false;
-				updParadaERROR = false;
-				updParadaERRORtxt = '';
-
 				$ds(tablaBody).empty();
 
 				$ds('#updParada').modal('hide');
@@ -887,12 +890,10 @@ function searchOptions(id) {
 				$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-information-outline display-3 text-info" ></i></h1>');
 				$ds('#general_error_msj').html('Parada modificada con \u00E9xito.');
 				$ds('#general_error').modal('show');
+
+				getParadasByID(updparada);
+
 			} else {
-				lineasParadasHorario = {};
-				updLineasParadasHorario = {};
-				updParadaGeo = false;
-				updParadaERROR = false;
-				updParadaERRORtxt = '';
 				$ds(tablaBody).empty();
 
 				$ds('#errorModalLabel').html('Error');

@@ -85,6 +85,7 @@ JOIN ft_recorridos r ON r.id = h.recorrido_id
 JOIN lineas l ON l.id = r.linea_id
 JOIN companias c ON c.id = l.compania_id
 WHERE r.id = %recorrido%
+AND p.habilitada = TRUE
 ORDER BY p.id, h.hora DESC
 
 Marcar como valor por defecto 2778

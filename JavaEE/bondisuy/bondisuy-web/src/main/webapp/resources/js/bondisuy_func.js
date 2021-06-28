@@ -740,7 +740,7 @@ function addHorarioLineaRecorrido(idParada, lineas) {
 			error: function(err) {
 				updParadaERROR = true;
 				updParadaERRORtxt += err['responseJSON']['mensaje'];
-				
+
 				console.log(err['responseJSON']['mensaje']);
 			}
 		}); // ajax call closing
@@ -755,15 +755,30 @@ function addHorarioLineaRecorridoGEOM(idParada) {
 	var point = new Proj4js.Point(coordUPDParada);   //any object will do as long as it has 'x' and 'y' properties
 	var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
-
 	var geom = 'POINT(' + point32721['x'] + ' ' + point32721['y'] + ')';
 
-	var parada = { descripcion: nombre, fecha: ahora, codVia1: 0, codVia2: 0, habilitada: true, geometria: geom };
+	var date = new Date();
+	var dd = date.getDate();
+	var mm = date.getMonth() + 1;
+	var hh = date.getHours();
+	var mi = date.getMinutes();
+
+	var ahora = date.getFullYear() + '-' +
+		(mm > 9 ? '' : '0') + mm + '-' +
+		(dd > 9 ? '' : '0') + dd + ' ' +
+		(hh > 9 ? '' : '0') + hh + ':' +
+		(mi > 9 ? '' : '0') + mi;
+
+	console.log(updOBJParadaName);
+
+	var parada = { descripcion: updOBJParadaName, fecha: ahora, codVia1: 0, codVia2: 0, habilitada: true, geometria: geom };
 	const jsParada = JSON.stringify(parada);
+	
+	console.log(jsParada);
 
 	$ds.ajax({
 		url: url,
-		type: "POST",
+		type: "PUT",
 		dataType: "json",
 		contentType: "application/json; charset=utf-8",
 		data: jsParada,
@@ -777,14 +792,20 @@ function addHorarioLineaRecorridoGEOM(idParada) {
 		},
 		error: function(err) {
 			updParadaERROR = true;
-			updParadaERRORtxt += err['responseJSON']['mensaje'];
-			/*
+			
+			if(err['responseJSON']['mensaje'] == undefined){
+				updParadaERRORtxt += err['statusText'];
+			}else{
+				updParadaERRORtxt += err['responseJSON']['mensaje'];	
+			}
+			
+			
 			// check the err for error details
 			$ds('#errorModalLabel').html('Error');
 			$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
-			$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
+			$ds('#general_error_msj').html(updParadaERRORtxt);
 			$ds('#general_error').modal('show');
-			*/
+			
 		}
 	}); // ajax call closing
 
@@ -1095,29 +1116,36 @@ function updLineaPUTREST() {
 			contentType: "application/json; charset=utf-8",
 			data: jsRecorrido,
 			success: function(result) {
+				var paradasDeshabilitadas = '';
+				
+				
+				if(result['cuerpo'].length == 0){
+					
+				}else{
+					paradasDeshabilitadas = '<br>Las siguientes paradas quedaron hu\u00E9rfanas:';
+					
+					for(var p in result['cuerpo']){
+						paradasDeshabilitadas += '<br>' + result['cuerpo'][p]; 
+					}
+				}
 				// when call is sucessfull
 				console.log(result)
-
 				for (var f in sourceUPDLinea.getFeatures()) {
 					sourceUPDLinea.removeFeature(sourceUPDLinea.getFeatures()[f]);
 				}
-
 				map.removeInteraction(snapUPDLinea);
-
 				var card = $ds("#to_do_some");
-
 				var form_group = $ds(card).find(".form-group");
 				var table = $ds("#selectTableLineas").children("table").get(0);
 				$ds(form_group).html('');
 				$ds(table).html('');
-
 
 				getRecorrido(idRecorrido);
 				bondisuy_LoadHide();
 
 				$ds('#errorModalLabel').html('Informaci\u00F3n');
 				$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-information-outline display-3 text-info" ></i></h1>');
-				$ds('#general_error_msj').html('Linea modificada con \u00E9xito.');
+				$ds('#general_error_msj').html('Linea modificada con \u00E9xito.' + paradasDeshabilitadas);
 				$ds('#general_error').modal('show');
 			},
 			error: function(err) {

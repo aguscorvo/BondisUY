@@ -80,4 +80,5 @@ var lineasParadasHorario={};
 var updLineasParadasHorario={};
 var updParadaGeo=false;
 var updParadaERROR=false;
-var updParadaERRORtxt = ''; 
+var updParadaERRORtxt = '';
+var updOBJParadaName = ''; 
