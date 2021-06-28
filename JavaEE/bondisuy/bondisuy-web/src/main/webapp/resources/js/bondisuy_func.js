@@ -678,6 +678,8 @@ function addParadaPOSTREST() {
 				success: function(result) {
 					// when call is sucessfull
 					console.log(result)
+					map.removeInteraction(drawNuevaParada);
+					map.removeInteraction(snapNuevaParada);
 
 					var idParada = result['cuerpo']['id'];
 					addHorarioParada(idParada, lineas, '00:00');
@@ -685,6 +687,9 @@ function addParadaPOSTREST() {
 				},
 				error: function(err) {
 					// check the err for error details
+					map.removeInteraction(drawNuevaParada);
+					map.removeInteraction(snapNuevaParada);
+
 					$ds('#errorModalLabel').html('Error');
 					$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
 					$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
@@ -713,7 +718,7 @@ function deleteParadaREST() {
 		success: function(result) {
 			console.log(result);
 			searchOptions(12);
-			$ds('#deleteParada').modal('hide');	
+			$ds('#deleteParada').modal('hide');
 		},
 		error: function(err) {
 			$ds('#errorModalLabel').html('Error');
@@ -827,7 +832,7 @@ function addHorarioLineaRecorridoGEOM(idParada) {
 
 	var parada = { descripcion: updOBJParadaName, fecha: ahora, codVia1: 0, codVia2: 0, habilitada: true, geometria: geom };
 	const jsParada = JSON.stringify(parada);
-	
+
 	console.log(jsParada);
 
 	$ds.ajax({
@@ -846,20 +851,20 @@ function addHorarioLineaRecorridoGEOM(idParada) {
 		},
 		error: function(err) {
 			updParadaERROR = true;
-			
-			if(err['responseJSON']['mensaje'] == undefined){
+
+			if (err['responseJSON']['mensaje'] == undefined) {
 				updParadaERRORtxt += err['statusText'];
-			}else{
-				updParadaERRORtxt += err['responseJSON']['mensaje'];	
+			} else {
+				updParadaERRORtxt += err['responseJSON']['mensaje'];
 			}
-			
-			
+
+
 			// check the err for error details
 			$ds('#errorModalLabel').html('Error');
 			$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
 			$ds('#general_error_msj').html(updParadaERRORtxt);
 			$ds('#general_error').modal('show');
-			
+
 		}
 	}); // ajax call closing
 
@@ -874,13 +879,6 @@ function updParadaREST(listDEL, listADD, idParada) {
 
 	addHorarioLineaRecorrido(idParada, listADD);
 
-	/*
-		for (var ad in listADD) {
-			
-			console.log(listADD[ad]['linea']);
-			addHorarioLineaRecorrido(idParada, listADD[ad]['linea'], listADD[ad]['horario']);
-		}
-	*/
 	var card = $ds("#to_do_some");
 	var form_group = $ds(card).find(".form-group");
 	var table = $ds("#selectTableLineas").children("table").get(0);
@@ -905,6 +903,11 @@ function addHorarioParada(idParada, lineas, horario) {
 			data: jsHorario,
 			success: function(result) {
 				//console.log(result);
+
+				for (var f in sourceUPDParada.getFeatures()) {
+					sourceUPDParada.removeFeature(sourceUPDParada.getFeatures()[f]);
+				}
+
 			},
 			error: function(err) {
 				$ds('#errorModalLabel').html('Error');
@@ -914,6 +917,7 @@ function addHorarioParada(idParada, lineas, horario) {
 			}
 		}); // ajax call closing
 	}
+
 
 	var card = $ds("#to_do_some");
 	var form_group = $ds(card).find(".form-group");
@@ -1171,19 +1175,18 @@ function updLineaPUTREST() {
 			data: jsRecorrido,
 			success: function(result) {
 				var paradasDeshabilitadas = '';
-				
-				
-				if(result['cuerpo'].length == 0){
-					
-				}else{
+
+
+				if (result['cuerpo'].length == 0) {
+
+				} else {
 					paradasDeshabilitadas = '<br>Las siguientes paradas quedaron hu\u00E9rfanas:';
-					
-					for(var p in result['cuerpo']){
-						paradasDeshabilitadas += '<br>' + result['cuerpo'][p]; 
+
+					for (var p in result['cuerpo']) {
+						paradasDeshabilitadas += '<br>' + result['cuerpo'][p];
 					}
 				}
 				// when call is sucessfull
-				console.log(result)
 				for (var f in sourceUPDLinea.getFeatures()) {
 					sourceUPDLinea.removeFeature(sourceUPDLinea.getFeatures()[f]);
 				}

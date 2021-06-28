@@ -699,8 +699,6 @@ function searchOptions(id) {
 
 		var txttablec = '';
 
-
-
 		$ds(databody).off("click");
 
 		$ds(databody).on('click', 'tr', function() {
@@ -871,16 +869,21 @@ function searchOptions(id) {
 			});
 
 
-//			console.log(listaEliminarHorario);
-//			console.log(listaInsertarHorario);
-//			console.log(updParadaGeo);
+			//			console.log(listaEliminarHorario);
+			//			console.log(listaInsertarHorario);
+			//			console.log(updParadaGeo);
 
 			if (updParadaGeo)
 				addHorarioLineaRecorridoGEOM(updparada);
 
 			updParadaREST(listaEliminarHorario, listaInsertarHorario, updparada);
 
-			console.log(updParadaERROR);
+			//			console.log(updParadaERROR);
+			
+			for (var f in sourceUPDParada.getFeatures()) {
+				sourceUPDParada.removeFeature(sourceUPDParada.getFeatures()[f]);
+			}
+			
 			if (!updParadaERROR) {
 				$ds(tablaBody).empty();
 
@@ -889,6 +892,8 @@ function searchOptions(id) {
 				$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-information-outline display-3 text-info" ></i></h1>');
 				$ds('#general_error_msj').html('Parada modificada con \u00E9xito.');
 				$ds('#general_error').modal('show');
+
+
 
 				getParadasByID(updparada);
 
@@ -901,7 +906,6 @@ function searchOptions(id) {
 				$ds('#general_error').modal('show');
 
 			}
-
 
 		});
 
@@ -1114,7 +1118,7 @@ function searchOptions(id) {
 		});
 
 
-	// Ver mapa de calor
+		// Ver mapa de calor
 	} else if (id == 15) {
 		cleanInteraction();
 		removeAllLayers();

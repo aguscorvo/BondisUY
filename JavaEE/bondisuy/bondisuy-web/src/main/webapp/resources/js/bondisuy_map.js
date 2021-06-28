@@ -934,8 +934,6 @@ function addUPDParada(list, typeSource) {
 		for (var i = 0; i < features.length; i++) {
 			coordUPDParada = features[i].getGeometry().getCoordinates();
 			updParadaGeo = true;
-
-			console.log(updParadaGeo);
 		}
 
 	});
