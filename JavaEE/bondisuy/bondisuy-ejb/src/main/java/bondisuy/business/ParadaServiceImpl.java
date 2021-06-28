@@ -3,6 +3,7 @@ package bondisuy.business;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -203,6 +204,19 @@ public class ParadaServiceImpl implements IParadaService {
 		}
 	}
 	
+	@Override
+	public List<HorarioDTO> crearHorarios(List<HorarioCrearDTO> horariosDTO) throws BondisUyException {
+		try {
+			List<HorarioDTO> horariosCreados = new ArrayList<HorarioDTO>();
+			for(HorarioCrearDTO h: horariosDTO) {
+				horariosCreados.add(crearHorario(h));
+			}
+			return horariosCreados;
+		}catch (Exception e) {
+			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
+		}
+	}	
+	
 	// devuelve true si la parada cambia a huérfana
 	//desde backend
 	@Override
@@ -253,6 +267,6 @@ public class ParadaServiceImpl implements IParadaService {
 		}catch (Exception e) {
 			throw new BondisUyException(e.getLocalizedMessage(), BondisUyException.ERROR_GENERAL);
 		}
-	}
+	}	
 	
 }

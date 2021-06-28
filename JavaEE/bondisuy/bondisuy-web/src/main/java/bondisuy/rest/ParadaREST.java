@@ -171,5 +171,23 @@ public class ParadaREST {
 			}
 		}
 	}
+	
+	@POST
+	@Path("/crearHorarios")
+	public Response crearHorarios(List<HorarioCrearDTO> horariosDTO) {
+		RespuestaREST<List<HorarioDTO>> respuesta = null;
+		try {
+			List<HorarioDTO> horarios = paradaService.crearHorarios(horariosDTO);
+			respuesta = new RespuestaREST<List<HorarioDTO>>(true, "Horarios creados con éxito", horarios);
+			return Response.ok(respuesta).build();
+		}catch (BondisUyException e) {
+			respuesta = new RespuestaREST<List<HorarioDTO>>(false, e.getLocalizedMessage());
+			if(e.getCodigo() == BondisUyException.NO_EXISTE_REGISTRO || e.getCodigo() == BondisUyException.EXISTE_REGISTRO) {
+				return Response.status(Response.Status.BAD_REQUEST).entity(respuesta).build();
+			}else {
+				return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(respuesta).build();
+			}
+		}
+	}	
 
 }
