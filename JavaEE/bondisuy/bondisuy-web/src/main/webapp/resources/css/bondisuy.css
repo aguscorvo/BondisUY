@@ -136,3 +136,9 @@ tbody tr.selected {
 	background-color: #2A3038 !important;
  	color:  #ffa068 !important;
 }
+
+#ver_Lineas_Paradas, #eliminar_recorrido{
+	border-top: 1px solid black;
+	margin-top: 1rem!important;
+	
+}

@@ -974,6 +974,10 @@ function cleanInteraction() {
 	for (var f in sourceUPDParada.getFeatures()) {
 		sourceUPDParada.removeFeature(sourceUPDParada.getFeatures()[f]);
 	}
+	
+	for (var f in sourceUPDLinea.getFeatures()) {
+		sourceUPDLinea.removeFeature(sourceUPDLinea.getFeatures()[f]);
+	}
 
 }
 

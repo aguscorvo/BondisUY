@@ -190,6 +190,9 @@ function getAllParadasEstado(habilitado) {
 					if (usrLogged) {
 						text += "<div id='editar_Todas_Lineas_Paradas'>" +
 							"<div id='editar_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-pen'></i> Editar l\u00EDneas </a></div>" +
+							"</div>" +
+							"<div id='eliminar_parada'>" +
+							"<div id='eliminar_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-delete'></i> Eliminar parada</a></div>" +
 							"</div>";
 					}
 					//Transformo del sistema EPSG:32721 a EPSG:4326
@@ -562,6 +565,9 @@ function getParadasByID(paradaID) {
 					if (usrLogged) {
 						text += "<div id='editar_Todas_Lineas_Paradas'>" +
 							"<div id='editar_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-pen'></i> Editar l\u00EDneas </a></div>" +
+							"</div>" +
+							"<div id='eliminar_parada'>" +
+							"<div id='eliminar_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-delete'></i> Eliminar parada</a></div>" +
 							"</div>";
 					}
 					//Transformo del sistema EPSG:32721 a EPSG:4326
@@ -645,6 +651,9 @@ function getParadasHorario(Hora) {
 					if (usrLogged) {
 						text += "<div id='editar_Todas_Lineas_Paradas'>" +
 							"<div id='editar_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-pen'></i> Editar l\u00EDneas </a></div>" +
+							"</div>" +
+							"<div id='eliminar_parada'>" +
+							"<div id='eliminar_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-delete'></i> Eliminar parada</a></div>" +
 							"</div>";
 					}
 					//Transformo del sistema EPSG:32721 a EPSG:4326
@@ -720,6 +729,11 @@ function getRecorridoHorario(Hora) {
 						'<br>Compa\u00F1\u00EDa: ' + prop["com_nombre"] +
 						'<br>Ruta: ' + prop["ruta"];
 
+					if (usrLogged) {
+						text += "<div id='eliminar_recorrido'>" +
+							"<div id='eliminar_recorrido:_:" + prop["id"] + "'/><a><i class='mdi mdi-delete'></i> Eliminar recorrido</a></div>" +
+							"</div>";
+					}
 
 
 
@@ -862,6 +876,12 @@ function getUPDRecorrido(id) {
 						'<br>Compa\u00F1\u00EDa: ' + prop["com_nombre"] +
 						'<br>Ruta: ' + prop["ruta"];
 
+					if (usrLogged) {
+						text += "<div id='eliminar_recorrido'>" +
+							"<div id='eliminar_recorrido:_:" + prop["id"] + "'/><a><i class='mdi mdi-delete'></i> Eliminar recorrido</a></div>" +
+							"</div>";
+					}
+
 					for (var co in geom["coordinates"]) {
 						//Transformo del sistema EPSG:32721 a EPSG:4326
 						var point = new Proj4js.Point(geom["coordinates"][co]);   //any object will do as long as it has 'x' and 'y' properties
@@ -943,6 +963,9 @@ function getUPDParada(paradaID) {
 					if (usrLogged) {
 						text += "<div id='editar_Todas_Lineas_Paradas'>" +
 							"<div id='editar_todas_id_lineas:_:" + prop["id"] + "'/><a><i class='mdi mdi-pen'></i> Editar l\u00EDneas </a></div>" +
+							"</div>" +
+							"<div id='eliminar_parada'>" +
+							"<div id='eliminar_parada:_:" + prop["id"] + "'/><a><i class='mdi mdi-delete'></i> Eliminar parada</a></div>" +
 							"</div>";
 					}
 					//Transformo del sistema EPSG:32721 a EPSG:4326
@@ -993,7 +1016,7 @@ function htmlParadaHorario(objParada) {
 
 	str += '<div>';
 	str += '<p>Identificador: ' + objParada['id'] +
-	'<br>Descripci\u00F3n: ' + objParada['descrip'] + '</p>';
+		'<br>Descripci\u00F3n: ' + objParada['descrip'] + '</p>';
 	str += '<div>';
 
 
