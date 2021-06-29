@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Espera que Wildfly termine de deployar
-  until curl -sSf http://docker-compose_wildfly_1:8080 &> /dev/null; do
+  until curl -sSf http://docker-compose_wildfly_1:8080/bondisuy-web/Bondisuy &> /dev/null; do
     echo "Esperando que Wildfly termine de deployar"
     sleep 2
   done
