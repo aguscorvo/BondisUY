@@ -658,7 +658,7 @@ var modifyNuevaLinea = new ol.interaction.Modify({
 
 // removes the last feature from the vector source.
 var removeLastNuevaLinea = function() {
-	console.log(lastFeatureNuevaLinea);
+	//console.log(lastFeatureNuevaLinea);
 	if (lastFeatureNuevaLinea) {
 		sourceNuevaLinea.removeFeature(lastFeatureNuevaLinea);
 		modifyNuevaLinea.removeFeature(lastFeatureNuevaLinea);
@@ -811,7 +811,7 @@ var modifyUPDLinea = new ol.interaction.Modify({
 function addUPDRecorrido(list, typeSource) {
 	var recorridos = [];
 
-	console.log(list.length);
+	//console.log(list.length);
 
 	for (var lst in list) {
 		let recorrido = new ol.Feature({
@@ -902,7 +902,7 @@ function addUPDParada(list, typeSource) {
 
 		coordUPDParada = list[lst]['coordenadas'];
 		paradas.push(parada);// Agregamos el recorrido  al arreglo
-		console.log(coordUPDParada);
+		//console.log(coordUPDParada);
 	}
 
 	for (var f in sourceUPDParada.getFeatures()) {
@@ -928,7 +928,7 @@ function addUPDParada(list, typeSource) {
 
 		map.removeInteraction(snapUPDParada);
 
-		console.log(coordUPDParada);
+		//console.log(coordUPDParada);
 	});
 
 	modifyUPDParada.on('modifyend', function(evt) {
@@ -939,7 +939,7 @@ function addUPDParada(list, typeSource) {
 			updParadaGeo = true;
 		}
 
-		console.log(coordUPDParada);
+		//console.log(coordUPDParada);
 	});
 
 	// Agregamos la capa al parada

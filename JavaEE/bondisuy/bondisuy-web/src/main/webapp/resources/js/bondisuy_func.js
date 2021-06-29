@@ -396,7 +396,7 @@ function getParadaLineaHorario(paradaID) {
 
 		url = url.replace("{PARADA}", paradaID).replace("{HORA}", hora);
 
-		console.log(url);
+		//console.log(url);
 
 		$ds.ajaxSetup({
 			scriptCharset: "utf-8",
@@ -481,7 +481,7 @@ function getParadaLineaTodas(paradaID) {
 
 		url = url.replace("{PARADA}", paradaID);
 
-		console.log(url);
+		//console.log(url);
 
 		$ds.ajaxSetup({
 			scriptCharset: "utf-8",
@@ -708,7 +708,7 @@ function deleteParadaREST() {
 
 	idParada = $ds('#idEliminarParada').text();
 	url = url.replace('{parada}', idParada);
-	console.log("La parada a eliminar finalmente es: " + idParada);
+	//console.log("La parada a eliminar finalmente es: " + idParada);
 
 	$ds.ajax({
 		url: url,
@@ -716,7 +716,7 @@ function deleteParadaREST() {
 		dataType: "json",
 		contentType: "application/json; charset=utf-8",
 		success: function(result) {
-			console.log(result);
+			//console.log(result);
 			searchOptions(12);
 			$ds('#deleteParada').modal('hide');
 		},
@@ -735,7 +735,7 @@ function deleteRecorridoREST() {
 
 	idRecorrido = $ds('#idEliminarRecorrido').text();
 	url = url.replace('{recorrido}', idRecorrido);
-	console.log("El recorrido a eliminar finalmente es: " + idRecorrido);
+	//console.log("El recorrido a eliminar finalmente es: " + idRecorrido);
 
 	$ds.ajax({
 		url: url,
@@ -743,7 +743,7 @@ function deleteRecorridoREST() {
 		dataType: "json",
 		contentType: "application/json; charset=utf-8",
 		success: function(result) {
-			console.log(result);
+			//console.log(result);
 			searchOptions(12);
 			$ds('#deleteRecorrido').modal('hide');
 		},
@@ -788,7 +788,7 @@ function delHorarioParadaRecorrido(idParada, lineas) {
 				updParadaERRORtxt += err['responseJSON']['mensaje'];
 			}
 			
-			console.log(updParadaERRORtxt);
+			//console.log(updParadaERRORtxt);
 		}
 	}); // ajax call closing
 
@@ -802,7 +802,7 @@ function addHorarioLineaRecorrido(idParada, lineas) {
 	}
 	
 	const jsHorario = JSON.stringify(horario);
-	console.log(jsHorario);
+	//console.log(jsHorario);
 
 	$ds.ajax({
 		url: url,
@@ -823,7 +823,7 @@ function addHorarioLineaRecorrido(idParada, lineas) {
 			}
 
 
-			console.log(updParadaERRORtxt);
+			//console.log(updParadaERRORtxt);
 		}
 	}); // ajax call closing
 }
@@ -850,12 +850,12 @@ function addHorarioLineaRecorridoGEOM(idParada) {
 		(hh > 9 ? '' : '0') + hh + ':' +
 		(mi > 9 ? '' : '0') + mi;
 
-	console.log(updOBJParadaName);
+	//console.log(updOBJParadaName);
 
 	var parada = { descripcion: updOBJParadaName, fecha: ahora, codVia1: 0, codVia2: 0, habilitada: true, geometria: geom };
 	const jsParada = JSON.stringify(parada);
 
-	console.log(jsParada);
+	//console.log(jsParada);
 
 	$ds.ajax({
 		url: url,
@@ -975,7 +975,7 @@ function getCompanyNuevaLinea() {
 			for (var op in data) {
 				options += '<option	value="' + data[op].id + '">' + data[op].nombre + '</option>'
 			}
-
+			
 			$ds("#addLineaEmpresa").html(options);
 			$ds('#addLinea').modal('show');
 
@@ -1001,7 +1001,7 @@ function getRecorridoUPDLinea(idRecorrido) {
 
 	$ds.getJSON(url)
 		.done(function(data) {
-			console.log(data);
+			//console.log(data);
 			var cuerpo = data['cuerpo'];
 
 			$ds("#updIdRecorrido").val(idRecorrido);
@@ -1074,7 +1074,7 @@ function addLineaPOSTREST() {
 						},
 						error: function(err) {
 							// check the err for error details
-							console.log(err);
+							//console.log(err);
 							$ds('#errorModalLabel').html('Error');
 							$ds('#general_error_icon').html('<h1 ><i class="mdi mdi-alert-outline display-3 text-danger"></i></h1>');
 							$ds('#general_error_msj').html(err['responseJSON']['mensaje']);
@@ -1108,7 +1108,7 @@ function addRecorridoLinea(idLinea, descrip) {
 		var point = new Proj4js.Point(coordNuevaLinea[p]);   //any object will do as long as it has 'x' and 'y' properties
 		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
-		console.log(point32721);
+		//console.log(point32721);
 
 		geom += point32721['x'] + ' ' + point32721['y'];
 		if (p < coordNuevaLinea.length - 1)
@@ -1340,8 +1340,8 @@ function getRecorridoUPDParada(idParada, coord, distancia) {
 								recorridos.push(newRecorridoc);
 
 							} catch (e) {
-								console.log(propc["id"]);
-								console.log(auxlineac);
+								//console.log(propc["id"]);
+								console.log(e);
 							}
 						}
 

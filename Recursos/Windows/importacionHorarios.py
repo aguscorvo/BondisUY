@@ -1,7 +1,7 @@
 import requests
 import json
 import datetime as dt
-
+import time
 
 url = 'http://geoserver.montevideo.gub.uy/geoserver/ows'
 urllineas = 'http://www.montevideo.gub.uy/transporteRest/lineas/'
@@ -48,11 +48,7 @@ for p in codparada:
     except Exception as e:
         flog.write('error key' + str(p) + ' URL: ' + urln + ' Exception: ' + str(e) + '\n')
 
-f = open("paradaslineas.txt", "w")
-f.write(str(paradas))
-f.close()
 
-"""
 print ("Paso 2 - Carga de lineas")
 
 for key in paradas:
@@ -69,6 +65,7 @@ for key in paradas:
                 hora['hora'] = horas['time']
                 hora['ruta'] = horas['variante']
                 paradas_horas.append(hora)
+            time.sleep(0.001)
     except Exception as e:
         flog.write('error key' + str(key) + ' URL: ' + urlh + ' Exception: ' + str(e) + '\n')
 
@@ -76,7 +73,7 @@ flog.close()
 
 print ("Paso 3 - Creando Archivo")
 
-f = open("C:/Users/Usuario/Documents/Tecnologo/UTU2021S05/TSIG/Proyecto/Recursos/horarios.sql", "w")
+f = open("horarios.sql", "w")
 
 for det in paradas_horas:
     consulta = 'INSERT INTO horarios (hora, parada_id, recorrido_id)'
@@ -89,6 +86,6 @@ for det in paradas_horas:
 #f.write('INSERT INTO ft_paradas_horarios (horarios_id, parada_id) SELECT id, parada_id FROM horarios WHERE parada_id = 2778;\n')
 
 f.close()
-"""
+
 print ("FIN DEL PROCESO")
 

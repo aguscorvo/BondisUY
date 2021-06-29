@@ -156,7 +156,7 @@ function getAllParadasEstado(habilitado) {
 
 	url = url.replace('{habilitado}', habilitado);
 
-	console.log(url);
+	//console.log(url);
 
 	$ds.ajaxSetup({
 		scriptCharset: "utf-8",
@@ -383,7 +383,7 @@ function getRecorridoParada(id, distancia) {
 
 	url = url.replace('{RECORRIDO}', id);
 
-	console.log(url);
+	//console.log(url);
 
 	$ds.ajaxSetup({
 		scriptCharset: "utf-8",
@@ -617,7 +617,7 @@ function getParadasHorario(Hora) {
 
 	var date = new Date().addHours(-1 * Hora);
 	const ahora = date.toJSON();
-	console.log(ahora);
+	//console.log(ahora);
 
 	url = url.replace('{HORA}', ahora);
 
@@ -699,7 +699,7 @@ function getRecorridoHorario(Hora) {
 	//2021-06-14T00:30:00Z
 	var date = new Date().addHours(-1 * Hora);
 	const ahora = date.toJSON();
-	console.log(ahora);
+	//console.log(ahora);
 
 
 	url = url.replace('{HORA}', ahora);

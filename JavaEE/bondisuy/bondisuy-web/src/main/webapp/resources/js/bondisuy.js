@@ -800,7 +800,7 @@ function searchOptions(id) {
 
 				var existeLineaenTabla = $ds(tablaBody).find('[data-counter_id="' + updparadaLinea + '"]');
 
-				console.log(existeLineaenTabla.length);
+				//console.log(existeLineaenTabla.length);
 
 				if (existeLineaenTabla.length == 0) {
 					for (var h in lineaUPDHorarios) {
