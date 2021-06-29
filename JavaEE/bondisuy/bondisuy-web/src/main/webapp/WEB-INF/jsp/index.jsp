@@ -41,6 +41,7 @@
 <!-- End layout styles -->
 <link rel="shortcut icon"
 	href="/bondisuy-web/resources/images/favicon.svg" />
+
 </head>
 <body>
 	<div class="container-scroller">
@@ -65,30 +66,30 @@
 				</a>
 					<div class="collapse" id="ui-basic">
 						<ul class="nav flex-column sub-menu">
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(1);">L&iacute;nea por empresa</a></li>
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(2);">L&iacute;nea</a></li>
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(3);">Esquina</a></li>
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(4);">Direcci&oacute;n</a></li>
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(5);">Paradas Habilitadas</a></li>
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(6);">Paradas Deshabilitadas</a></li>
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(7);">Ver l&iacute;neas
 									Cercanas</a></li>
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(12);">Ver Paradas Cercanas</a></li>
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(13);">Ver l&iacute;neas en
 									zona</a></li>
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(14);">Ver &uacuteltimos
 									cambios</a></li>
-							<li class="nav-item"><a class="nav-link"
+							<li class="nav-item sidebar-menu-item"><a class="nav-link"
 								href="javascript:searchOptions(15);">Ver mapa de calor</a></li>
 						</ul>
 					</div></li>
@@ -101,9 +102,9 @@
 					</a>
 						<div class="collapse" id="ui-busstop">
 							<ul class="nav flex-column sub-menu">
-								<li class="nav-item"><a class="nav-link"
+								<li class="nav-item sidebar-menu-item"><a class="nav-link"
 									href="javascript:searchOptions(8);">Alta</a></li>
-								<li class="nav-item"><a class="nav-link"
+								<li class="nav-item sidebar-menu-item"><a class="nav-link"
 									href="javascript:searchOptions(9);">Modificaci&oacute;n</a></li>
 							</ul>
 						</div></li>
@@ -116,9 +117,9 @@
 					</a>
 						<div class="collapse" id="ui-busline">
 							<ul class="nav flex-column sub-menu">
-								<li class="nav-item"><a class="nav-link"
+								<li class="nav-item sidebar-menu-item"><a class="nav-link"
 									href="javascript:searchOptions(10);">Alta</a></li>
-								<li class="nav-item"><a class="nav-link"
+								<li class="nav-item sidebar-menu-item"><a class="nav-link"
 									href="javascript:searchOptions(11);">Modificaci&oacute;n</a></li>	
 							</ul>
 						</div></li>
@@ -179,11 +180,12 @@
 	<div id="mappopup" data-toggle="popover" data-placement="top"
 		data-content="" data-html="true"></div>
 
-	<!-- Modal ERROR-->
+
+	<!-- Modal ERROR --> <!-- DONE -->
 	<div class="modal error-modal" tabindex="-1" role="dialog"
 		id="general_error">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content bg-secondary text-dark">
+			<div class="modal-content bg-secondary text-dark text-center">
 				<div class="modal-header">
 					<h5 class="modal-title" id="errorModalLabel">Error</h5>
 					<button type="button" class="close text-light" data-dismiss="modal"
@@ -192,9 +194,9 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<div class="col-md-3 d-flex flex-row" id="general_error_icon">
+					<div class="text-center" id="general_error_icon">
 						<h1>
-							<i class="mdi mdi-alert display-3" style="color: #cc0000"></i>
+							<i class="mdi mdi-error display-3" style="color: #cc0000"></i>
 						</h1>
 					</div>
 					<p id="general_error_msj"></p>
@@ -223,437 +225,329 @@
 		</div>
 	</div>
 
-	<!-- Modal ADD PARADA-->
+	<!-- Modal ADD PARADA--> <!-- DONE -->
 	<div class="modal" tabindex="-1" role="dialog" id="addParada">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+		  	<div class="modal-content">
+
 				<div class="modal-header">
-					<h3 class="modal-title">Crear Parada</h3>
-					<button type="button" class="close text-light" data-dismiss="modal"
-						aria-label="Close">
+					<h5 class="modal-title">Crear Parada</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
-					<div class="col-12">
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="addParadaName">Nombre</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text" class="form-control mb-3" id="addParadaName"
-									name="addParadaName" placeholder="Nombre">
-							</div>
+					<form>
+						<div class="form-group">
+							<label for="addParadaName">Nombre</label>
+							<input type="text" class="form-control" id="addParadaName" name="addParadaName" placeholder="Nombre">
 						</div>
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-12  mb-3">
-								<div class="form-group">
-									<label for="addNuevaParadaLineasCercanas">L&iacute;neas
-										Cercanas</label> <select multiple class="form-control"
-										id="addNuevaParadaLineasCercanas">
-
-									</select>
-								</div>
-							</div>
+						<div class="form-group">
+							<label for="addNuevaParadaLineasCercanas">L&iacute;neas Cercanas</label>
+							<select multiple class="form-control" id="addNuevaParadaLineasCercanas">
 						</div>
-					</div>
-					<div class="col-12">
-						<div class="col-12 d-flex flex-row">
-							<button type="button" onclick='addParadaPOSTREST()'
-								id="buttonAddParadaREST" class="btn btn-primary">CREAR</button>
-						</div>
-					</div>
+	  			    </form>
 				</div>
-			</div>
+				
+				<div class="modal-footer">
+					<button type="button" onclick='addParadaPOSTREST()' id="buttonAddParadaREST" class="btn btn-primary">Crear</button>
+				</div>
+		    </div>
 		</div>
 	</div>
 	
-	
-	<!-- Modal Eliminar parada -->
+	<!-- Modal Eliminar parada --> <!-- DONE -->
 	<div class="modal" tabindex="-1" role="dialog" id="deleteParada">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
+
 				<div class="modal-header">
-					<h3 class="modal-title">Eliminar parada</h3>
+					<h5 class="modal-title">Eliminar Parada</h5>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
-					<div class="col-12 mb-3">
-						<div class="col-12 d-flex flex-row validate-input">
-							¿Seguro que desea eliminar la parada con ID &nbsp; <span id="idEliminarParada"></span>?
-						</div>
-					</div>
-					<div class="col-12">
-						<div class="col-12 d-flex flex-row">
-							<button type="button" onclick='deleteParadaREST()'
-								id="buttonDeleteParadaREST" class="btn btn-danger">Eliminar</button>
-						</div>
+					<div class="text-center">
+						ï¿½Seguro que desea eliminar la parada con ID &nbsp; <span id="idEliminarParada"></span>?
 					</div>
 				</div>
-			</div>
+				
+				<div class="modal-footer">
+					<button type="button" onclick='deleteParadaREST()' id="buttonDeleteParadaREST" class="btn btn-danger">Eliminar</button>
+				</div>
+		    </div>
 		</div>
 	</div>
+
 	
-	<!-- Modal Eliminar recorrido -->
+	<!-- Modal Eliminar recorrido --> <!-- DONE -->
 	<div class="modal" tabindex="-1" role="dialog" id="deleteRecorrido">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
+
 				<div class="modal-header">
-					<h3 class="modal-title">Eliminar recorrido</h3>
+					<h5 class="modal-title">Eliminar Parada</h5>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
-					<div class="col-12 mb-3">
-						<div class="col-12 d-flex flex-row validate-input">
-							¿Seguro que desea eliminar el recorrido con ID &nbsp; <span id="idEliminarRecorrido"></span>?
-						</div>
-					</div>
-					<div class="col-12">
-						<div class="col-12 d-flex flex-row">
-							<button type="button" onclick='deleteRecorridoREST()'
-								id="buttonDeleteParadaREST" class="btn btn-danger">Eliminar</button>
-						</div>
+					<div class="text-center">
+						ï¿½Seguro que desea eliminar el recorrido con ID &nbsp; <span id="idEliminarRecorrido"></span>?
 					</div>
 				</div>
-			</div>
+				
+				<div class="modal-footer">
+					<button type="button" onclick='deleteRecorridoREST()' id="buttonDeleteRecorridoREST" class="btn btn-danger">Eliminar</button>
+				</div>
+		    </div>
 		</div>
 	</div>
 
-	<!-- Modal ADD LINEA-->
+	<!-- Modal ADD LINEA--> <!-- DONE -->
 	<div class="modal" tabindex="-1" role="dialog" id="addLinea">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+		  	<div class="modal-content">
+
 				<div class="modal-header">
-					<h3 class="modal-title">Crear L&iacute;nea</h3>
-					<button type="button" class="close text-light" data-dismiss="modal"
-						aria-label="Close">
+					<h5 class="modal-title">Crear L&iacute;nea</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
-					<div class="col-12">
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="addLineaName">Nombre L&iacute;nea</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text" class="form-control mb-3" id="addLineaName"
-									name="addLineaName" placeholder="Nombre">
-							</div>
+					<form>
+						<div class="form-group">
+							<label for="addLineaName">Nombre L&iacute;nea</label>
+							<input type="text" class="form-control" id="addLineaName" name="addLineaName" placeholder="Nombre">
 						</div>
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="addLineaDescripcion">Descripci&oacute;n</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text" class="form-control mb-3"
-									id="addLineaDescripcion" name="addLineaDescripcion"
-									placeholder="Descripci&oacute;n">
-							</div>
+						<div class="form-group">
+							<label for="addLineaDescripcion">Descripci&oacute;n</label>
+							<input type="text" class="form-control" id="addLineaDescripcion" name="addLineaDescripcion" placeholder="Descripci&oacute;n">
 						</div>
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="addLineaEmpresa">Compa&ntilde;&iacute;a</label>
-							</div>
-							<div class="col-9  mb-3">
-								<select class="form-control form-control-sm text-secondary"
-									id="addLineaEmpresa"></select>
-							</div>
+						<div class="form-group">
+							<label for="addLineaEmpresa">Compa&ntilde;&iacute;a</label>
+							<select class="form-control text-secondary" id="addLineaEmpresa"></select>
 						</div>
-					</div>
-					<div class="col-12">
-						<div class="col-12 d-flex flex-row">
-							<button type="button" onclick='addLineaPOSTREST()'
-								id="buttonAddLineaREST" class="btn btn-primary">CREAR</button>
-						</div>
-					</div>
+	  			    </form>
 				</div>
-			</div>
+				
+				<div class="modal-footer">
+					<button type="button" onclick='addLineaPOSTREST()' id="buttonAddLineaREST" class="btn btn-primary">Crear</button>
+				</div>
+		    </div>
 		</div>
 	</div>
 
-	<!-- Modal UPD LINEA-->
+
+	<!-- Modal UPD LINEA--> <!-- DONE -->	
 	<div class="modal" tabindex="-1" role="dialog" id="updLinea">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
+			
 				<div class="modal-header">
-					<h3 class="modal-title">Editar L&iacute;nea</h3>
+					<h5 class="modal-title">Editar L&iacute;nea</h5>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
-					<div class="col-12">
-						<input type="hidden" id="updIdRecorrido" />
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="updLineaName">Nombre L&iacute;nea</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text"
-									class="form-control mb-3 text-dark bg-secondary"
-									id="updLineaName" name="updLineaName" readonly />
-							</div>
+					<form>
+						<div class="form-group">
+							<label for="updLineaName">Nombre L&iacute;nea</label>
+							<input type="text" class="form-control" id="updLineaName" name="updLineaName" readonly >
 						</div>
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="updLineaDescripcion">Descripci&oacute;n</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text"
-									class="form-control mb-3 text-dark bg-secondary"
-									id="updLineaDescripcion" name="addLineaDescripcion" readonly />
-							</div>
+						<div class="form-group">
+							<label for="updLineaDescripcion">Descripci&oacute;n</label>
+							<input type="text" class="form-control" id="updLineaDescripcion" name="updLineaDescripcion" readonly />
 						</div>
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="updLineaEmpresa">Compa&ntilde;&iacute;a</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text"
-									class="form-control mb-3 text-dark bg-secondary"
-									id="updLineaEmpresa" name="updLineaEmpresa" readonly />
-							</div>
+						<div class="form-group">
+							<label for="updLineaEmpresa">Compa&ntilde;&iacute;a</label>
+							<input type="text" class="form-control" id="updLineaEmpresa" name="updLineaEmpresa" readonly />
 						</div>
-					</div>
-					<div class="col-12">
-						<div class="col-12 d-flex flex-row">
-							<button type="button" onclick='updLineaPUTREST()'
-								id="buttonUPDLineaREST" class="btn btn-primary">ACTUALIZAR</button>
-						</div>
-					</div>
+	  			    </form>
 				</div>
-			</div>
+				
+				<div class="modal-footer">
+					<button type="button" onclick='updLineaPUTREST()' id="buttonUPDLineaREST" class="btn btn-primary">Actualizar</button>
+				</div>
+		    </div>
 		</div>
 	</div>
+	
 
-	<!-- Modal UPD PARADA-->
+	<!-- Modal UPD PARADA--> <!-- DONE -->
 	<div class="modal" tabindex="-1" role="dialog" id="updParada">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Editar Parada</h3>
+					<h5 class="modal-title">Editar Parada</h5>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
-					<div class="col-12 mb-3">
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="updIdParada">Identificador</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text"
-									class="form-control mb-3 text-dark bg-secondary"
-									id="updIdParada" name="updIdParada" readonly />
-							</div>
+					<form>
+						<div class="form-group">
+							<label for="updIdParada">Identificador</label>
+							<input type="text" class="form-control" id="updIdParada" name="updIdParada" readonly >
 						</div>
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="updParadaDescripcion">Descripci&oacute;n</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text"
-									class="form-control mb-3 text-dark bg-secondary"
-									id="updParadaDescripcion" name="updParadaDescripcion" readonly />
-							</div>
+						<div class="form-group">
+							<label for="updParadaDescripcion">Descripci&oacute;n</label>
+							<input type="text" class="form-control" id="updParadaDescripcion" name="updParadaDescripcion" readonly />
 						</div>
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="updParadaEstado">Estado</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text"
-									class="form-control mb-3 text-dark bg-secondary"
-									id="updParadaEstado" name="updParadaEstado" readonly />
-							</div>
+						<div class="form-group">
+							<label for="updParadaEstado">Estado</label>
+							<input type="text" class="form-control" id="updParadaEstado" name="updParadaEstado" readonly />
 						</div>
-						<div class="col-12 d-flex flex-row validate-input">
+						<div class="form-group">
 							<label>L&iacute;neas</label>
-						</div>
-
-						<div class="col-12" style="background-color: #191c24;">
-							<nav>
-								<div class="nav nav-tabs" id="nav-tab" role="tablist">
-									<a class="nav-item nav-link active" id="nav-asociada-tab"
-										data-toggle="tab" href="#nav-asociada" role="tab"
-										aria-controls="nav-asociada" aria-selected="true">Asociadas</a>
-
-									<a class="nav-item nav-link" id="nav-cercana-tab"
-										data-toggle="tab" href="#nav-cercana" role="tab"
-										aria-controls="nav-cercana" aria-selected="false">Cercanas</a>
-								</div>
-							</nav>
-							<div class="tab-content" id="nav-tabContent">
-								<div class="tab-pane fade show active" id="nav-asociada"
-									role="tabpanel" aria-labelledby="nav-asociada-tab">
-									<div class="table-responsive" id="selectTableAsociadaLineas">
-										<table class="table">
-
-										</table>
+							<div class="col-12" style="background-color: #191c24;">
+								<nav>
+									<div class="nav nav-tabs" id="nav-tab" role="tablist">
+										<a class="nav-item nav-link active" id="nav-asociada-tab"
+											data-toggle="tab" href="#nav-asociada" role="tab"
+											aria-controls="nav-asociada" aria-selected="true">Asociadas</a>
+	
+										<a class="nav-item nav-link" id="nav-cercana-tab"
+											data-toggle="tab" href="#nav-cercana" role="tab"
+											aria-controls="nav-cercana" aria-selected="false">Cercanas</a>
 									</div>
-
-								</div>
-
-								<div class="tab-pane fade" id="nav-cercana" role="tabpanel"
-									aria-labelledby="nav-cercana-tab">
-									<div class="table-responsive" id="selectTableCercanaLineas">
-										<table class="table">
-
-										</table>
+								</nav>
+								<div class="tab-content" id="nav-tabContent">
+									<div class="tab-pane fade show active" id="nav-asociada"
+										role="tabpanel" aria-labelledby="nav-asociada-tab">
+										<div class="table-responsive" id="selectTableAsociadaLineas">
+											<table class="table">
+	
+											</table>
+										</div>
+	
+									</div>
+	
+									<div class="tab-pane fade" id="nav-cercana" role="tabpanel"
+										aria-labelledby="nav-cercana-tab">
+										<div class="table-responsive" id="selectTableCercanaLineas">
+											<table class="table">
+	
+											</table>
+										</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-12">
-						<div class="col-12 d-flex flex-row">
-							<div class="col-6  mb-3">
-								<button type="button"
-									id="buttonUPDParadaREST" class="btn btn-primary">ACTUALIZAR</button>
-							</div>
 
-							<div class="col-9  mb-3">
-								<button type="button" id="updParadaHorarioButton"
-									class="btn btn-primary">HORARIO</button>
-							</div>
-						</div>
-					</div>
+	  			    </form>
 				</div>
-			</div>
+				
+				<div class="modal-footer">
+					<button type="button" id="buttonUPDParadaREST" class="btn btn-primary">Actualizar</button>
+					<button type="button" id="updParadaHorarioButton" class="btn btn-primary">Horario</button>
+				</div>
+		    </div>
 		</div>
 	</div>
 
-	<!-- Modal UPD PARADA HORARIO-->
+	<!-- Modal UPD PARADA HORARIO--> <!-- DONE -->
 	<div class="modal" tabindex="-1" role="dialog" id="updParadaHorario">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
 					<input type="hidden" id="updIdParadaLineaHora"
 						name="updIdParadaLineaHora" />
-					<h3 class="modal-title">Editar Parada</h3>
+					<h5 class="modal-title">Editar Parada</h5>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close" id="closeModalUPDParadaHora">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
-					<div class="col-12 mb-3">
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="updIdParadaHora">Identificador</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text"
-									class="form-control mb-3 text-dark bg-secondary"
-									id="updIdParadaHora" name="updIdParadaHora" readonly />
+					<form>
+						<div class="form-group">
+							<label for="updIdParadaHora">Identificador</label>
+							<input type="text" class="form-control mb-3 text-dark bg-secondary" id="updIdParadaHora" name="updIdParadaHora" readonly />
+						</div>
+						<div class="form-group">
+							<label for="updParadaLineaDescripcion">L&iacute;nea</label>
+							<input type="text" class="form-control" id="updParadaLineaDescripcion" name="updParadaLineaDescripcion" readonly />
+						</div>
+						<div class="form-group">
+							<label for="updParadaEstado">Estado</label>
+							<input type="text" class="form-control" id="updParadaEstado" name="updParadaEstado" readonly />
+						</div>
+						<div class="form-group"></div>
+							<label for="updParadaHora">Hora</label>
+							<div class="form-row">
+								<div class="col-6">
+									<input class="form-control" type="time" id="updParadaHora" name="updParadaHora" value="00:00" required>
+								</div>
+								<div class="col" style="display: grid;">
+									<button type="button" id="updParadaHoraADD" class="btn btn-success">Agregar</button>
+								</div>
+								<div class="col" style="display: grid;">
+									<button type="button" id="updParadaHoraDEL" class="btn btn-danger">Quitar</button>
+								</div>
 							</div>
 						</div>
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="updParadaLineaDescripcion">L&iacute;nea</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="text"
-									class="form-control mb-3 text-dark bg-secondary"
-									id="updParadaLineaDescripcion" name="updParadaLineaDescripcion"
-									readonly />
-							</div>
-						</div>
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="updParadaHora">Hora</label>
-							</div>
-							<div class="col-3  mb-3">
-								<input type="time" id="updParadaHora" name="updParadaHora"
-									value="00:00" required>
-							</div>
-							<div class="col-3  mb-3">
-								<button type="button" id="updParadaHoraADD"
-									class="btn btn-primary">AGREGAR</button>
-							</div>
-							<div class="col-3  mb-3">
-								<button type="button" id="updParadaHoraDEL"
-									class="btn btn-primary">ELIMINAR</button>
-							</div>
-						</div>
-						<div class="col-12 d-flex flex-row">
-							<label>Horas</label>
-						</div>
-
 						<div class="col-12 d-flex flex-row"  style="background-color: #191c24;">
-							<div class="table-responsive col-12  mb-3"
+							<div class="table-responsive"
 								id="UPDParadasHorasLista" style="height: 200px !important">
 								<table class="table">
-								<thead><tr><th>parada</th><th>l&iacute;nea</th><th>hora</th></tr></thead><tbody></tbody>
-
+									<thead style="text-align: center;"><tr><th>Parada</th><th>L&iacute;nea</th><th>Hora</th></tr></thead><tbody></tbody>
 								</table>
 							</div>
 						</div>
-					</div>
-				</div>
 
-			</div>
+	  			    </form>
+				</div>
+		    </div>
 		</div>
 	</div>
-	</div>
 
-
-	<!-- Modal ULTIMOS CAMBIOS-->
+	<!-- Modal ULTIMOS CAMBIOS--> <!-- DONE -->
 	<div class="modal" tabindex="-1" role="dialog" id="lastCahange">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">&Uacute;ltimos cambios</h3>
+					<h5 class="modal-title">&Uacute;ltimos cambios</h5>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+				
 				<div class="modal-body">
-					<div class="col-12">
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="changeParadaLinea">Tipo</label>
-							</div>
-							<div class="col-9  mb-3">
-								<select class="form-control form-control-sm text-secondary"
-									id="changeParadaLinea">
-									<option value="PAR">Paradas</option>
-									<option value="LIN">L&iacute;neas</option>
-								</select>
-							</div>
+					<form>
+						<div class="form-group">
+							<label for="changeParadaLinea">Tipo</label>
+							<select class="form-control text-secondary" id="changeParadaLinea">
+								<option value="PAR">Paradas</option>
+								<option value="LIN">L&iacute;neas</option>
+							</select>
 						</div>
-						<div class="col-12 d-flex flex-row validate-input">
-							<div class="col-3  mb-3">
-								<label for="changeTiempoHoras">Tiempo en horas
-									(m&aacute;ximo 72hs)</label>
-							</div>
-							<div class="col-9  mb-3">
-								<input type="number" class="form-control mb-3"
-									id="changeTiempoHoras" name="changeTiempoHoras" min="0"
-									max="72">
-							</div>
+						<div class="form-group">
+							<label for="changeTiempoHoras">Tiempo en horas (m&aacute;ximo 72hs)</label>
+							<input type="number" class="form-control" id="changeTiempoHoras" name="changeTiempoHoras" min="0" max="72">
 						</div>
-
-					</div>
-					<div class="col-12">
-						<div class="col-12 d-flex flex-row">
-							<button type="button" onclick='changeLineaVER()'
-								id="buttonChangeParadaLineaREST" class="btn btn-primary">Ver</button>
-						</div>
-					</div>
+	  			    </form>
 				</div>
-			</div>
+				
+				<div class="modal-footer">
+					<button type="button" onclick='changeLineaVER()' id="buttonChangeParadaLineaREST" class="btn btn-primary">Ver</button>
+				</div>
+		    </div>
 		</div>
 	</div>
 

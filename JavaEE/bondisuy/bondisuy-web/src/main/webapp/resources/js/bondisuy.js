@@ -100,7 +100,8 @@ function searchOptions(id) {
 		select = '<select class="form-control form-control-sm text-secondary" id="selectEmpresas"></select>';
 
 		$ds(card_title).html("Buscar l&iacute;neas por empresa");
-		$ds(card_subtitle).html("L&iacute;nea");
+		// $ds(card_subtitle).html("L&iacute;nea");
+		$ds(card_subtitle).html("");
 		$ds(form_group).html(select);
 
 		listarCompany();
@@ -139,7 +140,8 @@ function searchOptions(id) {
 		$ds("a[href='#ui-basic']").click();
 		select = '<input type="text" class="form-control form-control-sm" id="inputLinea">';
 		$ds(card_title).html("Buscar l&iacute;nea");
-		$ds(card_subtitle).html("L&iacute;nea");
+		// $ds(card_subtitle).html("L&iacute;nea");
+		$ds(card_subtitle).html("");
 		$ds(form_group).html(select);
 
 		filtrarLineaByName('');
@@ -212,7 +214,8 @@ function searchOptions(id) {
 		select = '<label for="inputCalleA">Calle</label><input type="text" class="form-control form-control-sm" id="inputCalleA">';
 		select += '<label for="inputCalleB">Esquina</label><input type="text" class="form-control form-control-sm" id="inputCalleB" disabled>';
 		$ds(card_title).html("Buscar Esquina");
-		$ds(card_subtitle).html("Seleccione Calle");
+		// $ds(card_subtitle).html("Seleccione Calle");
+		$ds(card_subtitle).html("");
 		$ds(form_group).html(select);
 
 		filtrarCalleByName('');
@@ -382,7 +385,8 @@ function searchOptions(id) {
 		select = '<label for="inputCalleN">Calle</label><input type="text" class="form-control form-control-sm" id="inputCalleN">';
 		select += '<label for="inputNumero">N\u00FAmero</label><input type="number" class="form-control form-control-sm" id="inputNumero" disabled>';
 		$ds(card_title).html("Buscar Direcci\u00F3n");
-		$ds(card_subtitle).html("Seleccione Calle");
+		// $ds(card_subtitle).html("Seleccione Calle");
+		$ds(card_subtitle).html("");
 		$ds(form_group).html(select);
 
 		filtrarCalleByName('');
@@ -546,7 +550,8 @@ function searchOptions(id) {
 
 		$ds("a[href='#ui-basic']").click();
 		$ds(card_title).html("Ver Paradas Habilitadas");
-		$ds(card_subtitle).html("Informaci\u00F3n");
+		// $ds(card_subtitle).html("Informaci\u00F3n");
+		$ds(card_subtitle).html("");
 		var form_group = $ds(card).find(".form-group");
 		var table = $ds("#selectTableLineas").children("table").get(0);
 
@@ -567,7 +572,8 @@ function searchOptions(id) {
 
 		$ds("a[href='#ui-basic']").click();
 		$ds(card_title).html("Ver Paradas Habilitadas");
-		$ds(card_subtitle).html("Informaci\u00F3n");
+		// $ds(card_subtitle).html("Informaci\u00F3n");
+		$ds(card_subtitle).html("");
 		var form_group = $ds(card).find(".form-group");
 		var table = $ds("#selectTableLineas").children("table").get(0);
 
@@ -599,7 +605,7 @@ function searchOptions(id) {
 		var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
 
 		getRecorridoCercanos([point32721['x'], point32721['y']], DISTANCIA);
-		var txttable = '<thead><tr><th>l&iacute;nea</th><th>Detalle</th></tr></thead><tbody></tbody>';
+		var txttable = '<thead class="text-align: center;"><tr><th>L&iacute;nea</th><th>Detalle</th></tr></thead><tbody></tbody>';
 
 		$ds(table).html(txttable);
 
@@ -609,7 +615,7 @@ function searchOptions(id) {
 		removeAllLayers();
 
 		var card = $ds("#to_do_some");
-		var button = '<button class="btn btn-secondary btn-fw" id="confNuevaParada">Confirmar Ubicaci\u00F3n</select>';
+		var button = '<button style="width: 100%" class="btn btn-secondary btn-fw" id="confNuevaParada">Confirmar Ubicaci\u00F3n</button>';
 
 		$ds("a[href='#ui-busstop']").click();
 		$ds(card_title).html("Crear Parada");
@@ -649,9 +655,10 @@ function searchOptions(id) {
 
 		$ds("a[href='#ui-busstop']").click();
 		select = '<input type="text" class="form-control form-control-sm" id="inputEditParada"><br>';
-		var button = '<button class="btn btn-secondary btn-fw" id="confUpdParada">Modificar</select>';
+		var button = '<button style="width: 100%" class="btn btn-secondary btn-fw" id="confUpdParada">Modificar</button>';
 		$ds(card_title).html("Modificar Parada");
-		$ds(card_subtitle).html("Parada");
+		// $ds(card_subtitle).html("Parada");
+		$ds(card_subtitle).html("");
 		$ds(form_group).html(select + button);
 
 		filtrarParadaById('');
@@ -912,7 +919,7 @@ function searchOptions(id) {
 		removeAllLayers();
 
 		var card = $ds("#to_do_some");
-		var button = '<button class="btn btn-secondary btn-fw" id="confNuevaLinea">Confirmar L\u00EDnea</select>';
+		var button = '<button style="width: 100%" class="btn btn-secondary btn-fw" id="confNuevaLinea">Confirmar L\u00EDnea</button>';
 
 		$ds("a[href='#ui-busline']").click();
 		$ds(card_title).html("Crear Linea");
@@ -948,9 +955,10 @@ function searchOptions(id) {
 
 		$ds("a[href='#ui-busline']").click();
 		select = '<input type="text" class="form-control form-control-sm" id="inputLinea"><br>';
-		var button = '<button class="btn btn-secondary btn-fw" id="confUpdLinea">Modificar</select>';
+		var button = '<button style="width: 100%" class="btn btn-secondary btn-fw" id="confUpdLinea">Modificar</button>';
 		$ds(card_title).html("Modificar l&iacute;nea");
-		$ds(card_subtitle).html("L&iacute;nea");
+		// $ds(card_subtitle).html("L&iacute;nea");
+		$ds(card_subtitle).html("");
 		$ds(form_group).html(select + button);
 
 		filtrarLineaByName('');
@@ -1049,7 +1057,7 @@ function searchOptions(id) {
 		removeAllLayers();
 
 		var card = $ds("#to_do_some");
-		var button = '<button class="btn btn-secondary btn-fw" id="confZonaLinea">Confirmar zona</select>';
+		var button = '<button style="width: 100%" class="btn btn-secondary btn-fw" id="confZonaLinea">Confirmar zona</button>';
 
 		$ds("a[href='#ui-basic']").click();
 		$ds(card_title).html("Buscar L\u00EDnea por Zona");

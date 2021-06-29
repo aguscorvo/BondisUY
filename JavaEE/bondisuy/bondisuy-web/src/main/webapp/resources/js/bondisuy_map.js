@@ -425,7 +425,8 @@ map.on('click', function(evt) {
 			var form_group = $ds(card).find(".form-group");
 
 			$ds(card_title).html("Parada " + paradaID);
-			$ds(card_subtitle).html("L&iacute;nea");
+			// $ds(card_subtitle).html("L&iacute;nea");
+			$ds(card_subtitle).html("");
 
 			var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
 			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place
@@ -465,7 +466,8 @@ map.on('click', function(evt) {
 			var form_group = $ds(card).find(".form-group");
 
 			$ds(card_title).html("Parada " + paradaID);
-			$ds(card_subtitle).html("L&iacute;nea");
+			// $ds(card_subtitle).html("L&iacute;nea");
+			$ds(card_subtitle).html("");
 
 			var point = new Proj4js.Point(coordinates);   //any object will do as long as it has 'x' and 'y' properties
 			var point32721 = Proj4js.transform(proj4326, proj32721, point);      //do the transformation.  x and y are modified in place

@@ -137,8 +137,61 @@ tbody tr.selected {
  	color:  #ffa068 !important;
 }
 
-#ver_Lineas_Paradas, #eliminar_recorrido{
+#ver_Lineas_Paradas, #eliminar_recorrido {
 	border-top: 1px solid black;
 	margin-top: 1rem!important;
-	
+}
+
+#ui-basic, #ui-busstop, #ui-busline {
+	padding-top: 5px;
+}
+
+li.nav-item.sidebar-menu-item {
+    width: 170px;
+    /* height: 175px; */
+    border-radius: 0px 100px 100px 0px;
+    /* margin-top: 15px; */
+    /* margin-bottom: 0px; */
+    cursor: pointer;
+}       
+
+li.nav-item.sidebar-menu-item:hover {
+    opacity: 1 !important;
+    /* box-shadow: 0px 0px 15px 2px white; */
+    -webkit-transition: box-shadow 1s;
+    -moz-transition: box-shadow 1s;
+    -o-transition: box-shadow 1s;
+    transition: box-shadow 1s;
+    background-color: #2a2d3a !important;        
+}  
+
+li.nav-item.sidebar-menu-item:not(hover) {
+    opacity: 1 !important;
+    transition: box-shadow 1s;            
+}
+
+div#selectTableLineas tr {
+    cursor: pointer !important;
+}
+
+div#selectTableLineas tr:hover {
+    opacity: 1 !important;
+    /* box-shadow: 0px 0px 15px 2px white; */
+    -webkit-transition: box-shadow 1s;
+    -moz-transition: box-shadow 1s;
+    -o-transition: box-shadow 1s;
+    transition: box-shadow 1s;
+    background-color: #2a2d3a !important;        
+}  
+
+div#selectTableLineas tr::not(hover) {
+    opacity: 1 !important;
+    transition: box-shadow 1s;            
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #1d2d41 !important;
+    opacity: 1 !important;
+    color: #808080 !important;
+    font-style: italic;
 }

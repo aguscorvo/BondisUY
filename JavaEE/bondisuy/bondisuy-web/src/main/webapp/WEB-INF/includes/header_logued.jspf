@@ -10,8 +10,8 @@
 		<a class="nav-link"
 			id="profileDropdown" href="#" data-toggle="dropdown">
 				<div class="navbar-profile">
-					<img class="img-xs rounded-circle"
-						src="/bondisuy-web/resources/images/user/default.png" alt="">
+					<!-- <img class="img-xs rounded-circle"
+						src="/bondisuy-web/resources/images/user/default.png" alt="">  -->
 					<p class="mb-0 d-none d-sm-block navbar-profile-name">${sessionScope.USER.nombre}&nbsp;${sessionScope.USER.apellido}</p>
 					<i class="mdi mdi-menu-down d-none d-sm-block"></i>
 				</div>

@@ -30,7 +30,7 @@ function listarCompany() {
 
 //Listar Lineas por Empresa
 function filtrarLineaByCompany(companyId) {
-	var txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
+	var txttable = '<thead style="text-align:center;"><tr><th>L&iacute;nea</th><th>Detalle</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 
@@ -75,7 +75,7 @@ function filtrarLineaByCompany(companyId) {
 
 //filtrar calle por Nombre
 function filtrarCalleByName(calleName) {
-	var txttable = '<thead><tr><th>nombre</th><th>tipo</th></tr></thead><tbody>';
+	var txttable = '<thead style="text-align:center;"><tr><th>Nombre</th><th>Tipo</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 	if (!(calleName.replace('/\r?\n|\r/g', '') == '' || calleName == 'ALL')) {
@@ -155,7 +155,7 @@ function getEsquinaCalle(calle1, calle2, texto) {
 
 //getEsquina por ids de calles
 function filtrarDireccion(calle, numero, texto) {
-	var txttable = '<thead><tr><th>Resultado</th></thead><tbody>';
+	var txttable = '<thead style="text-align:center;"><tr><th>Resultado</th></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 
@@ -213,7 +213,7 @@ function filtrarDireccion(calle, numero, texto) {
 
 //filtrar linea por Nombre
 function filtrarLineaByName(lineaName) {
-	var txttable = '<thead><tr><th>l&iacute;nea</th><th>Detalle</th></tr></thead><tbody>';
+	var txttable = '<thead style="text-align:center;"><tr><th>L&iacute;nea</th><th>Detalle</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 	if (lineaName != '') {
@@ -259,7 +259,7 @@ function filtrarLineaByName(lineaName) {
 
 //filtrar Parada por ID
 function filtrarParadaById(paradaID) {
-	var txttable = '<thead><tr><th>Parada</th><th>Detalle</th></tr></thead><tbody>';
+	var txttable = '<thead style="text-align:center;"><tr><th>Parada</th><th>Detalle</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 	if (paradaID != '') {
@@ -304,7 +304,7 @@ function filtrarParadaById(paradaID) {
 
 //filtrar calle Esquina por Nombre
 function filtrarEsquinaCalle(idCalle, calleName) {
-	var txttable = '<thead><tr><th>nombre</th><th>tipo</th></tr></thead><tbody>';
+	var txttable = '<thead style="text-align:center;"><tr><th>Nombre</th><th>Tipo</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 	if (calleName == '')
@@ -339,7 +339,7 @@ function filtrarEsquinaCalle(idCalle, calleName) {
 //Creacion de lineas 
 //List de objetos: {descripcion: TEXT, coordenadas: [[lat, long],[lat, long]], color: HEX }
 function addRecorridoCercano(list) {
-	var txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
+	var txttable = '<thead style="text-align: center;"><tr><th>L&iacute;nea</th><th>Detalle</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 
@@ -384,7 +384,7 @@ function addRecorridoCercano(list) {
 
 //filtrar linea por Nombre
 function getParadaLineaHorario(paradaID) {
-	var txttable = '<thead><tr><th></th></thead><tbody><td>';
+	var txttable = '<thead style="text-align:center;"><tr><th></th></thead><tbody><td>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 	if (paradaID != '') {
@@ -473,7 +473,7 @@ function getParadaLineaHorario(paradaID) {
 
 //filtrar linea por Nombre
 function getParadaLineaTodas(paradaID) {
-	var txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
+	var txttable = '<thead style="text-align: center;"><tr><th>L&iacute;nea</th><th>Detalle</th></tr></thead><tbody>';
 	var table = $ds("#selectTableLineas").children("table").get(0);
 
 	if (paradaID != '') {
@@ -1255,10 +1255,10 @@ function getRecorridoUPDParada(idParada, coord, distancia) {
 	updLineasParadasHorario = {};
 
 	var table = $ds("#selectTableAsociadaLineas").children("table").get(0);
-	var txttable = '<thead><tr><th>Sin l\u00EDneas asociadas</th></tr></thead><tbody>'
+	var txttable = '<thead style="text-align: center;"><tr><th>Sin l\u00EDneas asociadas</th></tr></thead><tbody>'
 
 	var tablec = $ds("#selectTableCercanaLineas").children("table").get(0);
-	var txttablec = '<thead><tr><th>Sin l\u00EDneas cerecanas</th></tr></thead><tbody>'
+	var txttablec = '<thead style="text-align: center;"><tr><th>Sin l\u00EDneas cercanas</th></tr></thead><tbody>'
 
 
 
@@ -1310,7 +1310,7 @@ function getRecorridoUPDParada(idParada, coord, distancia) {
 			var arrVac = Object.keys(lineas);
 			if (arrVac.length > 0) {
 
-				txttable = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
+				txttable = '<thead style="text-align: center;"><tr><th>L&iacute;nea</th><th>Detalle</th></tr></thead><tbody>';
 				for (id in arrVac) {
 					var lin = arrVac[id];
 					txttable += '<tr data-counter_id=' + lineas[lin].recorrido + '><td>' + lineas[lin].linea + '</td><td>' + lineas[lin].detalle + '</td></tr>'
@@ -1350,7 +1350,7 @@ function getRecorridoUPDParada(idParada, coord, distancia) {
 
 						if (recorridos.length > 0) {
 
-							txttablec = '<thead><tr><th>l&iacute;nea</th><th>detalle</th></tr></thead><tbody>';
+							txttablec = '<thead style="text-align: center;"><tr><th>L&iacute;nea</th><th>Detalle</th></tr></thead><tbody>';
 							for (rec in recorridos) {
 								if (!lineas.hasOwnProperty(recorridos[rec].id))
 									txttablec += '<tr data-counter_id=' + recorridos[rec].id + '><td>' + recorridos[rec].nombre + '</td><td>' + recorridos[rec].descripcion + '</td></tr>'
