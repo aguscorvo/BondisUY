@@ -855,23 +855,19 @@ function searchOptions(id) {
 					horario['horario'] = $ds(this).attr("data-counter_hora");
 
 					listaInsertarHorario.push(horario);
-				} else if ($ds(this).attr("data-counter_exist") == 'T' && $ds(this).attr("data-counter_eliminar") == 'F') {
+				} else if ($ds(this).attr("data-counter_exist") == 'T' && $ds(this).attr("data-counter_eliminar") == 'T') {
 					var horario = {};
 					horario['linea'] = $ds(this).attr("data-counter_id");
 					horario['parada'] = updparada;
 					horario['horario'] = $ds(this).attr("data-counter_hora");
 
-					listaInsertarHorario.push(horario);
-
-					if (listaEliminarHorario.indexOf($ds(this).attr("data-counter_id")) == -1)
-						listaEliminarHorario.push($ds(this).attr("data-counter_id"));
+					listaEliminarHorario.push(horario);
+					//listaInsertarHorario.push(horario);
+				} else if ($ds(this).attr("data-counter_exist") == 'T' && $ds(this).attr("data-counter_eliminar") == 'F') {
+						
+		
 				}
 			});
-
-
-			//			console.log(listaEliminarHorario);
-			//			console.log(listaInsertarHorario);
-			//			console.log(updParadaGeo);
 
 			if (updParadaGeo)
 				addHorarioLineaRecorridoGEOM(updparada);

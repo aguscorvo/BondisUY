@@ -900,7 +900,7 @@ function addUPDParada(list, typeSource) {
 
 		coordUPDParada = list[lst]['coordenadas'];
 		paradas.push(parada);// Agregamos el recorrido  al arreglo
-
+		console.log(coordUPDParada);
 	}
 
 	for (var f in sourceUPDParada.getFeatures()) {
@@ -926,6 +926,7 @@ function addUPDParada(list, typeSource) {
 
 		map.removeInteraction(snapUPDParada);
 
+		console.log(coordUPDParada);
 	});
 
 	modifyUPDParada.on('modifyend', function(evt) {
@@ -936,6 +937,7 @@ function addUPDParada(list, typeSource) {
 			updParadaGeo = true;
 		}
 
+		console.log(coordUPDParada);
 	});
 
 	// Agregamos la capa al parada

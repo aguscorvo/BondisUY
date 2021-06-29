@@ -756,54 +756,76 @@ function deleteRecorridoREST() {
 	});
 }
 
-function delHorarioParadaRecorrido(idParada, idRecorrido) {
-	var url = "/bondisuy-web/bondisuyrest/paradas/eliminarHorariosParadaRecorrido/{parada}/{recorrido}";
+function delHorarioParadaRecorrido(idParada, lineas) {
+	//var url = "/bondisuy-web/bondisuyrest/paradas/eliminarHorariosParadaRecorrido/{parada}/{recorrido}";
+	//url = url.replace('{parada}', idParada).replace('{recorrido}', idRecorrido);
+	var url = "/bondisuy-web/bondisuyrest/paradas/eliminarHorarios";
+	
+	var horario = [];
+	for (var p = 0; p < lineas.length; p++) {
+		horario.push( { hora: lineas[p]['horario'], recorrido: lineas[p]['linea'], parada: idParada });
+	}
+	
+	const jsHorario = JSON.stringify(horario);
+	console.log(jsHorario);
 
-	url = url.replace('{parada}', idParada).replace('{recorrido}', idRecorrido);
 
 	$ds.ajax({
 		url: url,
 		type: "DELETE",
 		dataType: "json",
 		contentType: "application/json; charset=utf-8",
-		//data: jsHorario,
+		data: jsHorario,
 		success: function(result) {
 			console.log(result);
 		},
 		error: function(err) {
 			updParadaERROR = true;
-			updParadaERRORtxt += err['responseJSON']['mensaje'];
+
+			if (err['responseJSON'] == undefined) {
+				updParadaERRORtxt += err['statusText'];
+			} else {
+				updParadaERRORtxt += err['responseJSON']['mensaje'];
+			}
+			
+			console.log(updParadaERRORtxt);
 		}
 	}); // ajax call closing
 
 }
 
 function addHorarioLineaRecorrido(idParada, lineas) {
-	var url = "/bondisuy-web/bondisuyrest/paradas/crearHorario";
-
+	var url = "/bondisuy-web/bondisuyrest/paradas/crearHorarios";
+	var horario = [];
 	for (var p = 0; p < lineas.length; p++) {
-		var horario = { hora: lineas[p]['horario'], recorrido: lineas[p]['linea'], parada: idParada };
-		const jsHorario = JSON.stringify(horario);
-
-		console.log(jsHorario);
-
-		$ds.ajax({
-			url: url,
-			type: "POST",
-			dataType: "json",
-			contentType: "application/json; charset=utf-8",
-			data: jsHorario,
-			success: function(result) {
-				console.log(result);
-			},
-			error: function(err) {
-				updParadaERROR = true;
-				updParadaERRORtxt += err['responseJSON']['mensaje'];
-
-				console.log(err['responseJSON']['mensaje']);
-			}
-		}); // ajax call closing
+		horario.push( { hora: lineas[p]['horario'], recorrido: lineas[p]['linea'], parada: idParada });
 	}
+	
+	const jsHorario = JSON.stringify(horario);
+	console.log(jsHorario);
+
+	$ds.ajax({
+		url: url,
+		type: "POST",
+		dataType: "json",
+		contentType: "application/json; charset=utf-8",
+		data: jsHorario,
+		success: function(result) {
+			console.log(result);
+		},
+		error: function(err) {
+			updParadaERROR = true;
+			
+			if (err['responseJSON'] == undefined) {
+				updParadaERRORtxt += err['statusText'];
+			} else {
+				updParadaERRORtxt += err['responseJSON']['mensaje'];
+			}
+
+
+			console.log(updParadaERRORtxt);
+		}
+	}); // ajax call closing
 }
 
 function addHorarioLineaRecorridoGEOM(idParada) {
@@ -852,7 +874,7 @@ function addHorarioLineaRecorridoGEOM(idParada) {
 		error: function(err) {
 			updParadaERROR = true;
 
-			if (err['responseJSON']['mensaje'] == undefined) {
+			if (err['responseJSON'] == undefined) {
 				updParadaERRORtxt += err['statusText'];
 			} else {
 				updParadaERRORtxt += err['responseJSON']['mensaje'];
@@ -873,10 +895,9 @@ function addHorarioLineaRecorridoGEOM(idParada) {
 
 
 function updParadaREST(listDEL, listADD, idParada) {
-	for (var d in listDEL) {
-		delHorarioParadaRecorrido(idParada, listDEL[d]);
-	}
 
+	delHorarioParadaRecorrido(idParada, listDEL);
+	
 	addHorarioLineaRecorrido(idParada, listADD);
 
 	var card = $ds("#to_do_some");

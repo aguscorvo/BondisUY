@@ -48,7 +48,11 @@ for p in codparada:
     except Exception as e:
         flog.write('error key' + str(p) + ' URL: ' + urln + ' Exception: ' + str(e) + '\n')
 
+f = open("paradaslineas.txt", "w")
+f.write(str(paradas))
+f.close()
 
+"""
 print ("Paso 2 - Carga de lineas")
 
 for key in paradas:
@@ -81,10 +85,10 @@ for det in paradas_horas:
     consulta += str(det['ruta']) + ');\n' 
     f.write(consulta)
 
-f.write('INSERT INTO ft_recorridos_horarios (horarios_id, recorrido_id) SELECT id, recorrido_id FROM horarios WHERE parada_id = 2778;\n')
-f.write('INSERT INTO ft_paradas_horarios (horarios_id, parada_id) SELECT id, parada_id FROM horarios WHERE parada_id = 2778;\n')
+#f.write('INSERT INTO ft_recorridos_horarios (horarios_id, recorrido_id) SELECT id, recorrido_id FROM horarios WHERE parada_id = 2778;\n')
+#f.write('INSERT INTO ft_paradas_horarios (horarios_id, parada_id) SELECT id, parada_id FROM horarios WHERE parada_id = 2778;\n')
 
 f.close()
-
+"""
 print ("FIN DEL PROCESO")
 
