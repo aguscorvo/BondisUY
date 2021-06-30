@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# Espera que Wildfly termine de deployar
-  until curl -sSf http://docker-compose_wildfly_1:8080/bondisuy-web/Bondisuy &> /dev/null; do
-    echo "Esperando que Wildfly termine de deployar"
-    sleep 2
-  done
+echo "Espera cargador"
+sleep 60
+echo "Inicia cargador"
 
-# Actualización de tablas Paradas y Recorridos con atributo geom
+# Carga la bd
 
-PGPASSWORD=postgis psql -h docker-compose_postgis_1 -p 5432 -d tsig -U postgis -f /scripts/updateGeom.sql
+PGPASSWORD=postgis psql -h docker-compose_postgis_1 -p 5432 -d tsig -U postgis -f /scripts/armadobase.sql
 
+# Actualización de tablas Paradas y Recorridos con atributo geom - Ya no es mas necesario
+# PGPASSWORD=postgis psql -h docker-compose_postgis_1 -p 5432 -d tsig -U postgis -f /scripts/updateGeom.sql
 
 # Carga de Paradas
 
