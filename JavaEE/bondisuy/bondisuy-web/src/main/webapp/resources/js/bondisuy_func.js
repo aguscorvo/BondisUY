@@ -37,14 +37,12 @@ function filtrarLineaByCompany(companyId) {
 	if (companyId != '' && companyId != null) {
 		var url = "/bondisuy-web/LineaBondisuy?companyId=" + companyId;
 
-
 		$ds.ajaxSetup({
 			scriptCharset: "utf-8",
 			contentType: "application/json; charset=utf-8",
 			mimeType: "text/plain",
 			headers: { 'Access-Control-Allow-Origin': GEOSERVER }
 		});
-
 
 		$ds.getJSON(url)
 			.done(function(data) {

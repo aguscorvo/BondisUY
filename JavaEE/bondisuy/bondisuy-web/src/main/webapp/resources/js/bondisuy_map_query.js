@@ -16,6 +16,9 @@ function getParadasCercanas(coord, distancia) {
 
 	url = url.replace('{X}', coord[0]).replace('{Y}', coord[1]).replace('{DISTANCIA}', distancia);
 
+	console.log(url);
+
+
 	$ds.ajaxSetup({
 		scriptCharset: "utf-8",
 		contentType: "application/json; charset=utf-8",
@@ -239,6 +242,8 @@ function getRecorrido(id) {
 
 	url = url.replace('{id}', id);
 
+	console.log(url);
+
 	$ds.ajaxSetup({
 		scriptCharset: "utf-8",
 		contentType: "application/json; charset=utf-8",
@@ -291,6 +296,9 @@ function getRecorrido(id) {
 					console.log(auxlinea);
 				}
 			}
+
+			
+			console.log(recorridos);
 
 			geolocation.setTracking(false);
 			borrarCapaPorNombre(L_RECORRIDOS);
