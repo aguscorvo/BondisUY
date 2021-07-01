@@ -391,11 +391,11 @@ function getParadaLineaHorario(paradaID) {
 		var url = "/bondisuy-web/bondisuyrest/paradas/{PARADA}/{HORA}";
 
 		var dia = new Date();
-		var hora = dia.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+		var hora = dia.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+		url = url.replace("{PARADA}", paradaID).replace("{HORA}", hora.replace(" AM","").replace(" PM",""));
 
-		url = url.replace("{PARADA}", paradaID).replace("{HORA}", hora);
-
+		console.log("Estoy acá");
 		console.log(url);
 
 		$ds.ajaxSetup({
