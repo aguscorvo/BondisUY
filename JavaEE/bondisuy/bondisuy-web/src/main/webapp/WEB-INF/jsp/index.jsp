@@ -60,7 +60,7 @@
 					data-toggle="collapse" href="#ui-basic" aria-expanded="false"
 					aria-controls="ui-basic"> <span class="menu-icon"> <i
 							class="mdi mdi-filter"></i>
-					</span> <span class="menu-title"> Buscar Informaci&oacute;n</span> <i
+					</span> <span class="menu-title"> Buscar informaci&oacute;n</span> <i
 						class="menu-arrow"></i>
 				</a>
 					<div class="collapse" id="ui-basic">
@@ -74,14 +74,14 @@
 							<li class="nav-item"><a class="nav-link"
 								href="javascript:searchOptions(4);">Direcci&oacute;n</a></li>
 							<li class="nav-item"><a class="nav-link"
-								href="javascript:searchOptions(5);">Paradas Habilitadas</a></li>
+								href="javascript:searchOptions(5);">Paradas habilitadas</a></li>
 							<li class="nav-item"><a class="nav-link"
-								href="javascript:searchOptions(6);">Paradas Deshabilitadas</a></li>
+								href="javascript:searchOptions(6);">Paradas deshabilitadas</a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="javascript:searchOptions(7);">Ver l&iacute;neas
-									Cercanas</a></li>
+									cercanas</a></li>
 							<li class="nav-item"><a class="nav-link"
-								href="javascript:searchOptions(12);">Ver Paradas Cercanas</a></li>
+								href="javascript:searchOptions(12);">Ver paradas cercanas</a></li>
 							<li class="nav-item"><a class="nav-link"
 								href="javascript:searchOptions(13);">Ver l&iacute;neas en
 									zona</a></li>
@@ -228,7 +228,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Crear Parada</h3>
+					<h3 class="modal-title">Crear parada</h3>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -249,7 +249,7 @@
 							<div class="col-12  mb-3">
 								<div class="form-group">
 									<label for="addNuevaParadaLineasCercanas">L&iacute;neas
-										Cercanas</label> <select multiple class="form-control"
+										cercanas</label> <select multiple class="form-control"
 										id="addNuevaParadaLineasCercanas">
 
 									</select>
@@ -330,7 +330,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Crear L&iacute;nea</h3>
+					<h3 class="modal-title">Crear l&iacute;nea</h3>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -340,7 +340,7 @@
 					<div class="col-12">
 						<div class="col-12 d-flex flex-row validate-input">
 							<div class="col-3  mb-3">
-								<label for="addLineaName">Nombre L&iacute;nea</label>
+								<label for="addLineaName">Nombre l&iacute;nea</label>
 							</div>
 							<div class="col-9  mb-3">
 								<input type="text" class="form-control mb-3" id="addLineaName"
@@ -383,7 +383,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Editar L&iacute;nea</h3>
+					<h3 class="modal-title">Editar l&iacute;nea</h3>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -394,7 +394,7 @@
 						<input type="hidden" id="updIdRecorrido" />
 						<div class="col-12 d-flex flex-row validate-input">
 							<div class="col-3  mb-3">
-								<label for="updLineaName">Nombre L&iacute;nea</label>
+								<label for="updLineaName">Nombre l&iacute;nea</label>
 							</div>
 							<div class="col-9  mb-3">
 								<input type="text"
@@ -439,7 +439,7 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h3 class="modal-title">Editar Parada</h3>
+					<h3 class="modal-title">Editar parada</h3>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -540,7 +540,7 @@
 				<div class="modal-header">
 					<input type="hidden" id="updIdParadaLineaHora"
 						name="updIdParadaLineaHora" />
-					<h3 class="modal-title">Editar Parada</h3>
+					<h3 class="modal-title">Editar parada</h3>
 					<button type="button" class="close text-light" data-dismiss="modal"
 						aria-label="Close" id="closeModalUPDParadaHora">
 						<span aria-hidden="true">&times;</span>
