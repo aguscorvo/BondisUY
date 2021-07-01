@@ -396,7 +396,7 @@ function getParadaLineaHorario(paradaID) {
 
 		url = url.replace("{PARADA}", paradaID).replace("{HORA}", hora);
 
-		//console.log(url);
+		console.log(url);
 
 		$ds.ajaxSetup({
 			scriptCharset: "utf-8",
@@ -412,7 +412,39 @@ function getParadaLineaHorario(paradaID) {
 				if (!$ds.isEmptyObject(data)) {
 					var lineas = {};
 					var cuerpo = data["cuerpo"];
+					
+					
 
+					if (!$ds.isEmptyObject(cuerpo)) {
+					console.log(cuerpo);
+						
+						for (var lin in cuerpo) {
+							var recorrido = cuerpo[lin][2];
+							var nombrelinea = cuerpo[lin][0];
+							var linea = {};
+
+							if (lineas[nombrelinea] == undefined) {
+								linea['linea'] = nombrelinea;
+								linea['recorrido'] = recorrido;
+								linea['detalle'] = cuerpo[lin][3];
+								linea['horarios'] = [];
+
+								linea['horarios'].push(cuerpo[lin][1]);
+							} else {
+								linea = lineas[nombrelinea];
+
+								linea['horarios'].push(cuerpo[lin][1]);
+
+							}
+
+							lineas[nombrelinea] = linea;
+						}
+
+
+					}
+
+
+					/*
 					if (!$ds.isEmptyObject(cuerpo)) {
 						var horarios = cuerpo['horarios'];
 						for (var lin in horarios) {
@@ -440,18 +472,15 @@ function getParadaLineaHorario(paradaID) {
 						}
 
 					}
-
-
+					*/
 
 				}
 
-
-				if (lineas.length > 0) {
+				if (Object.keys(lineas).length > 0) {
 					txttable += htmlParadaHorarioLinea(lineas);
 				} else {
 					txttable += 'Sin l\u00EDneas pr\u00F3ximas'
 				}
-
 
 				txttable += '</td></tbody>';
 
@@ -760,12 +789,12 @@ function delHorarioParadaRecorrido(idParada, lineas) {
 	//var url = "/bondisuy-web/bondisuyrest/paradas/eliminarHorariosParadaRecorrido/{parada}/{recorrido}";
 	//url = url.replace('{parada}', idParada).replace('{recorrido}', idRecorrido);
 	var url = "/bondisuy-web/bondisuyrest/paradas/eliminarHorarios";
-	
+
 	var horario = [];
 	for (var p = 0; p < lineas.length; p++) {
-		horario.push( { hora: lineas[p]['horario'], recorrido: lineas[p]['linea'], parada: idParada });
+		horario.push({ hora: lineas[p]['horario'], recorrido: lineas[p]['linea'], parada: idParada });
 	}
-	
+
 	const jsHorario = JSON.stringify(horario);
 	console.log(jsHorario);
 
@@ -787,7 +816,7 @@ function delHorarioParadaRecorrido(idParada, lineas) {
 			} else {
 				updParadaERRORtxt += err['responseJSON']['mensaje'];
 			}
-			
+
 			//console.log(updParadaERRORtxt);
 		}
 	}); // ajax call closing
@@ -798,9 +827,9 @@ function addHorarioLineaRecorrido(idParada, lineas) {
 	var url = "/bondisuy-web/bondisuyrest/paradas/crearHorarios";
 	var horario = [];
 	for (var p = 0; p < lineas.length; p++) {
-		horario.push( { hora: lineas[p]['horario'], recorrido: lineas[p]['linea'], parada: idParada });
+		horario.push({ hora: lineas[p]['horario'], recorrido: lineas[p]['linea'], parada: idParada });
 	}
-	
+
 	const jsHorario = JSON.stringify(horario);
 	//console.log(jsHorario);
 
@@ -815,7 +844,7 @@ function addHorarioLineaRecorrido(idParada, lineas) {
 		},
 		error: function(err) {
 			updParadaERROR = true;
-			
+
 			if (err['responseJSON'] == undefined) {
 				updParadaERRORtxt += err['statusText'];
 			} else {
@@ -897,7 +926,7 @@ function addHorarioLineaRecorridoGEOM(idParada) {
 function updParadaREST(listDEL, listADD, idParada) {
 
 	delHorarioParadaRecorrido(idParada, listDEL);
-	
+
 	addHorarioLineaRecorrido(idParada, listADD);
 
 	var card = $ds("#to_do_some");
@@ -975,7 +1004,7 @@ function getCompanyNuevaLinea() {
 			for (var op in data) {
 				options += '<option	value="' + data[op].id + '">' + data[op].nombre + '</option>'
 			}
-			
+
 			$ds("#addLineaEmpresa").html(options);
 			$ds('#addLinea').modal('show');
 

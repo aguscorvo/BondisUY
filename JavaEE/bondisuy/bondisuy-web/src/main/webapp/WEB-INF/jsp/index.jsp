@@ -48,9 +48,9 @@
 		<nav class="sidebar sidebar-offcanvas" id="sidebar">
 			<div
 				class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-				<a class="sidebar-brand brand-logo" href="#"><img
+				<a class="sidebar-brand brand-logo" href="/bondisuy-web/Bondisuy"><img
 					src="/bondisuy-web/resources/images/logo.svg" alt="logo" /></a> <a
-					class="sidebar-brand brand-logo-mini" href="#"><img
+					class="sidebar-brand brand-logo-mini" href="/bondisuy-web/Bondisuy"><img
 					src="/bondisuy-web/resources/images/logo-mini.svg" alt="logo" /></a>
 			</div>
 			<ul class="nav mb-1">

@@ -52,16 +52,37 @@ body *::-webkit-scrollbar-thumb {
 	font-size: 0.8rem !important;
 }
 
+
+/*
+@media screen and (max-width: 991px) {
+  .sidebar-offcanvas {
+    position: fixed;
+    max-height: calc(100vh - 70px);
+    top: 70px;
+    bottom: 0;
+    overflow: auto;
+    right: -244px;
+    -webkit-transition: all 0.25s ease-out;
+    -o-transition: all 0.25s ease-out;
+    transition: all 0.25s ease-out; }
+    .sidebar-offcanvas.active {
+      right: 0; } }
+
+
 .sidebar-offcanvas {
 	position: fixed !important;
 	max-height: calc(100vh - 70px) ;
-	overflow: auto ;
+	overflow: auto;
 	margin-top: 70px;
 }
+
 
 .page-body-wrapper {
 	margin-left: 244px ;
 }
+
+*/
+
 
 .nav-link {
 	color: #ffa068 !important;

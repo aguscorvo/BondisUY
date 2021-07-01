@@ -413,7 +413,7 @@ map.on('click', function(evt) {
 		if (!(feature.get('name') == undefined || feature.get('name') == ""))
 			$ds('#mappopup').popover('show');
 
-
+		
 		$ds("#ver_Lineas_Paradas").on("click", function() {
 			var divID = $ds(this).find("div[id*='id_parada:_:']").attr('id');
 			var auxID = divID.split(":_:");
@@ -438,6 +438,7 @@ map.on('click', function(evt) {
 
 			$ds(databody).off("click");
 
+			/*
 			$ds(databody).on('click', 'tr', function() {
 				if ($ds(this).hasClass('selected')) {
 					$ds(this).removeClass('selected');
@@ -450,8 +451,10 @@ map.on('click', function(evt) {
 
 					bondisuy_LoadShow();
 					getRecorrido(recorrido);
+
 				}
 			});
+			*/
 
 		});
 
@@ -490,7 +493,8 @@ map.on('click', function(evt) {
 					$ds(this).addClass('selected');
 
 					bondisuy_LoadShow();
-					getRecorrido(recorrido);
+					//getRecorrido(recorrido);
+					getRecorridoVERParada(recorrido);
 				}
 			});
 
@@ -510,7 +514,7 @@ map.on('click', function(evt) {
 			$ds(databody).find('tr[data-counter_id="' + paradaID + '"]').keypress();
 
 		});
-		
+
 		// Doble click en eliminar una parada
 		$ds("#eliminar_parada").on("click", function() {
 			var divID = $ds(this).find("div[id*='eliminar_parada:_:']").attr('id');
@@ -521,7 +525,7 @@ map.on('click', function(evt) {
 			$ds('#idEliminarParada').text(paradaID);
 			$ds('#deleteParada').modal('show');
 		});
-		
+
 		// Doble click en eliminar una parada
 		$ds("#eliminar_recorrido").on("click", function() {
 			var divID = $ds(this).find("div[id*='eliminar_recorrido:_:']").attr('id');
@@ -978,7 +982,7 @@ function cleanInteraction() {
 	for (var f in sourceUPDParada.getFeatures()) {
 		sourceUPDParada.removeFeature(sourceUPDParada.getFeatures()[f]);
 	}
-	
+
 	for (var f in sourceUPDLinea.getFeatures()) {
 		sourceUPDLinea.removeFeature(sourceUPDLinea.getFeatures()[f]);
 	}

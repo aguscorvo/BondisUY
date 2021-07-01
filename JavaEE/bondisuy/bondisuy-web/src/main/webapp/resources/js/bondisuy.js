@@ -72,7 +72,11 @@ $ds(".head_search_bar").on("click", "i", function() {
 //Select Empresas
 $ds("#selectEmpresas").on("change", function() {
 	bondisuy_LoadShow();
-	filtrarLineaByCompany($ds(this).val());
+	
+	if ($ds(this).val().trim() != "") {
+		filtrarLineaByCompany($ds(this).val());
+	}
+
 	//;var size = $ds("#map").height() - 50 - $ds(this).offset().top;
 	//$ds("#selectTableLineas").height(size);
 });
@@ -109,8 +113,12 @@ function searchOptions(id) {
 
 		//Select Empresas
 		$ds("#selectEmpresas").on("change", function() {
-			bondisuy_LoadShow();
-			filtrarLineaByCompany($ds(this).val());
+
+			if ($ds(this).val().trim() != "") {
+				bondisuy_LoadShow();
+				filtrarLineaByCompany($ds(this).val());
+			}
+
 		});
 
 		var recorrido = '';
@@ -871,8 +879,8 @@ function searchOptions(id) {
 					listaEliminarHorario.push(horario);
 					//listaInsertarHorario.push(horario);
 				} else if ($ds(this).attr("data-counter_exist") == 'T' && $ds(this).attr("data-counter_eliminar") == 'F') {
-						
-		
+
+
 				}
 			});
 
@@ -882,11 +890,11 @@ function searchOptions(id) {
 			updParadaREST(listaEliminarHorario, listaInsertarHorario, updparada);
 
 			//			console.log(updParadaERROR);
-			
+
 			for (var f in sourceUPDParada.getFeatures()) {
 				sourceUPDParada.removeFeature(sourceUPDParada.getFeatures()[f]);
 			}
-			
+
 			if (!updParadaERROR) {
 				$ds(tablaBody).empty();
 
