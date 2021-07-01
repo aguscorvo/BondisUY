@@ -63,11 +63,15 @@ La carga de datos sí se logró automatizar, a partir de la información que tra
 
 Acceder a Geoserver, a partir del enlace ya mencionado. Ir a Workspaces y crear uno denominado "bondisuy", con la URI correspondiente, utilizando la IP asignada al equipo local y no localhost. Ejemplo: http://192.168.0.15/tsig 
 
-Luego, ir a Stores y crear uno, también teniendo en cuenta de utilizar la IP local y no localhost.
+Luego, ir a Stores y crear uno, a partir de Postgis, también teniendo en cuenta de utilizar la IP local y no localhost.
+
+Ingresar en Data Source Name: bondisuy
 
 Indicar el puerto del motor de base de datos. Es decir, 5432 para Postgres. La base de datos se llama "tsig", y las credenciales de la base de datos son: 
 - usuario: postgis 
 - contraseña: postgis
+
+Marcar el checkbox para exponer las primary keys.
 
 El paso siguiente es publicar las capas. En este caso, sólo es necesario publicar a partir de Postgres la capa ft_paradas, y luego se debe publicar otras capas, pero a partir de vistas SQL. 
 
