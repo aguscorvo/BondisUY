@@ -216,3 +216,7 @@ div#selectTableLineas tr::not(hover) {
     color: #808080 !important;
     font-style: italic;
 }
+
+.card, card-body, row, table-responsive {
+	max-height: 400px;
+}

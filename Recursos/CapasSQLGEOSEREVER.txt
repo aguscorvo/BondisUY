@@ -91,7 +91,7 @@ ORDER BY p.id, h.hora DESC
 Marcar como valor por defecto 2778
 MARCAR id como clave primaria
 Geometria: 
-  Tipo: LineString
+  Tipo: Point
   SRID: 32721
 Encuadres:
   MinX: 573.086,25283571

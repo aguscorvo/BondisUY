@@ -2,17 +2,17 @@
 
 Laboratorio para la asignatura Taller de Sistemas de Información Geográficos Empresariales de la Facultad de Ingeniería (Fing-UdelaR).
 
-[BondisUY - ElasticCloud](http://vacunasuy.web.elasticloud.uy)
+[BondisUY - ElasticCloud](https://bondisuy.web.elasticloud.uy/bondisuy-web/Bondisuy)
 
 ## Contenido
-- [Descripción](#descripción)
-- [Despliegue](#despliegue)
+1. [Descripción](#descripción)
+2. [Despliegue](#despliegue)
 	- [Local con aplicaciones instaladas](#local-con-aplicaciones-instaladas)
-	- [Con Docker-Compose](#docker-compose)
-	- [Publicación de capas en Geoserver](#publicacion-de-capas-en-geoserver)
-- [Datos de prueba](#datos-de-prueba)
-- [Screenshots](#screenshots)
-- [Tecnologías](#tecnologías)
+	- [Con Docker-Compose](#con-docker-compose)
+	- [Publicación de capas en Geoserver](#publicación-de-capas-en-geoserver)
+3. [Datos de prueba](#datos-de-prueba)
+4. [Screenshots](#screenshots)
+5. [Tecnologías](#tecnologías)
 
 ## Descripción
 
@@ -21,7 +21,6 @@ BondisUY es un sistema georeferenciado con información de paradas, líneas, hor
 La herramienta provee un mapa con información para el usuario final del transporte público, pudiendo realizar filtros para buscar recorridos, líneas o paradas que cumplan ciertas condiciones.
 
 Más información en el paper del proyecto: Documentacion/Grupo11_BondisUY.pdf.pdf
-Grupo11_BondisUY.pdf
 
 ## Despliegue
 
@@ -34,26 +33,28 @@ Para poder correr localmente la aplicación BondisUY se debe instalar en el equi
 
 Una vez instaladas estas herramientas, se debe descargar y colocar el binario del Geoserver v2.19.0 en la carpeta de deployments del Wildfly, junto con el binario de la aplicación BondisUY, llamado "bondisuy.ear", ubicado en la ruta JavaEE/bondisuy/bondisuy-ear/target/bondisuy.ear. Esto permitirá que tanto el Geoserver como la aplicación en cuestión sean desplegados por el servidor de aplicaciones. 
 
-Luego, se debe iniciar Postgres con Postgis, crear la base de datos, y cargarle la información que utilizamos del SIG de la Intendencia de Montevideo. Para realizar eso, se debe ejecutar los siguientes scritps SQL ubicados en: /Users/andor/Desktop/Temporal/Git-Eclipse/Recursos/Windows 
+Luego, se debe iniciar Postgres con Postgis, crear la base de datos, y cargarle la información que utilizamos del SIG de la Intendencia de Montevideo. Para realizar eso, se debe ejecutar los siguientes scripts SQL ubicados en: /Users/andor/Desktop/Temporal/Git-Eclipse/Recursos/Windows 
 
-- armadobase.sql Para crear la estructura de la base de datos. 
-- horarios.sql 
-- lineas.sql 
-- paradas.sql 
-- recorridos.sql
+1. armadobase.sql Para crear la estructura de la base de datos. 
+2. lineas.sql
+3. paradas.sql
+4. recorridos.sql
+5. horarios.sql 
 
 Una vez creada la base de datos y cargada con la información necesaria, se debe levantar Wildfly. Al levantar Wildfly, y desplegar la aplicación BondisUY, junto a Geoserver, se puede acceder a los mismos a través de las siguientes URLs: 
 
-- [Geoserver](http://localhost:8080/geoserver/index.html) 
-- [BondisUY] (http://localhost:8080/bondisuy-web/Bondisuy) 
+- http://localhost:8080/geoserver/index.html (Geoserver)
+- http://localhost:8080/bondisuy-web/Bondisuy (BondisUY) 
 
-A continuación, se deberá publicar las capas necesarias en Geoserver, de forma de que la aplicación pueda acceder a las mismas para cumplir con sus funcionalidades. [Ver sección de publicación de capas en Geoserver](#publicacion-de-capas-en-geoserver). 
+A continuación, se deberá publicar las capas necesarias en Geoserver, de forma de que la aplicación pueda acceder a las mismas para cumplir con sus funcionalidades. [Ver sección de publicación de capas en Geoserver](#publicación-de-capas-en-geoserver).
 
  
 ### Despliegue con Docker-Compose
 
 Para desplegar el ambiente con Docker, hay que entrar a la carpeta Docker-Compose y una vez dentro, ejecutar el comando: 
-`docker-compose up`
+```sh
+docker-compose up
+```
 
 Esto permite levantar contenedores de Wildfly y Postgres (con Postgis) con todo configurado, pero no con las capas de Geoserver publicadas, ya que no logramos automatizar eso todavía. La publicación de dichas capas debe hacerse manualmente.
 
