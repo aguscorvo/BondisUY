@@ -92,7 +92,11 @@ Usuario por defecto en backoffice:
 
 ## Screenshots
 
-![](./Documentacion/screenshots-del-sistema/screenshot.png)
+![Pantalla de inicio](./Documentacion/screenshots-del-sistema/screenshot01.png)
+![Buscar linea por zona](./Documentacion/screenshots-del-sistema/screenshot04.png)
+![Mapa de calor](./Documentacion/screenshots-del-sistema/screenshot05.png)
+![Ver próximas lineas](./Documentacion/screenshots-del-sistema/screenshot06.png)
+![Linea creada (Administrador)](./Documentacion/screenshots-del-sistema/screenshot09.png)
 
 ## Tecnologías
 
