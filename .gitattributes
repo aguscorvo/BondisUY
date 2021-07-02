@@ -1,4 +1,4 @@
-*.sql filter=lfs diff=lfs merge=lfs -text
 *.ear filter=lfs diff=lfs merge=lfs -text
-*.json filter=lfs diff=lfs merge=lfs -text
 *.war filter=lfs diff=lfs merge=lfs -text
+*.sql filter=lfs diff=lfs merge=lfs -text
+*.json filter=lfs diff=lfs merge=lfs -text
