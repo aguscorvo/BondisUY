@@ -1,4 +1,4 @@
-﻿# BondisUY
+# BondisUY
 
 Laboratorio para la asignatura Taller de Sistemas de Información Geográficos Empresariales de la Facultad de Ingeniería (Fing-UdelaR).
 
@@ -49,7 +49,7 @@ Una vez creada la base de datos y cargada con la información necesaria, se debe
 A continuación, se deberá publicar las capas necesarias en Geoserver, de forma de que la aplicación pueda acceder a las mismas para cumplir con sus funcionalidades. [Ver sección de publicación de capas en Geoserver](#publicación-de-capas-en-geoserver).
 
  
-### Despliegue con Docker-Compose
+### Con Docker-Compose
 
 Para desplegar el ambiente con Docker, hay que entrar a la carpeta Docker-Compose y una vez dentro, ejecutar el comando: 
 ```sh
