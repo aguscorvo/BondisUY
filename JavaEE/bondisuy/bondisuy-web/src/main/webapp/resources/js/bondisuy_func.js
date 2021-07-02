@@ -705,8 +705,8 @@ function addParadaPOSTREST() {
 				success: function(result) {
 					// when call is sucessfull
 					console.log(result)
-					map.removeInteraction(drawNuevaParada);
-					map.removeInteraction(snapNuevaParada);
+					//map.removeInteraction(drawNuevaParada);
+					//map.removeInteraction(snapNuevaParada);
 
 					var idParada = result['cuerpo']['id'];
 					addHorarioParada(idParada, lineas, '00:00');
